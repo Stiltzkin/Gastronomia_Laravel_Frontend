@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../css/font-awesome/css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../css/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/util.css">
+    <link rel="stylesheet" href="../css/sweetalert.css">
+</head>
+
+<body class="hold-transition skin-green sidebar-mini">
+    <!-- ========================================LAYOUT==================================================== -->
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="http://localhost:80/Gastronomia_Frontend/" class="logo">
+                <span class="logo-mini"><b>G</b>O</span>
+                <span class="logo-lg"><b>Gastronomia</b>Opet</span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <nav class="navbar navbar-static-top">
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <div class="navbar-custom-menu">
+                                <ul class="nav navbar-nav">
+                                    <li class="dropdown user user-menu">
+                                        <a href="#">
+                                            <span class="hidden-xs">Sair</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                </nav>
+            </nav>
+        </header>
+    </div>
+    <!-- Menu Vertical -->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <!-- Search -->
+            <form action="#" method="get" class="sidebar-form">{% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search..."><span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+                </div>
+            </form>
+            <!-- Search FIM -->
+            <!-- sidebar menu -->
+            <ul class="sidebar-menu">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="http://localhost:80/Gastronomia_Frontend/">
+                        <i class="fa fa-bar-chart-o"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="http://localhost:80/Gastronomia_Frontend/html/receitas.html">
+                        <i class="fa fa-book"></i> <span>Receitas</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="http://localhost:80/Gastronomia_Frontend/html/estoque.html">
+                        <i class="fa fa-cubes"></i> <span>Estoque</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-calendar"></i><span> Aula</span>
+                      <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="http://localhost:80/Gastronomia_Frontend/html/planejar-aulas.html"><i class="fa fa-circle-o"></i>Planejar Aulas</a></li>
+                        <li><a href="http://localhost:80/Gastronomia_Frontend/html/aulas-concluidas.html"><i class="fa fa-circle-o"></i>Aulas Concluidas</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <!-- sidebar FIM -->
+    </aside>
+    <!-- ======================================================================================================= -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>Receitas</h1>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title ">Lista de Receitas</h3>
+                            <!-- SUBMENU ADD -->
+                            <div class="pull-right box-tools">
+                                <!-- BOTAO ADICIONAR RECEITA -->
+                                <a href="http://localhost:80/Gastronomia_Frontend/html/nova_receita">
+                                    <button type="submit" class="btn btn-success">Nova Receita</button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table id="tableReceitas" class="table table-bordered table-hover lista-receita">
+                                <thead>
+                                    <tr>
+                                        <th>Nome da Receita</th>
+                                        <th>Classificação</th>
+                                        <th>Categoria</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr>
+                                        <td><a href="receita-detalhes.html">Abacaxi com Coco</a></td>
+                                        <td>Taipei</td>
+                                        <td>Taipei</td>
+
+                                        <td><button type="button" class="btn btn-xs" data-toggle="modal" data-target="#editReceita"><i class="fa fa-edit"></i></button></td>
+                                        <td><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deletarIngrediente"><i class="fa fa-trash-o"></i></button></td>
+                                        <td><button type="button" class="btn btn-default btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></span> Visualizar Receita </button></td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="receitaId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-sm|lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modelTitleId">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    Body
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL DELETAR -->
+    <div id="deletarIngrediente" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Tem certeza que deseja excluir?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger pull-right">Deletar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIM DELETAR MODAL -->
+    <!-- ./wrapper -->
+    <!-- jQuery 2.2.3 -->
+    <script src="../js/jquery-2.2.3.min.js"></script>
+    <script src="../js/extra/nova-receita/ajaxListReceitas.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../js/app.min.js"></script>
+    <script src="../js/sweetalert.min.js"></script>
+</body>
+
+</html>
