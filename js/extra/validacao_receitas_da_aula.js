@@ -1,6 +1,6 @@
 window.receitaArray = [];
 window.rec = 0;
-$("#btnAddReceita").click(function (event) {
+$("#btnAddReceita").click(function(event) {
     event.preventDefault();
 
     limpaMensagens();
@@ -14,12 +14,10 @@ $("#btnAddReceita").click(function (event) {
 
     var htmlExcluirBtn = '<td class="botao-excluir">' + receita.excluir + '</td>'
 
-    $(htmlTdNome).appendTo(htmlForm);
-    $(htmlTdQtd).appendTo(htmlForm);
+    $(htmlTdNome).appendTo(htmlTr);
+    $(htmlTdQtd).appendTo(htmlTr);
 
-    $(htmlExcluirBtn).appendTo(htmlForm);
-
-    $(htmlForm).appendTo(htmlTr);
+    $(htmlExcluirBtn).appendTo(htmlTr);
 
     var erros = validaReceita(receita);
     if (erros.length > 0) {
@@ -31,7 +29,7 @@ $("#btnAddReceita").click(function (event) {
 });
 
 // BOTAO REMOVE RECEITA DA AULA
-$(".tabela_receita").on('click', '.excluir', function () {
+$(".tabela_receita").on('click', '.excluir', function() {
     var splice = $(this).closest('tr').data('id');
 
     for (var i = 0; i < receitaArray.length; i++) {
@@ -85,7 +83,7 @@ function validaReceita(receita) {
 }
 
 function exibeMensagensDeErro(erros) {
-    $.each(erros, function (index, erro) {
+    $.each(erros, function(index, erro) {
         var li = $("<li>" + erro + "</li>");
         $(li).appendTo('#mensagens-erro-aula');
     });

@@ -8,7 +8,7 @@ for (var i = 0; i < listArray.length; i++) {
     }
 }
 
-// get da tabela de ingredientes
+// localizado em get_json.js
 if (typeof jsonIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
     $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
         jsonIngrediente = jsonObjectIngrediente.data.data;

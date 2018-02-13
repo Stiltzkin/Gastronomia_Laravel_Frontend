@@ -15,16 +15,17 @@ for (var i = 0; i < listArray.length; i++) {
     }
 }
 
+
 // verifica se foi dado get das receitas, aulas e periodo, caso nao tenha dado ele dará get aqui
 if (typeof jsonAula === 'undefined' || typeof jsonReceita === 'undefined' || typeof jsonPeriodo === 'undefined') {
     $.getJSON(listPeriodo, function(jsonObjectPeriodo) {
-        var jsonPeriodo = jsonObjectPeriodo.data;
+        jsonPeriodo = jsonObjectPeriodo.data;
         // get da tabela de aulas 
         $.getJSON(listAula, function(jsonObjectAula) {
-            var jsonAula = jsonObjectAula.data;
+            jsonAula = jsonObjectAula.data;
             // get da tabela de receitas
             $.getJSON(listReceita, function(jsonObjectReceita) {
-                var jsonReceita = jsonObjectReceita.data;
+                jsonReceita = jsonObjectReceita.data;
                 getTabela(jsonAula, jsonReceita, jsonPeriodo);
             })
         })
@@ -48,7 +49,7 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
 
     // chamado em xunxo.js
     var jsonAulaReceita = pivotAula(jsonAula, jsonPeriodo);
-    console.log(jsonAulaReceita);
+
     $.each(jsonAula, function(indexAula, valAula) {
         novaId = valAula.id_aula;
 
@@ -56,6 +57,9 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
             if (novaId != velhaId) {
                 // conta o numero de receitas na aula
                 var countReceitas = jsonAulaReceita[i].length;
+                if (countReceitas == 0 || typeof(countReceitas) === 'undefined') {
+                    countReceitas = 0;
+                }
 
                 if (valAula.id_aula == jsonAulaReceita[i].id_aula || countReceitas == 0) {
                     // cria a 'tr' de cada aula para ficar em formato de lista
@@ -104,63 +108,85 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
 // ===================== POST PUT ===================== //
 $('#addAula').on('click', '#saveButton', function() {
 
-    var formAula = $('#form_addAula');
+    // var formAula = $('#form_addAula');
 
     // pega id da aula (se vazio = POST, se tem algo = PUT)
     idData = $('#form_addAula').find('.id_aula').val();
     load_url();
-    var aulaSerialized = formAula.serializeArray();
+    var aulaSerialized = $('#form_addAula').serializeArray();
+    var aulaReceitaSerialized = $('#form_receita_aula').serializeArray();
 
-    aulaSerialized.push({
-        name: 'aula_agendada',
-        value: false
-    }, {
-        name: 'aula_concluida',
-        value: false
-    })
-
-
-    if (idData == 0) {
+    if (idData == 0 || typeof(idData) === 'undefined') {
         var urlData = createAula;
         adicionaAula();
-        aulaReceita_control();
+        // aulaReceita_control();
     } else {
         var urlData = updateAula;
-        idCount();
+        // idCount();
     }
 
     function adicionaAula() {
-        console.log(aulaSerialized)
-        $.ajax({
-            type: "POST",
-            url: urlData,
-            dataType: "json",
-            data: aulaSerialized,
-            success: function() {
-                console.log('aula criada')
-                // $('#mensagens-sucesso-aula').append('Aula criado com sucesso!');
-            },
-            error: function() {
-                swal({
-                        title: "Problemas para criar aula",
-                        type: "error",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#DD6B55",
-                    },
-                    function() {
-                        location.reload(true);
-                    }
-                )
+
+        // insere as receitas no json da aula
+        var receitasArray = [];
+        for (var i = 0; i < aulaReceitaSerialized.length; i++) {
+            if (i % 2 == 0) {
+                var receitas = [];
+                receitas.push(
+                    aulaReceitaSerialized[i],
+                    aulaReceitaSerialized[i + 1]
+                );
+                receitasArray.push(receitas);
             }
-        });
+        }
+
+        var pivot = { "receitas": receitasArray };
+        aulaSerialized.push(pivot);
+
+        // aulaSerialized.push({
+        //     name: "receitas",
+        //     value: receitasArray
+        // });
+
+
+
+
+        console.log(aulaSerialized);
+
+        // $.ajax({
+        //     type: "POST",
+        //     url: urlData,
+        //     dataType: "json",
+        //     data: aulaSerialized,
+        //     success: function() {
+        //         swal({
+        //                 title: "Aula criada com sucesso.",
+        //                 type: "success",
+        //             },
+        //             function() {
+        //                 location.reload(true);
+        //             }
+        //         )
+        //     },
+        //     error: function() {
+        //         swal({
+        //                 title: "Problemas para criar aula",
+        //                 type: "error",
+        //                 confirmButtonText: "Ok",
+        //                 confirmButtonColor: "#DD6B55",
+        //             },
+        //             function() {
+        //                 location.reload(true);
+        //             }
+        //         )
+        //     }
+        // });
     }
 
     // chama a funçao deleteReceita() para apagar tudo com id_aula especifica, em seguida chama a funçao adicionaReceita()
     function idCount() {
         var idAssoc = [];
-        var idDataTemp = idData;
-
-        // cria array das primary key de aula_receita
+        var idDataTemp = idData; // cria array das primary key de aula_receita
         $.map(jsonAulaReceita, function(valAulaReceita) {
             if (valAulaReceita.id_aula == idData) {
                 idAssoc.push(valAulaReceita.id_aula_receita);
@@ -348,19 +374,13 @@ $('.aulas').on('click', '.excluir', function() {
         },
         function() {
             $.ajax(deleteAula, {
-                type: 'DELETE',
-                data: {
-                    "id_aula": idData
-                },
-                dataType: 'json',
+                type: 'POST',
                 success: function() {
                     swal({
                             title: "Aula removido com sucesso!",
                             type: "success",
                         }),
-                        function() {
-                            location.reload(true);
-                        }
+                        $(thisTr).remove();
                 },
                 error: function() {
                     swal({

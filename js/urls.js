@@ -59,9 +59,9 @@ function load_url() {
 }
 
 // JSONs ARMAZENDADOS para serem utilizados em todos os lugares
-// window.jsonUnidade;
-// window.jsonIngrediente;
-// window.jsonAula;
-// window.jsonReceita;
-// window.jsonAulaReceita;
-// window.jsonReceitaIngrediente;
+window.jsonUnidade;
+window.jsonIngrediente;
+window.jsonAula;
+window.jsonReceita;
+window.jsonAulaReceita;
+window.jsonReceitaIngrediente;

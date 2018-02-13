@@ -11,7 +11,6 @@ function pivotAula(jsonAula, jsonPeriodo) {
                 pivot['periodo_aula'] = jsonPeriodo[j].descricao_periodo;
             }
         }
-
         jsonAulaReceitaArray.push(pivot);
     }
     return jsonAulaReceitaArray;
