@@ -8,9 +8,8 @@ $("#btnAddReceita").click(function(event) {
     var receita = obtemReceitaDoFormulario(formAdicionarReceita);
 
     var htmlTr = $('<tr data-id="' + receita.id + '" class="ig"></tr>');
-    var htmlTdNome = $('<td class="info-nome"><input hidden class="eachReceitaAula' + rec + '" type="text" name="id_receita" value="' + receita.id + '" /><p>' + receita.nome + '</p></td>');
-    var htmlTdQtd = $('<td class="info-quantidade"><input hidden class="eachQuantidadeReceita' + rec + '" type="text" name="quantidade_receita" value="' + receita.quantidade + '" /><p>' + receita.quantidade + '</p></td>');
-    var htmlForm = $('<form class="form_muito_porco' + rec + '"></form>');
+    var htmlTdNome = $('<td class="info-nome"><input hidden class="eachReceitaAula' + rec + '" type="text" name="receitas[' + rec + '][id_receita]" value="' + receita.id + '" /><p>' + receita.nome + '</p></td>');
+    var htmlTdQtd = $('<td class="info-quantidade"><input hidden class="eachQuantidadeReceita' + rec + '" type="text" name="receitas[' + rec + '][quantidade_receita]" value="' + receita.quantidade + '" /><p>' + receita.quantidade + '</p></td>');
 
     var htmlExcluirBtn = '<td class="botao-excluir">' + receita.excluir + '</td>'
 

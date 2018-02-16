@@ -138,7 +138,6 @@ function postAdd() {
     load_url();
 
     var formSomaArray = formSoma.serializeArray();
-    alert(formSomaArray);
     $.ajax({
         type: "POST",
         url: somaIngrediente,

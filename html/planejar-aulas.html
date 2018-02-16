@@ -406,27 +406,25 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                        <div class="form-group">
-                            <div class="col-xs-3">
-                                <label class="col-sm-4 control-label">Receitas</label>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <select class="form-control" id="receitas" style="width: 100%;">
-                                        <option value=0>--- Receita ---</option>
-                                    </select>
+                            <div class="form-group">
+                                <div class="col-xs-3">
+                                    <label class="col-sm-4 control-label">Receitas</label>
                                 </div>
-                                <div class="col-xs-3 numReceitas">
-                                    <input type="text" id="numero_de_receitas" class="form-control" placeholder="Nº de Receitas" value="">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <select class="form-control" id="receitas" style="width: 100%;">
+                                            <option value=0>--- Receita ---</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-3 numReceitas">
+                                        <input type="text" id="numero_de_receitas" class="form-control" placeholder="Nº de Receitas" value="">
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-sm" id="btnAddReceita">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
                                 </div>
-                                <button type="button" class="btn btn-success btn-sm" id="btnAddReceita">
-                                    <i class="fa fa-plus"></i>
-                                </button>
                             </div>
-                        </div>
-                        <div class="col-xs-10 col-sm-10">
-                            <form id="form_receita_aula" method="POST">
+                            <div class="col-xs-10 col-sm-10">
                                 <table id="lista_receita" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -438,7 +436,7 @@
                                     <!-- LOCAL ONDE A TABELA SERÁ GERADA -->
                                     <tbody class="tabela_receita"> </tbody>
                                 </table>
-                            </form>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -521,6 +519,7 @@
     <script src="../js/extra/ajaxTabelaAulas.js"></script>
     <script src="../js/extra/modal_add_editar_detalhes_aulas.js"></script>
     <script src="../js/extra/validacao_receitas_da_aula.js"></script>
+    <script src="../js/extra/aula/agendar_aula.js"></script>
     <!-- js para funcionar o search -->
     <script src="../js/search.js"></script>
     <script src="../js/extra/util.js"></script>
