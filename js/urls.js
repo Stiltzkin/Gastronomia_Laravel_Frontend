@@ -48,6 +48,7 @@ function load_url() {
     window.deleteAula = 'http://localhost:8000/api/aulas/delete/' + idData + '';
     window.agendarAula = 'http://localhost:8000/api/aulas/agendar/' + idData + '';
     window.concluirAula = 'http://localhost:8000/api/aulas/concluir/' + idData + '';
+    window.clonarAula = 'http://localhost:8000/api/aulas/clone/' + idData + '';
 
     // ========== AULA RECEITA ========== //
     window.createAulaReceita = 'http://localhost:8000/api/aula_receita/create/';

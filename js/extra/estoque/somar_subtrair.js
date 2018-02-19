@@ -162,14 +162,42 @@ function postAdd() {
 }
 
 // ==================== SUBTRAIR ==================== //
+// botao adiconar mais ingredientes do search
+$('#search_ingredientes').on('click', '.subButton', function() {
+    window.thisIng = this;
+    getThingsSubtrai();
+});
+
 $('.lista-ingredientes').on('click', '.subButton', function() {
+    window.thisIng = this;
+    getThingsSubtrai();
+})
+
+function getThingsSubtrai() {
+    if (typeof jsonIngrediente === 'undefined' || typeof jsonUnidade === 'undefined') {
+        $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
+            jsonIngrediente = jsonObjectIngrediente;
+
+            // get da tabela de unidades
+            $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
+                jsonUnidade = jsonObjectUnidade;
+                subButton();
+            })
+        })
+    } else {
+        subButton();
+    };
+}
+
+
+function subButton() {
     limpaMensagens();
 
     //seleciona a 'tr' do ingrediente especifico
-    var thisTr = $(this).closest('tr');
+    var thisTr = thisIng.closest('tr');
 
     // pega id do ingrediente localizado no html
-    var id_ingrediente = thisTr.data('id');
+    var id_ingrediente = $(thisTr).data('id');
 
     // limpa o drop down de unidades (para nao ir acrescentando mais lista)
     $('#unidadeMedidaSubtrai').empty();
@@ -221,7 +249,7 @@ $('.lista-ingredientes').on('click', '.subButton', function() {
         }
     })
     // MOTIVO DE DELETAR ESTA NO HTML
-});
+};
 
 // chamado no html
 function converteUnidadeSub() {
@@ -243,15 +271,11 @@ function converteUnidadeSub() {
 function postSub() {
     limpaMensagens();
 
-    // seleciona o formulario, vai ser enviado serializado em 'data'
-    var formSubtrair = $('#formSubtrair');
-
     // seleciona o id do ingrediente 'hidden' localizado no html
     idData = $('#idSub').val();
-
     load_url();
 
-    var formSubtrairArray = formSubtrair.serializeArray();
+    var formSubtrairArray = $('#formSubtrair').serializeArray();
     console.log(formSubtrairArray);
 
     $.ajax({
@@ -271,8 +295,8 @@ function postSub() {
                 }
             )
         },
-        error: function(xhr, error) {
-            $('#mensagens-erro-subtrair').append('Erro ao subtrair ingrediente.');
+        error: function(xhr, message) {
+            $('#mensagens-erro-subtrair').append(message, xhr);
         },
     });
 };

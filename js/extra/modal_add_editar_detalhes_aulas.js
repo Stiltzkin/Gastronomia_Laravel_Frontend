@@ -147,8 +147,8 @@ function mostraReceitas(idAula) {
         if (idAula == jsonAulaReceita[i].id_aula) {
             for (var j = 0; j < jsonAulaReceita[i].receitas.length; j++) {
                 var htmlListReceitas = $('<tr data-id="' + jsonAulaReceita[i].receitas[j].id_receita + '"></tr>');
-                $('<td class="info-nome"><input hidden="" type="text" name="receitas[' + rec + '][id_receita]" value="' + jsonAulaReceita[i].receitas[j].id_receita + '"><p>' + jsonAulaReceita[i].receitas[j].nome_receita + '</p></td>').appendTo(htmlListReceitas);
-                $('<td class="info-unidade"><input hidden="" class="qtdReceita' + rec + '" type="text" name="receitas[' + rec + '][quantidade_receita]" value="' + jsonAulaReceita[i].receitas[j].quantidade_receita + '"><p>' + jsonAulaReceita[i].receitas[j].quantidade_receita + '</p></td>').appendTo(htmlListReceitas);
+                $('<td class="info-nome"><input hidden="" type="text" name="receitaId" value="' + jsonAulaReceita[i].receitas[j].id_receita + '"><p>' + jsonAulaReceita[i].receitas[j].nome_receita + '</p></td>').appendTo(htmlListReceitas);
+                $('<td class="info-unidade"><input hidden="" class="qtdReceita' + rec + '" type="text" name="quantidade_receita" value="' + jsonAulaReceita[i].receitas[j].quantidade_receita + '"><p>' + jsonAulaReceita[i].receitas[j].quantidade_receita + '</p></td>').appendTo(htmlListReceitas);
 
                 $(htmlDelIngButton).appendTo(htmlListReceitas);
 

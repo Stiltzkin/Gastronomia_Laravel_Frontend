@@ -332,7 +332,7 @@
                                                 <div class="form-group">
                                                     <label for="inputMotivo" class="col-sm-1 control-label">Motivo*</label>
                                                     <div class="col-sm-12">
-                                                        <textarea name="motivo" type="text" class="form-control motivo" rows="1" placeholder="Motivo"></textarea>
+                                                        <textarea name="motivo_retirada" type="text" class="form-control motivo" rows="1" placeholder="Motivo"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -424,20 +424,22 @@
                                     </button>
                                 </div>
                             </div>
+                        </form>
+                        <form id="form_aula_receitas">
                             <div class="col-xs-10 col-sm-10">
                                 <table id="lista_receita" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th>Receita</th>
-                                            <th>Porções</th>
+                                            <th>Quantidade</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <!-- LOCAL ONDE A TABELA SERÁ GERADA -->
                                     <tbody class="tabela_receita"> </tbody>
                                 </table>
+                            </div>
                         </form>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer rodape"></div>
@@ -520,6 +522,7 @@
     <script src="../js/extra/modal_add_editar_detalhes_aulas.js"></script>
     <script src="../js/extra/validacao_receitas_da_aula.js"></script>
     <script src="../js/extra/aula/agendar_aula.js"></script>
+    <script src="../js/extra/aula/concluir_aula.js"></script>
     <!-- js para funcionar o search -->
     <script src="../js/search.js"></script>
     <script src="../js/extra/util.js"></script>
@@ -527,6 +530,7 @@
     <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
     <script src="../js/extra/estoque/somar_subtrair.js"></script>
     <script src="../js/extra/estoque/unidades.js"></script>
+    <script src="../js/extra/estoque/validacao_somar_subtrair.js"></script>
 </body>
 
 </html>

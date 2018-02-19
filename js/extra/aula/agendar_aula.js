@@ -2,6 +2,7 @@ $('#addAula').on('click', '#agendarButton', function() {
     idData = $('#form_addAula').find('.id_aula').val();
     load_url();
     var aulaSerialized = $('#form_addAula').serializeArray();
+
     var urlData = agendarAula;
     $.ajax({
         type: "POST",

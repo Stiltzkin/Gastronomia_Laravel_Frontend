@@ -251,7 +251,7 @@
                                         <div class="modal-body">
                                             <ul id="mensagens-erro"></ul>
                                             <ul id="mensagens-sucesso"></ul>
-                                            <form id="form-addIngrediente" name="form-addIngrediente" method="POST" class="form-horizontal">{% csrf_toke
+                                            <form id="form-addIngrediente" name="form-addIngrediente" method="POST" class="form-horizontal">
                                                 <div class="box-body">
                                                     <div class="form-group">
                                                         <label for="inputIngrediente" class="col-sm-3 control-label">Ingrediente*</label>
@@ -293,7 +293,7 @@
                                         <div class="modal-body">
                                             <ul id="mensagens-erro-soma"></ul>
                                             <ul id="mensagens-sucesso-soma"></ul>
-                                            <form class="form-horizontal" id="formSomar" name="formSomar" method="POST">{% csrf_toke
+                                            <form class="form-horizontal" id="formSomar" name="formSomar" method="POST">
                                                 <div class="idIngrediente"></div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Quantidade Atual</label>
@@ -345,7 +345,7 @@
                                         <div class="modal-body">
                                             <ul id="mensagens-erro-subtrair"></ul>
                                             <ul id="mensagens-sucesso-subtrair"></ul>
-                                            <form class="form-horizontal" id="formSubtrair" name="subtrair" method="POST">{% csrf_toke
+                                            <form class="form-horizontal" id="formSubtrair" name="subtrair" method="POST">
                                                 <div class="idIngrediente"></div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Quantidade Atual</label>
@@ -364,7 +364,7 @@
                                                 <div class="form-group">
                                                     <label for="inputMotivo" class="col-sm-1 control-label">Motivo*</label>
                                                     <div class="col-sm-12">
-                                                        <textarea name="motivo" type="text" class="form-control motivo" rows="1" placeholder="Motivo"></textarea>
+                                                        <textarea name="motivo_retirada" type="text" class="form-control motivo" rows="1" placeholder="Motivo"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -419,8 +419,9 @@
     <script src="js/extra/estoque/somar_subtrair.js"></script>
     <script src="js/extra/util.js"></script>
     <script src="js/extra/estoque/unidades.js"></script>
-    <script src="js/calculos/concluir_aula.js"></script>
-    <script src="js/calculos/deletar_aula.js"></script>
+    <script src="js/extra/aula/concluir_aula.js"></script>
+    <script src="js/extra/aula/deletar_aula.js"></script>
+    <script src="js/extra/estoque/validacao_somar_subtrair.js"></script>
 </body>
 
 </html>

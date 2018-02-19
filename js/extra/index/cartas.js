@@ -39,9 +39,10 @@ function calculaValores(jsonAula, jsonIngredientes) {
             htmlAulasCriadas = '<h3>' + j + '</h3>';
         }
     })
-
+    var htmlAulasAgendadas = '<h3>' + 0 + '</h3>';
     $.each(jsonAula, function(indexAula, valAula) {
         // conta o numero de aulas agendadas
+
         if (valAula.aula_agendada == true && valAula.aula_concluida == false) {
             i++
             htmlAulasAgendadas = '<h3>' + i + '</h3>';

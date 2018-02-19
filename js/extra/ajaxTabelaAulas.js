@@ -47,7 +47,6 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
     // chamado em xunxo.js
     var jsonAulaReceita = pivotAula(jsonAula, jsonPeriodo);
 
-    console.log(jsonAulaReceita);
     $.each(jsonAula, function(indexAula, valAula) {
 
         for (var i = 0; i < jsonAulaReceita.length; i++) {
@@ -106,20 +105,26 @@ $('#addAula').on('click', '#saveButton', function() {
     idData = $('#form_addAula').find('.id_aula').val();
     load_url();
     var aulaSerialized = $('#form_addAula').serializeArray();
+    var aulaReceitasSerialized = $('#form_aula_receitas').serializeArray();
+
+    console.log(aulaSerialized);
+    console.log(aulaReceitasSerialized);
+
+    var receitasOrganizadas = organizaAulaReceita(aulaSerialized, aulaReceitasSerialized);
+
+    console.log(receitasOrganizadas);
 
     if (idData == 0 || typeof(idData) === 'undefined') {
         var urlData = createAula;
     } else {
         var urlData = updateAula;
     }
-    var aulaSerialized = organizaJson(aulaSerialized);
 
-    console.log(aulaSerialized);
     $.ajax({
         type: "POST",
         url: urlData,
         dataType: "json",
-        data: aulaSerialized,
+        data: receitasOrganizadas,
         success: function() {
             swal({
                     title: "Aula criada/editada com sucesso.",
@@ -145,9 +150,17 @@ $('#addAula').on('click', '#saveButton', function() {
     });
 });
 
-function organizaJson(aulaSerialized) {
-    receitasArray = [];
+function organizaAulaReceita(aulaSerialized, aulaReceitasSerialized) {
+    var id = 0;
 
+    for (var i = 0; i < aulaReceitasSerialized.length; i++) {
+        if (i % 2 == 0) {
+            aulaSerialized.push({ name: 'receitas[' + id + '][id_receita]', value: aulaReceitasSerialized[i].value });
+            aulaSerialized.push({ name: 'receitas[' + id + '][quantidade_receita]', value: aulaReceitasSerialized[i + 1].value });
+            id++;
+        }
+    }
+    return aulaSerialized;
 }
 
 // ===================== DELETE ===================== //
@@ -188,5 +201,23 @@ $('.aulas').on('click', '.excluir', function() {
 
 // === === === === === == CLONAR AULA === === === === === === == //
 $('#verAula').on('click', '.clonar', function() {
+    idData = $(this).closest('.modal-body').find('.receitasQuantidade').find('tr').data('id');
+    load_url();
 
+    $.ajax(clonarAula, {
+        type: 'POST',
+        success: function() {
+            swal({
+                    title: "Aula clonado com sucesso!",
+                    type: "success",
+                }),
+                location.reload(true);
+        },
+        error: function() {
+            swal({
+                title: "Problemas ao clonar a aula",
+                type: 'error',
+            })
+        },
+    })
 })

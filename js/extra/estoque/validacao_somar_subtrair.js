@@ -1,5 +1,5 @@
 // Validação SOMA modal
-$('.salvar-soma').on('click', function () {
+$('.salvar-soma').on('click', function() {
     limpaMensagens();
     var erros = [];
     var qtdSoma = $('.qtdSoma').val();
@@ -26,14 +26,14 @@ $('.salvar-soma').on('click', function () {
         postAdd();
     }
     // se valido, limpa a lista de erros e da post
-    $.each(erros, function (index, erro) {
+    $.each(erros, function(index, erro) {
         var li = $('<li>' + erro + '</li>');
         $(li).appendTo('#mensagens-erro-soma');
     })
 });
 
 // Validação SUBTRAIR modal
-$('.salvar-subtracao').on('click', function () {
+$('.salvar-subtracao').on('click', function() {
     limpaMensagens();
     var erros = [];
     var qtdSub = $('.qtdSubtrai').val();
@@ -57,7 +57,7 @@ $('.salvar-subtracao').on('click', function () {
         postSub();
     }
     // imprime a lista de erros
-    $.each(erros, function (index, erro) {
+    $.each(erros, function(index, erro) {
         var li = $('<li>' + erro + '</li>');
         $(li).appendTo('#mensagens-erro-subtrair');
     })
