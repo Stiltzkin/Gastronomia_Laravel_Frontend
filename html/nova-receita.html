@@ -132,7 +132,7 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Receita</label>
-                                    <div class="col-sm-8 input-group">
+                                    <div class="col-sm-8 input-group" id="nome">
                                         <input type="text" class="form-control" name="nome_receita" id="inputReceita" placeholder="Nome da Receita">
                                     </div>
                                 </div>
@@ -182,17 +182,14 @@
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                                 <div class="col-sm-6 col-xs-4">
-                                                    <select id="nomeIngredientes" name="nomeIngredientes" class="form-control" style="width: 100%;">
+                                                    <select id="nomeIngredientes" class="form-control" style="width: 100%;">
                                                         <option value="None" selected="Selected">Selecione os Ingredientes</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-xs-2">
-                                                    <input name="quantidade" id="quantidade" type="text" class="form-control" placeholder="Quantidade">
+                                                    <input id="quantidade" type="text" class="form-control" placeholder="Quantidade">
                                                 </div>
                                                 <div class="col-xs-1">
-                                                    <!-- <select name="unidade" id="unidade" class="form-control" style="width: 120%;"> -->
-                                                    <!-- <option value="None" selected="Selected">Unidade </option> -->
-                                                    <!-- </select> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -208,7 +205,7 @@
                                                 </tr>
                                             </thead>
                                             <!-- LOCAL ONDE A TABELA SERÁ GERADA -->
-                                            <tbody class="tabela-ingrediente"> </tbody>
+                                            <tbody class="lista_ingredientes"> </tbody>
                                             <!-- <input name="quantidade" type="text" value="44" hidden>
                                             <h3>44</h3> -->
                                         </table>
@@ -229,7 +226,6 @@
                                     <ul id="mensagens-erro"></ul>
                                     <ul id="mensagens-sucesso"></ul>
                                     <form id="form-addIngrediente" name="form-addIngrediente" method="POST" class="form-horizontal">
-                                        <input type='hidden' name='csrfmiddlewaretoken' value='Ldnbqcz0AXr8ZTRo9SdF1wEh0tkDqN5WsvfxihL6AFblg23sqjzTw55ECsy699ct' />
                                         <div class="box-body">
                                             <div class="form-group">
                                                 <label for="inputIngrediente" class="col-sm-3 control-label">Ingrediente*</label>
@@ -324,16 +320,18 @@
                 <!-- right column -->
                 <div class="col-md-6">
                     <!-- MODO DE PREPARO -->
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <h3 class="box-title">Modo de Preparo</h3>
+                    <form id="modo_preparo" method="POST">
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title">Modo de Preparo</h3>
+                            </div>
+                            <div class="box-body pad">
+                                <form>
+                                    <textarea class="form-control" id="area1" rows="5"></textarea>
+                                </form>
+                            </div>
                         </div>
-                        <div class="box-body pad">
-                            <form>
-                                <textarea class="form-control" id="area1" rows="5"></textarea>
-                            </form>
-                        </div>
-                    </div>
+                    </form>
                     <!-- FIM MODO DE PREPARO -->
                 </div>
                 <!-- /right column -->
@@ -348,6 +346,7 @@
     <!-- /.row -->
     <!-- jQuery 2.2.3 -->
     <script src="../js/jquery-2.2.3.min.js"></script>
+    <script src="../js/urls.js"></script>
     <!-- <script src="../js/extra/nova-receita/ajaxListReceitas.js"></script> -->
     <script src="../js/extra/nova-receita/ajaxNovaReceita.js"></script>
     <!-- <script src="../js/extra/estoque/ajaxEstoque.js"></script> -->
@@ -362,10 +361,10 @@
     <script src="../js/extra/nova-receita/adicionar_ingrediente.js"></script>
     <script src="../js/extra/estoque/validacao_ingrediente.js"></script>
     <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
+    <script src="../js/extra/estoque/ajaxEstoque.js"></script>
     <script src="../js/extra/util.js"></script>
     <script src="../js/extra/estoque/unidades.js"></script>
     <script src="../js/extra/nova-receita/ajax.js"></script>
-    <script src="../js/urls.js"></script>
     <script type="text/javascript" src="../js/extra/nova-receita/nicEdit.js"></script>
     <script type="text/javascript">
     bkLib.onDomLoaded(function() {

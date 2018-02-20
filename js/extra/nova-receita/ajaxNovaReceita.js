@@ -1,151 +1,151 @@
-// VARIAVEIS LOCAIS
-var jsonClassificacao;
-var jsonCategoria;
-var jsonIngrediente;
-var jsonUnidade;
+for (var i = 0; i < listArray.length; i++) {
+    if (listArray[i].key == "listReceita") {
+        var listReceita = listArray[i].value;
+    }
+    if (listArray[i].key == "listIngrediente") {
+        var listIngrediente = listArray[i].value;
+    }
+    if (listArray[i].key == "listUndiadeMedida") {
+        var listUnidadeMedida = listArray[i].value;
+    }
+    if (listArray[i].key == "listClassificacao") {
+        var listClassificacao = listArray[i].value;
+    }
+    if (listArray[i].key == "listCategoria") {
+        var listCategoria = listArray[i].value;
+    }
+}
 
 // get Classificacao e Categoria
 if (typeof jsonObjectClassificacao === 'undefined' || typeof jsonObjectCategoria === 'undefined') {
     // get da tabela de unidades
-    $.getJSON('http://localhost:8000/api/classificacao/list', function (jsonObjectClassificacao) {
-        jsonClassificacao = jsonObjectClassificacao;
-
-
-        $.getJSON('http://localhost:8000/api/categoria/list', function (jsonObjectCategoria) {
-            jsonCategoria = jsonObjectCategoria;
+    $.getJSON(listClassificacao, function(jsonObjectClassificacao) {
+        jsonClassificacao = jsonObjectClassificacao.data;
+        $.getJSON(listCategoria, function(jsonObjectCategoria) {
+            jsonCategoria = jsonObjectCategoria.data;
             mostraClasseCate();
+            dropdownIngredientes();
         })
     })
 } else {
     mostraClasseCate();
+    dropdownIngredientes();
 };
 
 
 // Monta lista de Classificacao e Categoria
 function mostraClasseCate() {
     //$('#select2').find('option').
-    $.each(jsonCategoria, function (indexInCategoria, valueOfCategoria) {
-        //var select = $('<select class="form-control select2" style="width: 100%;"></select>')
-        $('#categoria').append("<option value=" + valueOfCategoria.id_categoria + ">" + valueOfCategoria.descricao_categoria + "</option>");
-    });
-
-    $.each(jsonClassificacao, function (indexInClassificacao, valueOfClassificacao) {
-        $('#classificacao').append("<option value=" + valueOfClassificacao.id_classificacao + ">" + valueOfClassificacao.descricao_classificacao + "</option>");
-    });
+    for (var i = 0; i < jsonCategoria.length; i++) {
+        $('#categoria').append("<option value=" + jsonCategoria[i].id_categoria + ">" + jsonCategoria[i].descricao_categoria + "</option>");
+    }
+    for (var j = 0; j < jsonClassificacao.length; j++) {
+        $('#classificacao').append("<option value=" + jsonClassificacao[j].id_classificacao + ">" + jsonClassificacao[j].descricao_classificacao + "</option>");
+    }
 }
 
 // POST CATEGORIA // Sem validação
 function postCategoria() {
     // seleciona o formulario, vai ser enviado serializado em 'data'
-    var form = $('#form-addCategoria');
-    console.log(form.serialize())
-    // pega id do ingrediente (se vazio = POST, se tem algo = PUT)
-    // var id = $('.idCategoria').val();
+    var form = $('#form-addCategoria').serialize();
+    load_url();
 
-    // serializa o formulario
-    // var formArray = form.serializeArray();
-
-
-    var urlData = "http://localhost:8000/api/categoria/create/";
-
-    // console.log(form.serializeArray())
     $.ajax({
         type: "POST",
-        url: urlData,
+        url: createCategoria,
         dataType: "json",
-        // contentType: "application/json; charset=utf-8",
-        // headers: { "X-HTTP-Method-Override": "PUT" },
-        data: form.serialize(),
-        success: function () {
+        data: form,
+        success: function() {
             $('.classCategoriaHeader').modal("hide");
             swal({
                     title: "Sucesso!",
                     text: "Categoria criado com sucesso!",
                     type: "success"
                 },
-                function () {
+                function() {
                     location.reload();
                 }
             )
         },
-        error: function () {
+        error: function() {
             $('#mensagens-erro').append('Problemas no cadastro da Categoria');
         }
     });
 }
-//});
 
 
 // POST CLASSIFICACAO // Sem validação
 function postClassificacao() {
     // seleciona o formulario, vai ser enviado serializado em 'data'
-    var form = $('#form-addClassificacao');
-    console.log(form.serialize())
-    // pega id do ingrediente (se vazio = POST, se tem algo = PUT)
-    // var id = $('.idCategoria').val();
+    var form = $('#form-addClassificacao').serialize();
+    load_url();
 
-    // serializa o formulario
-    // var formArray = form.serializeArray();
-
-
-    var urlData = "http://localhost:8000/api/classificacao/create/";
-
-    // console.log(form.serializeArray())
     $.ajax({
         type: "POST",
-        url: urlData,
+        url: createClassificacao,
         dataType: "json",
-        // contentType: "application/json; charset=utf-8",
-        // headers: { "X-HTTP-Method-Override": "PUT" },
-        data: form.serialize(),
-        success: function () {
+        data: form,
+        success: function() {
             $('.classClassificacaoHeader').modal("hide");
             swal({
                     title: "Sucesso!",
                     text: "Classificação criada com sucesso!",
                     type: "success"
                 },
-                function () {
+                function() {
                     location.reload();
                 }
             )
         },
-        error: function () {
+        error: function() {
             $('#mensagens-erro').append('Problemas no cadastro da Classificação');
         }
     });
 }
 
-
-
-
-// get da tabela de ingredientes
-if (typeof jsonObjectIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
-    $.getJSON('http://localhost:8000/api/ingredientes/list/', function (jsonObjectIngrediente) {
-        jsonIngrediente = jsonObjectIngrediente;
-
-        // get da tabela de unidades
-        $.getJSON('http://localhost:8000/api/unidadesmedida/list/', function (jsonObjectUnidade) {
-            jsonUnidade = jsonObjectUnidade;
-            mostraIngredientes();
-        })
-    })
-} else {
-    mostraIngredientes();
-};
-
-
 // Monta a table de ingredientes
-function mostraIngredientes() {
-    $.each(jsonIngrediente, function (indexIngrediente, valueOfIngrediente) {
+function dropdownIngredientes() {
 
-        $.each(jsonUnidade, function (indexInUnidade, valueOfUnidade) {
+    if (typeof jsonObjectIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
+        $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
+            jsonIngrediente = jsonObjectIngrediente.data.data;
 
-            if (valueOfIngrediente.id_unidade_medida == valueOfUnidade.id_unidade_medida) {
-                $('#nomeIngredientes').append("<option value=" + valueOfIngrediente.id_ingrediente + ">" + valueOfIngrediente.nome_ingrediente + "</option>");
+            // get da tabela de unidades
+            $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
+                jsonUnidade = jsonObjectUnidade.data;
+                listIngredientes();
+            })
+        })
+    } else {
+        listIngredientes();
+    };
 
-                // $('#unidade').append("<option>" + valueOfUnidade.simbolo_unidade_medida + "</option>");
+    function listIngredientes() {
+        for (var i = 0; i < jsonIngrediente.length; i++) {
+            $('#nomeIngredientes').append("<option value=" + jsonIngrediente[i].id_ingrediente + ">" + jsonIngrediente[i].nome_ingrediente + "</option>");
+
+            for (var j = 0; j < jsonUnidade.length; j++) {
+                if (jsonIngrediente[i].id_unidade_medida == jsonUnidade[j].id_unidade_medida) {
+                    $('#unidade').append("<option>" + jsonUnidade[j].simbolo_unidade_medida + "</option>");
+                }
             }
-        });
-    });
+        }
+    }
 }
+
+$('#tableReceitas').on('click', '.editReceita', function() {
+    idData = $(this).closest('tr').data('id');
+    load_url();
+
+    window.location.href = 'http://localhost:80/Gastronomia_Frontend/html/nova-receita.html';
+
+    for (var i = 0; i < jsonReceita.length; i++) {
+        if (jsonReceita[i].id_receita == idData) {
+            var nome = jsonReceita[i].nome_receita;
+        }
+
+    }
+    alert(nome)
+    var nome_receita = '<input type="text" class="form-control" name="nome_receita" id="inputReceita" placeholder="Nome da Receita" value="' + nome + '">';
+    $(nome_receita).appendTo('#nome');
+})

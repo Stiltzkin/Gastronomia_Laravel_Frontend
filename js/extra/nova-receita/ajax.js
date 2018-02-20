@@ -1,133 +1,53 @@
-$('#salvarReceita').on('click', function () {
-    if (typeof jsonReceita === 'undefined') {
-        $.getJSON(listReceita, function (jsonObjectReceita) {
-            jsonReceita = jsonObjectReceita;
-            mainPostReceita();
-        })
-    } else {
-        mainPostReceita();
-    }
+$('#salvarReceita').on('click', function() {
+    var receitaSerial = $('#formReceita').serializeArray();
+    var receitaIngredienteSerial = $('#formIngredientes').serializeArray();
 
-    function mainPostReceita() {
-        postReceita();
+    // pega valores do nicEditor
+    var nicE = new nicEditors.findEditor('area1');
+    var nicText = nicE.getContent();
 
-        var lastId = buscaIdReceitaCriada(jsonReceita, 'id_receita');
+    var ingredientesOrganizado = organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial);
 
-        // valor da receita criada agora
-        lastId++;
+    ingredientesOrganizado.push({ name: 'modo_preparo_receita', value: nicText });
 
-        postRecIngrediente(lastId);
-    }
+    load_url();
+
+    $.ajax({
+        type: "POST",
+        url: createReceita,
+        dataType: "json",
+        data: ingredientesOrganizado,
+        success: function() {
+            swal({
+                    title: "Receita criada com sucesso.",
+                    type: "success"
+                },
+                function() {
+                    location.reload();
+                }
+            )
+        },
+        error: function() {
+            swal({
+                title: "Problemas ao criar receita",
+                type: "error",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#DD6B55",
+            })
+        }
+    });
 })
 
-// busca id da receita mais recente
-function buscaIdReceitaCriada(arr, prop) {
-    var lastId;
-    if (typeof arr === 'undefined') {
-        lastId = 1;
-    } else {
-        for (var i = 0; i < arr.length; i++) {
-            if (!lastId || parseInt(arr[i][prop]) > parseInt(lastId[prop]))
-                lastId = arr[i];
+
+function organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial) {
+    var id = 0;
+
+    for (var i = 0; i < receitaIngredienteSerial.length; i++) {
+        if (i % 2 == 0) {
+            receitaSerial.push({ name: 'ingredientes[' + id + '][id_ingrediente]', value: receitaIngredienteSerial[i].value });
+            receitaSerial.push({ name: 'ingredientes[' + id + '][quantidade_bruta_receita_ingrediente]', value: receitaIngredienteSerial[i + 1].value });
+            id++;
         }
     }
-    return lastId.id_receita;
-}
-
-function postReceita() {
-    var jsonReceita = montaJsonReceita();
-    ajaxReceita();
-
-    function montaJsonReceita() {
-        var formReceitaSerial = $('#formReceita').serializeArray();
-
-        var nicEdit = new nicEditors.findEditor('area1');
-        var formModoPreparo = nicEdit.getContent();
-
-        formReceitaSerial.push({
-            name: "modo_preparo_receita",
-            value: formModoPreparo
-        })
-        return formReceitaSerial;
-    }
-
-    function ajaxReceita() {
-        load_url();
-
-        $.ajax({
-            type: "POST",
-            url: createReceita,
-            dataType: "json",
-            data: jsonReceita,
-            success: function () {
-                console.log('receita criada')
-            },
-            error: function () {
-                swal({
-                        title: "Problemas ao criar receita",
-                        type: "error",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#DD6B55",
-                    },
-                    function () {
-                        location.reload();
-                    }
-                )
-            }
-        });
-    }
-}
-
-function postRecIngrediente(lastId) {
-    var formRecIngrediente = montaJsonReceitaIngrediete();
-    ajaxRecIngrediente();
-
-    function montaJsonReceitaIngrediete() {
-        var jsonRecIngredienteArr = [];
-
-        for (var i = 0; i < ing; i++) {
-            var formRecIngrediente = $('.form_porco_' + i + '').serializeArray();
-            formRecIngrediente.push({
-                name: 'id_receita',
-                value: lastId
-            }, {
-                name: 'custo_bruto_receita_ingrediente',
-                value: 0
-            })
-            jsonRecIngredienteArr.push(formRecIngrediente);
-        }
-        return jsonRecIngredienteArr;
-    }
-
-    function ajaxRecIngrediente() {
-
-        for (var j = 0; j < formRecIngrediente.length; j++) {
-            console.log('ajax form', formRecIngrediente[j])
-
-            load_url();
-
-            $.ajax({
-                type: "POST",
-                url: createReceitaIngrediente,
-                dataType: "json",
-                data: formRecIngrediente[j],
-                success: function () {
-                    $('.aulas').modal("hide");
-                    swal({
-                            title: "Sucesso!",
-                            text: "Receita criado com sucesso!",
-                            type: "success"
-                        },
-                        function () {
-                            location.reload(true);
-                        }
-                    )
-                },
-                error: function () {
-                    $('#mensagens-erro').append('Problemas no cadastro do ingrediente');
-                }
-            });
-
-        }
-    }
+    return receitaSerial;
 }

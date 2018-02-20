@@ -50,15 +50,20 @@ function load_url() {
     window.concluirAula = 'http://localhost:8000/api/aulas/concluir/' + idData + '';
     window.clonarAula = 'http://localhost:8000/api/aulas/clone/' + idData + '';
 
-    // ========== AULA RECEITA ========== //
-    window.createAulaReceita = 'http://localhost:8000/api/aula_receita/create/';
-    window.deleteAulaReceita = 'http://localhost:8000/api/aula_receita/delete/' + idData + '';
-
     // ========== RECEITA ========== //
-    window.createReceita = 'http://localhost:8000/api/receitas/create/';
+    window.createReceita = 'http://localhost:8000/api/receitas/';
+    window.updateReceita = 'http://localhost:8000/api/receitas/update/' + idData + '';
+    window.deleteReceita = 'http://localhost:8000/api/receitas/delete/' + idData + '';
 
-    // ========== RECEITA INGREDIENTE ========== //
-    window.createReceitaIngrediente = 'http://localhost:8000/api/receita_ingrediente/create/';
+    // ========== CATEGORIA ========== //
+    window.createCategoria = 'http://localhost:8000/api/categorias/';
+    window.updateCategoria = 'http://localhost:8000/api/categorias/update/' + idData + '';
+    window.deleteCategoria = 'http://localhost:8000/api/categorias/delete/' + idData + '';
+
+    // ========== CLASSIFICACOES ========== //
+    window.createClassificacao = 'http://localhost:8000/api/classificacoes/';
+    window.updateClassificacao = 'http://localhost:8000/api/classificacoes/update/' + idData + '';
+    window.deleteClassificacao = 'http://localhost:8000/api/classificacoes/delete/' + idData + '';
 }
 
 // JSONs ARMAZENDADOS para serem utilizados em todos os lugares

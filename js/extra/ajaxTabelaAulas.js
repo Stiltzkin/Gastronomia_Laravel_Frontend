@@ -112,8 +112,6 @@ $('#addAula').on('click', '#saveButton', function() {
 
     var receitasOrganizadas = organizaAulaReceita(aulaSerialized, aulaReceitasSerialized);
 
-    console.log(receitasOrganizadas);
-
     if (idData == 0 || typeof(idData) === 'undefined') {
         var urlData = createAula;
     } else {
