@@ -20,7 +20,7 @@ $("#novo-ingrediente").click(function() {
     var erros = validaReceita(ingrediente);
 
     if (erros.length > 0) {
-        exibeMensagensDeErro(erros);
+        exibeErros(erros);
         return;
     } else {
         return $(".lista_ingredientes").append(htmlLinha);
@@ -45,7 +45,7 @@ function dadosDoFormulario(formAdicionarIngrediente) {
     var nomeIngredientes = document.getElementById("nomeIngredientes");
 
     // BOTAO EXCLUIR GERADO
-    var htmlBotao = '<button type="button" class="excluir">Excluir</button>';
+    var htmlBotao = '<button type="button" class="excluirIngrediente">Excluir</button>';
 
     var ingrediente = {
         id: nomeIngredientes.options[nomeIngredientes.selectedIndex].value,
@@ -66,8 +66,8 @@ function validaReceita(ingrediente) {
     if (ingrediente.quantidade == 0 || ingrediente.quantidade == "") {
         erros.push("A QUANTIDADE do ingrediente não pode ser em branco");
     }
-    if (document.getElementById("nomeIngredientes").selectedIndex == "0") {
-        erros.push("SELECIONE o ingrediente");
+    if (document.getElementById("nomeIngredientes").selectedIndex == 0 || document.getElementById("nomeIngredientes").value == 0) {
+        erros.push("SELECIONE um ingrediente");
     }
     if (idx != -1) {
         erros.push("O Ingrediente JA ESTÁ INSERIDO");
@@ -75,14 +75,14 @@ function validaReceita(ingrediente) {
     if (isNaN(ingrediente.quantidade)) {
         erros.push("A quantidade deve ser conter NUMERCOS APENAS");
     }
-    if ((idx == -1 && ingrediente.quantidade != 0) && !isNaN(ingrediente.quantidade)) {
+    if ((idx == -1 && ingrediente.quantidade != 0) && !isNaN(ingrediente.quantidade) && document.getElementById("nomeIngredientes").selectedIndex !== 0) {
         ingredienteArray.push(ingrediente.id);
         erros.length = 0;
     }
     return erros;
 }
 
-function exibeMensagensDeErro(erros) {
+function exibeErros(erros) {
     var ul = document.querySelector("#mensagens-ing-receita-erro");
     ul.innerHTML = "";
 
@@ -92,3 +92,16 @@ function exibeMensagensDeErro(erros) {
         ul.appendChild(li);
     })
 }
+
+// BOTAO REMOVE INGREDIENTE DA RECEITA
+$(".tabela_receita").on('click', '.excluirIngrediente', function() {
+    var splice = $(this).closest('tr').data('id');
+
+    for (var i = 0; i < ingredienteArray.length; i++) {
+        if (ingredienteArray[i] == splice) {
+            ingredienteArray.splice(i, 1);
+            break;
+        }
+    }
+    $(this).closest('tr').remove();
+});

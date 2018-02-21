@@ -1,5 +1,4 @@
 window.receitaArray = [];
-window.rec = 0;
 $("#btnAddReceita").click(function(event) {
     event.preventDefault();
 
@@ -23,7 +22,6 @@ $("#btnAddReceita").click(function(event) {
         exibeMensagensDeErro(erros);
     } else {
         $('.tabela_receita').append(htmlTr);
-        rec++;
     }
 });
 

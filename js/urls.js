@@ -54,6 +54,7 @@ function load_url() {
     window.createReceita = 'http://localhost:8000/api/receitas/';
     window.updateReceita = 'http://localhost:8000/api/receitas/update/' + idData + '';
     window.deleteReceita = 'http://localhost:8000/api/receitas/delete/' + idData + '';
+    window.showReceita = 'http://localhost:8000/api/receitas/' + idData + '';
 
     // ========== CATEGORIA ========== //
     window.createCategoria = 'http://localhost:8000/api/categorias/';

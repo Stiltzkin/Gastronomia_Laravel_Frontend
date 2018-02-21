@@ -30,7 +30,8 @@ if (typeof jsonObjectClassificacao === 'undefined' || typeof jsonObjectCategoria
 } else {
     mostraClasseCate();
     dropdownIngredientes();
-};
+}
+
 
 
 // Monta lista de Classificacao e Categoria
@@ -133,19 +134,79 @@ function dropdownIngredientes() {
     }
 }
 
+// chama a pagina de nova-receita e envia a url da receita especifica
 $('#tableReceitas').on('click', '.editReceita', function() {
     idData = $(this).closest('tr').data('id');
     load_url();
 
+    sessionStorage.setItem("url", showReceita);
+
     window.location.href = 'http://localhost:80/Gastronomia_Frontend/html/nova-receita.html';
-
-    for (var i = 0; i < jsonReceita.length; i++) {
-        if (jsonReceita[i].id_receita == idData) {
-            var nome = jsonReceita[i].nome_receita;
-        }
-
-    }
-    alert(nome)
-    var nome_receita = '<input type="text" class="form-control" name="nome_receita" id="inputReceita" placeholder="Nome da Receita" value="' + nome + '">';
-    $(nome_receita).appendTo('#nome');
 })
+
+// =========== AJAX POST PUT =========== //]
+$('#salvarReceita').on('click', function() {
+    load_url();
+    url = createReceita;
+    postReceita(url);
+})
+
+$('.box-center').on('click', '#editarReceita', function() {
+
+    load_url();
+    url = updateReceita
+    postReceita(url);
+})
+
+function postReceita() {
+    var receitaSerial = $('#formReceita').serializeArray();
+    var receitaIngredienteSerial = $('#formIngredientes').serializeArray();
+
+    // pega valores do nicEditor
+    var nicE = new nicEditors.findEditor('area1');
+    var nicText = nicE.getContent();
+
+    var ingredientesOrganizado = organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial);
+
+    ingredientesOrganizado.push({ name: 'modo_preparo_receita', value: nicText });
+    console.log(ingredientesOrganizado)
+    $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "json",
+        data: ingredientesOrganizado,
+        success: function() {
+            swal({
+                    title: "Receita criada/editada com sucesso.",
+                    type: "success"
+                },
+                function() {
+                    location.reload();
+                }
+            )
+        },
+        error: function() {
+            swal({
+                title: "Problemas ao criar/editar receita",
+                type: "error",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#DD6B55",
+            })
+        }
+    });
+}
+
+
+
+function organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial) {
+    var id = 0;
+
+    for (var i = 0; i < receitaIngredienteSerial.length; i++) {
+        if (i % 2 == 0) {
+            receitaSerial.push({ name: 'ingredientes[' + id + '][id_ingrediente]', value: receitaIngredienteSerial[i].value });
+            receitaSerial.push({ name: 'ingredientes[' + id + '][quantidade_bruta_receita_ingrediente]', value: receitaIngredienteSerial[i + 1].value });
+            id++;
+        }
+    }
+    return receitaSerial;
+}
