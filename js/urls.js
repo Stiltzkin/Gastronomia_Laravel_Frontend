@@ -29,6 +29,11 @@ window.listArray = [{
     }
 ]
 
+function show(pg, qtd) {
+    var showIngrediente = "http://localhost:8000/api/ingredientes?page=" + pg + "&qtd=" + qtd + "";
+    return showIngrediente;
+}
+
 // ========== LIST fim ========== //
 
 function load_url() {
@@ -72,5 +77,5 @@ window.jsonUnidade;
 window.jsonIngrediente;
 window.jsonAula;
 window.jsonReceita;
-window.jsonAulaReceita;
-window.jsonReceitaIngrediente;
+window.jsonPaginateIngrediente;
+window.jsonPaginate;
