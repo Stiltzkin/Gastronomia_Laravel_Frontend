@@ -18,10 +18,15 @@ for (var i = 0; i < listArray.length; i++) {
     }
 }
 
+var tipo = "receita";
+var urlShowReceitas = getUrl(tipo);
+
 // get da tabela de ingredientes
+var paginate;
 if (typeof jsonReceita === 'undefined' || typeof jsonObjectClassificacao === 'undefined' || typeof jsonObjectCategoria === 'undefined') {
-    $.getJSON(listReceita, function(jsonObjectReceita) {
-        jsonReceita = jsonObjectReceita.data;
+    $.getJSON(urlShowReceitas, function(jsonObjectReceita) {
+        jsonReceita = jsonObjectReceita.data.data;
+        paginate = jsonObjectReceita.data;
 
         // get da tabela de unidades
         $.getJSON(listClassificacao, function(jsonObjectClassificacao) {
@@ -30,11 +35,15 @@ if (typeof jsonReceita === 'undefined' || typeof jsonObjectClassificacao === 'un
             $.getJSON(listCategoria, function(jsonObjectCategoria) {
                 jsonCategoria = jsonObjectCategoria.data;
                 mostraReceitas();
+                salvaUrlPaginas(paginate);
+                botoesPaginacao(paginate);
             })
         })
     })
 } else {
     mostraReceitas();
+    salvaUrlPaginas(paginate);
+    botoesPaginacao(paginate);
 };
 
 

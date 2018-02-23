@@ -29,9 +29,16 @@ window.listArray = [{
     }
 ]
 
-function show(pg, qtd) {
-    var showIngrediente = "http://localhost:8000/api/ingredientes?page=" + pg + "&qtd=" + qtd + "";
-    return showIngrediente;
+function show(pg, qtd, tipo) {
+    if (tipo == "ingrediente") {
+        var showIngrediente = "http://localhost:8000/api/ingredientes?page=" + pg + "&qtd=" + qtd + "";
+        return showIngrediente;
+    }
+    if (tipo == "receita") {
+        var showReceita = "http://localhost:8000/api/receitas?page=" + pg + "&qtd=" + qtd + "";
+        return showReceita;
+    }
+
 }
 
 // ========== LIST fim ========== //

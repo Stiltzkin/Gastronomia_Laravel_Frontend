@@ -108,6 +108,11 @@
                             <!-- SUBMENU ADD -->
                             <div class="pull-right box-tools">
                                 <!-- BOTAO ADICIONAR RECEITA -->
+                                <select id="paginateQtd" onchange="paginate()">
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
                                 <a href="http://localhost:80/Gastronomia_Frontend/html/nova-receita.html">
                                     <button type="submit" class="btn btn-success">Nova Receita</button>
                                 </a>
@@ -136,6 +141,13 @@
                                     </tr> -->
                                 </tbody>
                             </table>
+                            <!-- Paginacao -->
+                            <div class="col-xs-offset-4 col-sm-offset-5">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -180,6 +192,7 @@
     <!-- jQuery 2.2.3 -->
     <script src="../js/jquery-2.2.3.min.js"></script>
     <script src="../js/urls.js"></script>
+    <script src="../js/extra/paginate.js"></script>
     <script src="../js/extra/nova-receita/ajaxListReceitas.js"></script>
     <script src="../js/extra/nova-receita/ajaxNovaReceita.js"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -187,6 +200,7 @@
     <!-- AdminLTE App -->
     <script src="../js/app.min.js"></script>
     <script src="../js/sweetalert.min.js"></script>
+    <script src="../js/extra/searchIngredientes.js"></script>
 </body>
 
 </html>

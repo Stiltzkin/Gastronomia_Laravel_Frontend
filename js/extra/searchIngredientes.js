@@ -5,31 +5,22 @@ $(document).ready(function() {
         if (listArray[i].key == "listUndiadeMedida") {
             var listUnidadeMedida = listArray[i].value;
         }
+        if (listArray[i].key == "listIngrediente") {
+            var listIngrediente = listArray[i].value;
+        }
     }
 
-    if (typeof(getUrl(tipo)) === undefined) {
-        searchIngrediente();
-        return;
-    }
-    var tipo = "ingrediente";
-    var urlShowIngrediente = getUrl(tipo);
-
-    var paginate;
-    if (typeof jsonPaginateIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
-        $.getJSON(urlShowIngrediente, function(jsonObjectIngrediente) {
-            jsonPaginateIngrediente = jsonObjectIngrediente.data.data;
-            paginate = jsonObjectIngrediente.data;
+    if (typeof jsonIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
+        $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
+            jsonIngrediente = jsonObjectIngrediente.data.data;
 
             $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
                 jsonUnidade = jsonObjectUnidade.data;
                 mostraIngredientes();
-                salvaUrlPaginas(paginate);
-                botoesPaginacao(paginate);
             })
         })
     } else {
         mostraIngredientes();
-        botoesPaginacao(paginate);
     };
 })
 
@@ -42,7 +33,7 @@ function mostraIngredientes() {
     var botaoEditar = '<td><button class="editar" type="button">Editar</button></td>';
 
     // roda a lista de ingredientes
-    $.each(jsonPaginateIngrediente, function(indexIngrediente, valIngrediente) {
+    $.each(jsonIngrediente, function(indexIngrediente, valIngrediente) {
         // roda a lista de unidades
         $.each(jsonUnidade, function(indexUnidade, valUnidade) {
             // compara as id de unidade das tabelas ingredientes e unidade e armazena a key 'descricao' da tabela unidade na variavel unidade
