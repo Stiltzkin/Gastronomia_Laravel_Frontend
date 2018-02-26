@@ -1,7 +1,7 @@
 // ========== LIST ========== //
 window.listArray = [{
         "key": "listIngrediente",
-        "value": "http://localhost:8000/api/ingredientes/"
+        "value": "http://localhost:8000/api/ingredientes/listall"
     },
     {
         "key": "listUndiadeMedida",
@@ -13,7 +13,7 @@ window.listArray = [{
     },
     {
         "key": "listReceita",
-        "value": "http://localhost:8000/api/receitas/"
+        "value": "http://localhost:8000/api/receitas/listall"
     },
     {
         "key": "listClassificacao",

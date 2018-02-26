@@ -1,6 +1,6 @@
 // ==================== GET ===================== //
 
-$(document).ready(function() {
+function searchIngredienteOnClick() {
     for (var i = 0; i < listArray.length; i++) {
         if (listArray[i].key == "listUndiadeMedida") {
             var listUnidadeMedida = listArray[i].value;
@@ -16,16 +16,16 @@ $(document).ready(function() {
 
             $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
                 jsonUnidade = jsonObjectUnidade.data;
-                mostraIngredientes();
+                listaIngredientesHtml();
             })
         })
     } else {
-        mostraIngredientes();
+        listaIngredientesHtml();
     };
-})
 
+}
 
-function mostraIngredientes() {
+function listaIngredientesHtml() {
     // cria os botoes dos ingredientes
     var botaoAdd = '<td><button type="button" class="btn btn-xs addButton"><i class="fa fa-plus"></i></button></td>';
     var botaoSubtract = '<td><button type="button" class="btn btn-danger btn-xs subButton"><i class="fa fa-minus"></i></button></td>';

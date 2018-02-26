@@ -13,13 +13,17 @@ if (sessionStorage.getItem("url") !== null) {
     var url = sessionStorage.getItem("url");
 
     var receitaSpecifica;
-    $.getJSON(url, function(showReceita) {
-        receitaSpecifica = showReceita.data;
+    $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
+        jsonUnidade = jsonObjectUnidade.data;
+        $.getJSON(url, function(showReceita) {
+            receitaSpecifica = showReceita.data;
 
-        idData = receitaSpecifica.id_receita;
-        main(jsonUnidade, receitaSpecifica);
-        sessionStorage.clear();
+            idData = receitaSpecifica.id_receita;
+            main(jsonUnidade, receitaSpecifica);
+            sessionStorage.clear();
+        })
     })
+
 }
 
 function main(jsonUnidade, receitaSpecifica) {

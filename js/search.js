@@ -5,10 +5,19 @@ $('.dropdown-menu input, .dropdown-menu label, #search-btn').click(function(e) {
 
 // garante que ao selecionar ingredientes, o get dos ingredientes seja feito
 function getIngredientes() {
+    for (var i = 0; i < listArray.length; i++) {
+        if (listArray[i].key == "listUndiadeMedida") {
+            var listUnidadeMedida = listArray[i].value;
+        }
+        if (listArray[i].key == "listIngrediente") {
+            var listIngrediente = listArray[i].value;
+        }
+    }
+
     if (document.getElementById('filterIng').checked) {
         if (typeof jsonIngrediente === 'undefined' || typeof jsonUnidade === 'undefined') {
             $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
-                jsonIngrediente = jsonObjectIngrediente;
+                jsonIngrediente = jsonObjectIngrediente.data;
                 $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
                     jsonUnidade = jsonObjectUnidade;
                     search();
@@ -22,15 +31,29 @@ function getIngredientes() {
 
 // garante que ao selecionar receitas, o get das receitas seja feito
 function getReceitas() {
-    if (document.getElementById('filterRec').checked) {
-        if (typeof jsonReceita === 'undefined') {
-            $.getJSON(listReceita, function(jsonObjectReceitas) {
-                jsonReceita = jsonObjectReceitas;
-                search();
-            })
-        } else {
-            search();
+    for (var i = 0; i < listArray.length; i++) {
+        if (listArray[i].key == "listReceita") {
+            var listReceita = listArray[i].value;
         }
+        if (listArray[i].key == "listCategoria") {
+            var listCategoria = listArray[i].value;
+        }
+        if (listArray[i].key == "listClassificacao") {
+            var listClassificacao = listArray[i].value;
+        }
+    }
+
+    if (typeof jsonReceita === 'undefined' || typeof jsonCategoria === 'undefined' || typeof jsonClassificacao === 'undefined') {
+        $.getJSON(listReceita, function(jsonObjectReceitas) {
+            jsonReceita = jsonObjectReceitas.data;
+            $.getJSON(listClassificacao, function(jsonObjectClassificacao) {
+                jsonClassificacao = jsonObjectClassificacao.data;
+                $.getJSON(listCategoria, function(jsonObjectCategoria) {
+                    jsonCategoria = jsonObjectCategoria.data;
+                    search();
+                })
+            })
+        })
     }
 }
 
@@ -94,7 +117,7 @@ function search() {
                 }
                 if (valueUpper.startsWith(upper)) {
                     // cria uma lista
-                    var htmlIngList = $('<tr data-id="' + value.id_ingrediente + '" class="searchList"></tr>');
+                    var htmlIngList = $('<tr data-id="' + value.id_ingrediente + '" class="searchList" > < /tr>');
                     $('<td><a href="#" class="hipertextColor" >' + value.nome_ingrediente + '</a></td>').appendTo(htmlIngList);
                     $('<td>' + value.quantidade_calorica_ingrediente + '</td>').appendTo(htmlIngList);
                     $('<td>' + value.aproveitamento_ingrediente + '</td>').appendTo(htmlIngList);
@@ -125,6 +148,18 @@ function search() {
             var headerRec = '<h3 class="box-title ">Receitas</h3>';
             $('.search_header').html(headerRec);
 
+            // Cria a thead da tabela
+            var htmlThead = $('<tr class="thead_busca"></tr>');
+            $('<th>Receita</th>').appendTo(htmlThead);
+            $('<th>Classificação</th>').appendTo(htmlThead);
+            $('<th>Categoria</th>').appendTo(htmlThead);
+            $('<th></th>').appendTo(htmlThead);
+            $('<th></th>').appendTo(htmlThead);
+            $('<th></th>').appendTo(htmlThead);
+            // imprime a thead na tela
+            $('.htmlHead').html(htmlThead);
+
+
             var input, upper;
             // limpa a lista
             $('.searchList').remove();
@@ -133,20 +168,32 @@ function search() {
             // deixa o valor digitado em caixa alta (para nao ficar case sensitive)
             upper = input.toUpperCase();
 
-            $.each(jsonReceita, function(index, value) {
-                var valueUpper = value.nome_receita.toUpperCase();
+            for (var i = 0; i < jsonReceita.length; i++) {
+                var valueUpper = jsonReceita[i].nome_receita.toUpperCase();
                 if (upper == '') {
                     return;
                 }
                 if (valueUpper.startsWith(upper)) {
                     // cria uma lista
-                    var htmlIngList = $('<tr class="searchList"></tr>');
-                    $('<td><a href="#" class="hipertextColor" >' + value.nome_receita + '</a></td>').appendTo(htmlIngList);
+                    var htmlIngList = $('<tr class="searchList" data-id="' + jsonReceita[i].id_receita + '"></tr>');
+                    $('<td><a href="#" class="hipertextColor" >' + jsonReceita[i].nome_receita + '</a></td>').appendTo(htmlIngList);
+                    for (var j = 0; j < jsonClassificacao.length; j++) {
+                        if (jsonReceita[i].id_classificacao == jsonClassificacao[j].id_classificacao) {
+                            $('<td><a href="#" class="hipertextColor" >' + jsonClassificacao[j].descricao_classificacao + '</a></td>').appendTo(htmlIngList);
+                        }
+                    }
+
+                    for (var k = 0; k < jsonCategoria.length; k++) {
+                        if (jsonReceita[i].id_categoria == jsonCategoria[k].id_categoria) {
+                            $('<td><a href="#" class="hipertextColor" >' + jsonCategoria[k].descricao_categoria + '</a></td>').appendTo(htmlIngList);
+                        }
+                    }
+
                     $('<td><button class="editar">Editar</button></td>').appendTo(htmlIngList);
                     $('<td><button type="button" class="btn btn-xs btn-danger excluir"><i class="fa fa-trash"></i></button></td>').appendTo(htmlIngList)
                     $('.htmlIngList').append(htmlIngList);
                 }
-            })
+            }
         }
     }
 }

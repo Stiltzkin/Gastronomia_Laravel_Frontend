@@ -23,8 +23,10 @@
     <div class="wrapper">
         <header class="main-header">
             <a href="http://localhost:80/Gastronomia_Frontend/" class="logo">
-                <span class="logo-mini"><b>G</b>O</span>
-                <span class="logo-lg"><b>Gastronomia</b>Opet</span>
+                <span class="logo-mini">
+                    <b>G</b>O</span>
+                <span class="logo-lg">
+                    <b>Gastronomia</b>Opet</span>
             </a>
             <nav class="navbar navbar-static-top">
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -51,138 +53,186 @@
     </div>
     <!-- Menu Vertical -->
     <aside class="main-sidebar">
-        <section class="sidebar">
+        <secton class="sidebar">
             <!-- Search -->
-            <form action="#" method="get" class="sidebar-form">
-                <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search..."><span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
+            <div class="btn-group sidebar-form">
+                <div class="input-group" data-toggle="dropdown">
+                    <input type="text" class="dropdown-toggle form-control" id="myInput" aria-haspopup="true" aria-expanded="false" placeholder="Procurar.." onkeyup="search()">
+                    </input>
+                    <span class="input-group-btn">
+                        <button type="button" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
                 </div>
-            </form>
+                <ul class="dropdown-menu">
+                    <li>
+                        <input class="col-xs-3" type="radio" id="filterIng" name="hah" onclick="getIngredientes()" value="Ingredientes">
+                        <label for="filterIng">Ingredientes</label>
+                    </li>
+                    <li>
+                        <input class="col-xs-3" type="radio" id="filterRec" name="hah" onclick="getReceitas()" value="Receitas">
+                        <label for="filterRec">Receitas</label>
+                    </li>
+                </ul>
+            </div>
             <!-- Search FIM -->
             <!-- sidebar menu -->
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="treeview">
                     <a href="http://localhost:80/Gastronomia_Frontend/">
-                        <i class="fa fa-bar-chart-o"></i> <span>Dashboard</span>
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="treeview">
                     <a href="http://localhost:80/Gastronomia_Frontend/html/receitas.html">
-                        <i class="fa fa-book"></i> <span>Receitas</span>
+                        <i class="fa fa-book"></i>
+                        <span>Receitas</span>
                     </a>
                 </li>
                 <li class="treeview">
                     <a href="http://localhost:80/Gastronomia_Frontend/html/estoque.html">
-                        <i class="fa fa-cubes"></i> <span>Estoque</span>
+                        <i class="fa fa-cubes"></i>
+                        <span>Estoque</span>
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-calendar"></i><span> Aula</span>
-                      <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                    <a href="#'">
+                        <i class="fa fa-calendar"></i>
+                        <span>Aula</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="http://localhost:80/Gastronomia_Frontend/html/planejar-aulas.html"><i class="fa fa-circle-o"></i>Planejar Aulas</a></li>
-                        <li><a href="http://localhost:80/Gastronomia_Frontend/html/aulas-concluidas.html"><i class="fa fa-circle-o"></i>Aulas Concluidas</a></li>
+                        <li>
+                            <a href="http://localhost:80/Gastronomia_Frontend/html/planejar-aulas.html">
+                                <i class="fa fa-circle-o"></i>Planejar Aulas</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:80/Gastronomia_Frontend/html/aulas-concluidas.html">
+                                <i class="fa fa-circle-o"></i>Aulas Concluidas</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
-        </section>
+        </secton>
         <!-- sidebar FIM -->
     </aside>
     <!-- ======================================================================================================= -->
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>Receitas</h1>
-        </section>
-        <section class="content">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title ">Lista de Receitas</h3>
-                            <!-- SUBMENU ADD -->
-                            <div class="pull-right box-tools">
-                                <!-- BOTAO ADICIONAR RECEITA -->
-                                <select id="paginateQtd" onchange="paginate()">
-                                    <option value="15">15</option>
-                                    <option value="30">30</option>
-                                    <option value="45">45</option>
-                                </select>
-                                <a href="http://localhost:80/Gastronomia_Frontend/html/nova-receita.html">
-                                    <button type="submit" class="btn btn-success">Nova Receita</button>
-                                </a>
+        <!-- Search será gerado aqui -->
+        <div id="listaSearch" style="display:none;">
+            <!-- CABEÇALHO -->
+            <section class="content-header">
+                <h1>Procurando</h1>
+            </section>
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <!-- header da tabela search sera gerada aqui -->
+                            <div class="box-header search_header">
                             </div>
-                        </div>
-                        <div class="box-body">
-                            <table id="tableReceitas" class="table table-bordered table-hover lista-receita">
-                                <thead>
-                                    <tr>
-                                        <th>Nome da Receita</th>
-                                        <th>Classificação</th>
-                                        <th>Categoria</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- <tr>
-                                        <td><a href="receita-detalhes.html">Abacaxi com Coco</a></td>
-                                        <td>Taipei</td>
-                                        <td>Taipei</td>
-
-                                        <td><button type="button" class="btn btn-xs" data-toggle="modal" data-target="#editReceita"><i class="fa fa-edit"></i></button></td>
-                                        <td><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deletarIngrediente"><i class="fa fa-trash-o"></i></button></td>
-                                        <td><button type="button" class="btn btn-default btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></span> Visualizar Receita </button></td>
-                                    </tr> -->
-                                </tbody>
-                            </table>
-                            <!-- Paginacao -->
-                            <div class="col-xs-offset-4 col-sm-offset-5">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                    </ul>
-                                </nav>
+                            <div class="box-body">
+                                <table class="table table-bordered table-hover" id="search">
+                                    <thead class="htmlHead">
+                                    </thead>
+                                    <!-- lista da busca sera gerada aqui -->
+                                    <tbody class="htmlIngList">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="receitaId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog modal-sm|lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="modelTitleId">Modal title</h4>
+            </section>
+        </div>
+        <!-- FIM search -->
+        <!-- Content Header (Page header) -->
+        <div id="conteudo_principal">
+            <section class="content-header">
+                <h1>Receitas</h1>
+            </section>
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title ">Lista de Receitas</h3>
+                                <!-- SUBMENU ADD -->
+                                <div class="pull-right box-tools">
+                                    <!-- BOTAO ADICIONAR RECEITA -->
+                                    <select id="paginateQtd" onchange="paginate()">
+                                        <option value="15">15</option>
+                                        <option value="30">30</option>
+                                        <option value="45">45</option>
+                                    </select>
+                                    <a href="http://localhost:80/Gastronomia_Frontend/html/nova-receita.html">
+                                        <button type="submit" class="btn btn-success">Nova Receita</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <table id="tableReceitas" class="table table-bordered table-hover lista-receita">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome da Receita</th>
+                                            <th>Classificação</th>
+                                            <th>Categoria</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <!-- Paginacao -->
+                                <div class="col-xs-offset-4 col-sm-offset-5">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    Body
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </section>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="receitaId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog modal-sm|lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modelTitleId">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        Body
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- MODAL DELETAR -->
-    <div id="deletarIngrediente" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h4>Tem certeza que deseja excluir?</h4>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger pull-right">Deletar</button>
+        <!-- MODAL DELETAR -->
+        <div id="deletarIngrediente" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4>Tem certeza que deseja excluir?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger pull-right">Deletar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -195,12 +245,18 @@
     <script src="../js/extra/paginate.js"></script>
     <script src="../js/extra/nova-receita/ajaxListReceitas.js"></script>
     <script src="../js/extra/nova-receita/ajaxNovaReceita.js"></script>
+    <!-- search -->
+    <script src="../js/search.js "></script>
+    <script src="../js/extra/util.js"></script>
+    <script src="../js/extra/estoque/somar_subtrair.js"></script>
+    <script src="../js/extra/estoque/unidades.js"></script>
+    <script src="../js/extra/estoque/validacao_somar_subtrair.js"></script>
+    <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../js/app.min.js"></script>
     <script src="../js/sweetalert.min.js"></script>
-    <script src="../js/extra/searchIngredientes.js"></script>
 </body>
 
 </html>

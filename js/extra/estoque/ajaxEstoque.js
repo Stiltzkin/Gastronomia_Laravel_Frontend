@@ -29,6 +29,7 @@ $(document).ready(function() {
         })
     } else {
         mostraIngredientes();
+        salvaUrlPaginas(paginate);
         botoesPaginacao(paginate);
     };
 })

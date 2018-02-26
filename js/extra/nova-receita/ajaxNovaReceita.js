@@ -109,7 +109,7 @@ function dropdownIngredientes() {
 
     if (typeof jsonObjectIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
         $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
-            jsonIngrediente = jsonObjectIngrediente.data.data;
+            jsonIngrediente = jsonObjectIngrediente.data;
 
             // get da tabela de unidades
             $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
@@ -143,6 +143,15 @@ $('#tableReceitas').on('click', '.editReceita', function() {
 
     window.location.href = 'http://localhost:80/Gastronomia_Frontend/html/nova-receita.html';
 })
+$('#search').on('click', '.editar', function() {
+    alert('oi')
+    idData = $(this).closest('tr').data('id');
+    load_url();
+
+    sessionStorage.setItem("url", showReceita);
+
+    window.location.href = 'http://localhost:80/Gastronomia_Frontend/html/nova-receita.html';
+})
 
 // =========== AJAX POST PUT =========== //]
 $('#salvarReceita').on('click', function() {
@@ -152,7 +161,6 @@ $('#salvarReceita').on('click', function() {
 })
 
 $('.box-center').on('click', '#editarReceita', function() {
-
     load_url();
     url = updateReceita
     postReceita(url);

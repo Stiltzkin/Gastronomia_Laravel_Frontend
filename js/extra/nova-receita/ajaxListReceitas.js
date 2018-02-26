@@ -85,7 +85,7 @@ $('.lista-receita').on('click', '#buttonDeletar', function() {
     excluir_receita(idData, thisTr);
 });
 
-$('#listaSearch').on('click', '#buttonDeletar', function() {
+$('#search').on('click', '.excluir', function() {
     // seleciona a 'tr' do ingrediente especifico
     var thisTr = $(this).closest('tr');
     // pega a id do ingrediente localizado no html
