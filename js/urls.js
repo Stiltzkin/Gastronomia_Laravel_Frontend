@@ -49,6 +49,7 @@ function load_url() {
     }
     // ========== INGREDIENTE ========== //
     window.createIngrediente = 'http://localhost:8000/api/ingredientes/';
+    window.thisIngrediente = 'http://localhost:8000/api/ingredientes/';
     window.updateIngrediente = 'http://localhost:8000/api/ingredientes/update/' + idData + '';
     window.deleteIngrediente = 'http://localhost:8000/api/ingredientes/delete/' + idData + '';
     window.somaIngrediente = 'http://localhost:8000/api/ingredientes/soma/' + idData + '';

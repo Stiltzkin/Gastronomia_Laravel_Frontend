@@ -162,7 +162,7 @@
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                                <h3 class="box-title ">Lista de Receitas</h3>
+                                <h3 class="box-title">Lista de Receitas</h3>
                                 <!-- SUBMENU ADD -->
                                 <div class="pull-right box-tools">
                                     <!-- BOTAO ADICIONAR RECEITA -->
@@ -204,7 +204,7 @@
             </section>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="receitaId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal fade" id="receitaId" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog modal-sm|lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -214,7 +214,19 @@
                         <h4 class="modal-title" id="modelTitleId">Modal title</h4>
                     </div>
                     <div class="modal-body">
-                        Body
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>Ingredientes</td>
+                                        <td>Quantidade na Receita</td>
+                                        <td>Unidade</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="ingredientesList">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

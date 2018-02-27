@@ -1,6 +1,6 @@
 // ==================== SOMAR ==================== //
 // botao adiconar mais ingredientes do search
-$('#search_ingredientes').on('click', '.addButton', function() {
+$('#search').on('click', '.addButton', function() {
     window.thisIng = this;
     getThingsSoma();
 });

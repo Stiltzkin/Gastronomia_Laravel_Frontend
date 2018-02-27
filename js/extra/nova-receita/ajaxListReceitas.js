@@ -52,9 +52,9 @@ function mostraReceitas() {
 
     for (var i = 0; i < jsonReceita.length; i++) {
         var row = $('<tr class="id-receita" data-id="' + jsonReceita[i].id_receita + '"></tr>');
-        var buttonEdit = '<td><button type="button" class="btn btn-md editReceita"><i class="fa fa-edit"></i></button></td>';
-        var buttonDelete = '<td><button type="button" id="buttonDeletar" class="btn btn-danger btn-md excluir" ><i class="fa fa-trash-o"></i></button></td>';
-        var buttonView = '<td><button type="button" id="visualizar" class="btn btn-default btn-md" data-toggle="modal" data-target="#receitaId" ><i class="fa fa-eye" aria-hidden="true"></i></span></button></td>';
+        var buttonEdit = '<td><button type="button" class="btn btn-xs editReceita"><i class="fa fa-edit"></i></button></td>';
+        var buttonDelete = '<td><button type="button" id="buttonDeletar" class="btn btn-danger btn-xs excluir" ><i class="fa fa-trash-o"></i></button></td>';
+        var buttonView = '<td><button type="button" class="btn btn-default btn-xs visualizar"><i class="fa fa-eye" aria-hidden="true"></i></span></button></td>';
 
         $("#tableReceitas").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
         row.append($("<td>" + jsonReceita[i].nome_receita + "</td>"));
@@ -126,24 +126,34 @@ function excluir_receita(idData, thisTr) {
 }
 
 // ============== VISUALIZAR RECEITA DETALHES =================== //
+$(".lista-receita").on('click', '.visualizar', function() {
+    $("#ingredientesList").empty();
 
+    var id_receita = $(this).closest('tr').data('id');
+    // sessionStorage.setItem('this_receita', id_receita);
+    for (var i = 0; i < jsonReceita.length; i++) {
+        if (id_receita == jsonReceita[i].id_receita) {
+            var pivot = jsonReceita[i].pivot;
+            for (var j = 0; j < pivot.length; j++) {
+                var id = jsonReceita[i].pivot[j].pivot.id_ingrediente;
+                load_url();
 
-// $.getJSON("url", data,
-//     function(data, textStatus, jqXHR) {
+                var tr = $('<tr id="listaIngredientes" data-id=" + id + "></tr>');
+                var nome_ingrediente = "<td><a href=" + thisIngrediente + id + ">" + jsonReceita[i].pivot[j].nome_ingrediente + "</a></td>";
+                var quantidade_ingrediente = "<td>" + jsonReceita[i].pivot[j].pivot.quantidade_bruta_receita_ingrediente + "</td>";
 
-//     }
-// );
+                for (k = 0; k < jsonUnidade.length; k++) {
+                    if (jsonUnidade[k].id_unidade_medida == jsonReceita[i].pivot[j].id_unidade_medida) {
+                        var unidade = "<td>" + jsonUnidade[k].simbolo_unidade_medida + "</td>";
+                    }
+                }
 
-$("#visualizar").click(function(e) {
-    e.preventDefault();
+                $(nome_ingrediente).appendTo(tr);
+                $(quantidade_ingrediente).appendTo(tr);
+                $(unidade).appendTo(tr);
+                $('#ingredientesList').append(tr);
+            }
+        }
+    }
     $("#receitaId").modal('show');
 });
-// function viewReceita () {
-//     $.getJSON("url", data,
-//         function (data, textStatus, jqXHR) {
-
-//         }
-//     );
-// }
-
-// ===================== EDITAR RECEITA ======================== //

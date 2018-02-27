@@ -210,40 +210,40 @@
             </section>
         </div>
         <!-- ADICIONAR/EDITAR INGREDIENTE MODAL -->
-        <div id="formIngrediente " class="modal fade " role="dialog ">
-            <div class="modal-dialog ">
-                <div class="modal-content ">
-                    <div class="modal-header nomeIngredienteHeader ">
-                        <button type="button " class="close " data-dismiss="modal ">&times;</button>
+        <div id="formIngrediente" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header nomeIngredienteHeader">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-body ">
-                        <ul id="mensagens-erro "></ul>
-                        <ul id="mensagens-sucesso "></ul>
-                        <form id="form-addIngrediente " name="form-addIngrediente " method="POST " class="form-horizontal ">
-                            <div class="box-body ">
-                                <div class="form-group ">
-                                    <label for="inputIngrediente " class="col-sm-3 control-label ">Ingrediente*</label>
-                                    <div class="col-sm-6 idIngrediente "></div>
-                                    <div class="col-sm-6 NomeIngrediente "></div>
+                    <div class="modal-body">
+                        <ul id="mensagens-erro"></ul>
+                        <ul id="mensagens-sucesso"></ul>
+                        <form id="form-addIngrediente" name="form-addIngrediente" method="POST" class="form-horizontal">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="inputIngrediente" class="col-sm-3 control-label">Ingrediente*</label>
+                                    <div class="col-sm-6 idIngrediente"></div>
+                                    <div class="col-sm-6 NomeIngrediente"></div>
                                 </div>
-                                <div class="form-group ">
-                                    <label for="inputCalorias " class="col-sm-3 control-label ">Quantidade Calorica*</label>
-                                    <div class="col-sm-6 QuantidadeCalorica "></div>
+                                <div class="form-group">
+                                    <label for="inputCalorias" class="col-sm-3 control-label">Quantidade Calorica*</label>
+                                    <div class="col-sm-6 QuantidadeCalorica"></div>
                                 </div>
-                                <div class="form-group ">
-                                    <label for="inputAproveitamento " class="col-sm-3 control-label ">Aproveitamento*</label>
-                                    <div class="col-sm-6 Aproveitamento "></div>
+                                <div class="form-group">
+                                    <label for="inputAproveitamento" class="col-sm-3 control-label">Aproveitamento*</label>
+                                    <div class="col-sm-6 Aproveitamento"></div>
                                 </div>
-                                <div class="form-group ">
-                                    <label for="inputUnidade " class="col-sm-3 control-label ">Unidade*</label>
-                                    <div class="col-sm-6 listaUnidade ">
-                                        <select name="id_unidade_medida " class="form-control " id="unidadeMedida " style="width: 100%; "></select>
+                                <div class="form-group">
+                                    <label for="inputUnidade" class="col-sm-3 control-label">Unidade*</label>
+                                    <div class="col-sm-6 listaUnidade">
+                                        <select name="id_unidade_medida" class="form-control" id="unidadeMedida" style="width: 100%;"></select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer ">
-                                <button type="button " class="btn btn-default " data-dismiss="modal ">Cancelar</button>
-                                <button id="adicionar-ingrediente " type="button " class="btn btn-success pull-right ">Salvar</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <button id="adicionar-ingrediente" type="button" class="btn btn-success pull-right">Salvar</button>
                             </div>
                         </form>
                     </div>
@@ -252,50 +252,50 @@
         </div>
         <!-- FIM ADICIONAR/EDITAR INGREDIENTE-->
         <!-- SOMAR MODAL -->
-        <div id="somar " class="modal fade " role="dialog ">
+        <div id="somar" class="modal fade" role="dialog">
             <div class="modal-dialog ">
-                <div class="modal-content ">
+                <div class="modal-content">
                     <div class="modal-header nomeIngredienteHeader ">
-                        <button type="button " class="close " data-dismiss="modal ">&times;</button>
+                        <button type="button" class="close " data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-body ">
-                        <ul id="mensagens-erro-soma "></ul>
-                        <ul id="mensagens-sucesso-soma "></ul>
-                        <form class="form-horizontal " id="formSomar " name="formSomar " method="POST ">
-                            <div class="idIngrediente "></div>
-                            <div class="form-group ">
-                                <label class="col-sm-3 control-label ">Quantidade Atual</label>
-                                <div class="col-xs-3 col-sm-3 quantidadeAtual "></div>
-                                <div class="col-xs-3 col-sm-3 unidadeTxt "></div>
+                    <div class="modal-body">
+                        <ul id="mensagens-erro-soma"></ul>
+                        <ul id="mensagens-sucesso-soma"></ul>
+                        <form class="form-horizontal" id="formSomar" name="formSomar" method="POST">
+                            <div class="idIngrediente"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Quantidade Atual</label>
+                                <div class="col-xs-3 col-sm-3 quantidadeAtual"></div>
+                                <div class="col-xs-3 col-sm-3 unidadeTxt"></div>
                             </div>
-                            <div class="form-group ">
-                                <label class="col-sm-3 control-label ">Preço Unitario</label>
-                                <div class="col-xs-3 col-sm-3 preco_unitario_atual ">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Preço Unitario</label>
+                                <div class="col-xs-3 col-sm-3 preco_unitario_atual">
                                     <h5>R$ 10</h5>
                                 </div>
                             </div>
                             <hr>
-                            <div class="form-group ">
-                                <label class="col-sm-3 control-label ">Quantidade a Somar*</label>
-                                <div class="inputValorTransformado "></div>
-                                <div class="col-xs-3 col-sm-3 inputQtdSoma "></div>
-                                <div class="col-sm-2 listaUnidade ">
-                                    <select onchange="calculaPreco() " class="form-control " id="UnidadeMedidaSoma " style="width: 100%; "></select>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Quantidade a Somar*</label>
+                                <div class="inputValorTransformado"></div>
+                                <div class="col-xs-3 col-sm-3 inputQtdSoma"></div>
+                                <div class="col-sm-2 listaUnidade">
+                                    <select onchange="calculaPreco() " class="form-control " id="UnidadeMedidaSoma" style="width: 100%; "></select>
                                 </div>
                             </div>
-                            <div class="form-group ">
-                                <label class="col-sm-3 control-label ">Preço de Todo Ingrediente</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Preço de Todo Ingrediente</label>
                                 <div class="col-xs-3 col-sm-3 inputPreco ">
                                 </div>
                             </div>
-                            <div class="form-group ">
-                                <label class="col-sm-3 control-label ">Preço Unitario Atualizado</label>
-                                <div class="col-xs-3 col-sm-3 preco_unitario_atualizado ">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Preço Unitario Atualizado</label>
+                                <div class="col-xs-3 col-sm-3 preco_unitario_atualizado">
                                 </div>
                             </div>
-                            <div class="modal-footer ">
-                                <button type="button " class="btn btn-default " data-dismiss="modal ">Cancelar</button>
-                                <button type="button " class="btn btn-success pull-right salvar-soma ">Acrescentar</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default " data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-success pull-right salvar-soma">Acrescentar</button>
                             </div>
                         </form>
                     </div>
@@ -304,41 +304,41 @@
         </div>
         <!-- FIM SOMAR MODAL -->
         <!-- SUBTRAIR MODAL -->
-        <div id="subtrair " class="modal fade " role="dialog ">
-            <div class="modal-dialog ">
-                <div class="modal-content ">
+        <div id="subtrair" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
                     <div class="modal-header nomeIngredienteHeader ">
-                        <button type="button " class="close " data-dismiss="modal ">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-body ">
-                        <ul id="mensagens-erro-subtrair "></ul>
-                        <ul id="mensagens-sucesso-subtrair "></ul>
-                        <form class="form-horizontal " id="formSubtrair " name="subtrair " method="POST ">
-                            <div class="idIngrediente "></div>
+                    <div class="modal-body">
+                        <ul id="mensagens-erro-subtrair"></ul>
+                        <ul id="mensagens-sucesso-subtrair"></ul>
+                        <form class="form-horizontal" id="formSubtrair" name="subtrair" method="POST">
+                            <div class="idIngrediente"></div>
                             <div class="form-group ">
-                                <label class="col-sm-3 control-label ">Quantidade Atual</label>
-                                <div class="col-xs-3 col-sm-3 quantidadeAtual "></div>
-                                <div class="col-xs-3 col-sm-3 unidadeTxt "></div>
+                                <label class="col-sm-3 control-label">Quantidade Atual</label>
+                                <div class="col-xs-3 col-sm-3 quantidadeAtual"></div>
+                                <div class="col-xs-3 col-sm-3 unidadeTxt"></div>
                             </div>
-                            <div class="form-group ">
-                                <label class="col-sm-3 control-label ">Quantidade a Subtrair*</label>
-                                <div class="col-xs-3 col-sm-3 ">
-                                    <input type="text " onkeyup="converteUnidadeSub() " class="form-control qtdSubtrai " placeholder="Quantidade ">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Quantidade a Subtrair*</label>
+                                <div class="col-xs-3 col-sm-3">
+                                    <input type="text" onkeyup="converteUnidadeSub()" class="form-control qtdSubtrai" placeholder="Quantidade">
                                 </div>
-                                <div class="subTransformado "></div>
-                                <div class="col-sm-2 ">
-                                    <select class="form-control " id="unidadeMedidaSubtrai " onchange="converteUnidadeSub() " style="width: 100%; "></select>
+                                <div class="subTransformado"></div>
+                                <div class="col-sm-2">
+                                    <select class="form-control" id="unidadeMedidaSubtrai" onchange="converteUnidadeSub()" style="width: 100%;"></select>
                                 </div>
                             </div>
-                            <div class="form-group ">
+                            <div class="form-group">
                                 <label for="inputMotivo " class="col-sm-1 control-label ">Motivo*</label>
                                 <div class="col-sm-12 ">
-                                    <textarea name="motivo_retirada " type="text " class="form-control motivo " rows="1 " placeholder="Motivo "></textarea>
+                                    <textarea name="motivo_retirada" type="text" class="form-control motivo" rows="1" placeholder="Motivo"></textarea>
                                 </div>
                             </div>
-                            <div class="modal-footer ">
-                                <button type="button " class="btn btn-default " data-dismiss="modal ">Cancelar</button>
-                                <button type="button " class="btn btn-danger pull-right salvar-subtracao ">Subtrair</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger pull-right salvar-subtracao">Subtrair</button>
                             </div>
                         </form>
                     </div>
@@ -348,22 +348,22 @@
         <!-- FIM SUBTRAIR MODAL -->
     </div>
     <!-- jQuery 2.2.3 -->
-    <script src="../js/jquery-2.2.3.min.js "></script>
-    <script src="../js/urls.js "></script>
-    <script src="../js/extra/paginate.js "></script>
-    <script src="../js/extra/estoque/ajaxEstoque.js "></script>
+    <script src="../js/jquery-2.2.3.min.js"></script>
+    <script src="../js/urls.js"></script>
+    <script src="../js/extra/paginate.js"></script>
+    <script src="../js/extra/estoque/ajaxEstoque.js"></script>
     <!-- Bootstrap 3.3.7 -->
-    <script src="../js/bootstrap.min.js "></script>
+    <script src="../js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="../js/app.min.js "></script>
-    <script src="../js/sweetalert.min.js "></script>
-    <script src="../js/extra/estoque/add_editar_ingredientes.js "></script>
-    <script src="../js/extra/estoque/somar_subtrair.js "></script>
-    <script src="../js/extra/estoque/validacao_ingrediente.js "></script>
-    <script src="../js/extra/estoque/validacao_somar_subtrair.js "></script>
-    <script src="../js/extra/estoque/unidades.js "></script>
-    <script src="../js/extra/util.js "></script>
-    <script src="../js/search.js "></script>
+    <script src="../js/app.min.js"></script>
+    <script src="../js/sweetalert.min.js"></script>
+    <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
+    <script src="../js/extra/estoque/somar_subtrair.js"></script>
+    <script src="../js/extra/estoque/validacao_ingrediente.js"></script>
+    <script src="../js/extra/estoque/validacao_somar_subtrair.js"></script>
+    <script src="../js/extra/estoque/unidades.js"></script>
+    <script src="../js/extra/util.js"></script>
+    <script src="../js/search.js"></script>
     <script src="../js/extra/nova-receita/ajaxNovaReceita.js"></script>
 </body>
 
