@@ -51,15 +51,27 @@
     <aside class="main-sidebar">
         <section class="sidebar">
             <!-- Search -->
-            <form action="#" method="get" class="sidebar-form">
-                <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search...">
+            <div class="btn-group sidebar-form">
+                <div class="input-group" data-toggle="dropdown">
+                    <input type="text" class="dropdown-toggle form-control" id="myInput" aria-haspopup="true" aria-expanded="false" placeholder="Procurar.." onkeyup="search()">
+                    </input>
                     <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
+                        <button type="button" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
                 </div>
-            </form>
+                <ul class="dropdown-menu">
+                    <li>
+                        <input class="col-xs-3" type="radio" id="filterIng" name="hah" onclick="getIngredientes()" value="Ingredientes">
+                        <label for="filterIng">Ingredientes</label>
+                    </li>
+                    <li>
+                        <input class="col-xs-3" type="radio" id="filterRec" name="hah" onclick="getReceitas()" value="Receitas">
+                        <label for="filterRec">Receitas</label>
+                    </li>
+                </ul>
+            </div>
             <!-- Search FIM -->
             <!-- sidebar menu -->
             <ul class="sidebar-menu">
@@ -98,87 +110,233 @@
     <!-- ======================================================================================================= -->
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>Abacaxi com Coco</h1>
-        </section>
-        <!-- Main content -->
-        <section class="content">
-            <section class="col-lg-9">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="box">
-                            <div class="box-header">
-                                <h3 class="box-title ">Ingredientes</h3>
-                                <div class="box-body">
-                                    <table id="example2" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Quantidade</th>
-                                                <th>Ingrediente</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Abacaxi</td>
-                                                <td>1 kg</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Arroz</td>
-                                                <td>5 kg</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Coco</td>
-                                                <td>1 kg</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Leite Condensado</td>
-                                                <td>2,5 kg</td>
-                                            </tr>
-                                    </table>
+        <!-- id conteudo_principal seleciona todo o conteudo original, some tudo quando estiver buscando -->
+        <div id="conteudo_principal">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>Abacaxi com Coco</h1>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <section class="col-lg-12">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Ingredientes</h3>
+                                    <div class="box-body">
+                                        <table id="example2" class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ingredientes</th>
+                                                    <th>Quantidade</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="listIngredientes">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title ">Modo de Preparo</h3>
+                                    <div class="box-body" style="border: 1px solid lightgrey" id="modo_preparo">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
-                        <div class="box">
-                            <div class="box-header">
-                                <h3 class="box-title ">Modo de Preparo</h3>
-                                <div class="box-body">
-                                    <table id="example2" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Detalhes do Processo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Abacaxi</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Arroz</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Coco</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Leite Condensado</td>
-                                            </tr>
-                                    </table>
+                </section>
+            </section>
+        </div>
+        <!-- Search será gerado aqui -->
+        <div id="listaSearch" style="display:none;">
+            <!-- CABEÇALHO -->
+            <section class="content-header">
+                <h1>Procurando</h1>
+            </section>
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <!-- MODAIS PARA O SEARCH -->
+                            <!-- ADICIONAR/EDITAR INGREDIENTE MODAL -->
+                            <div id="formIngrediente" class="modal fade" role="dialog">
+                                <div class=" modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header nomeIngredienteHeader">
+                                            <button type="button " class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul id="mensagens-erro"></ul>
+                                            <ul id="mensagens-sucesso"></ul>
+                                            <form id="form-addIngrediente" name="form-addIngrediente" method="POST" class="form-horizontal">
+                                                <div class="box-body">
+                                                    <div class="form-group">
+                                                        <label for="inputIngrediente" class="col-sm-3 control-label">Ingrediente*</label>
+                                                        <div class="col-sm-6 idIngrediente"></div>
+                                                        <div class="col-sm-6 NomeIngrediente"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputCalorias" class="col-sm-3 control-label">Quantidade Calorica*</label>
+                                                        <div class="col-sm-6 QuantidadeCalorica"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputAproveitamento" class="col-sm-3 control-label">Aproveitamento*</label>
+                                                        <div class="col-sm-6 Aproveitamento"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputUnidade " class="col-sm-3 control-label">Unidade*</label>
+                                                        <div class="col-sm-6 listaUnidade">
+                                                            <select name="id_unidades_medida" class="form-control" id="unidadeMedida" style="width: 100%;"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                    <button id="adicionar-ingrediente" type="button" class="btn btn-success pull-right">Salvar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <!-- FIM ADICIONAR/EDITAR INGREDIENTE-->
+                            <!-- SOMAR MODAL -->
+                            <div id="somar" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header nomeIngredienteHeader">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul id="mensagens-erro-soma"></ul>
+                                            <ul id="mensagens-sucesso-soma"></ul>
+                                            <form class="form-horizontal" id="formSomar" name="formSomar" method="POST">
+                                                <div class="idIngrediente"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Quantidade Atual</label>
+                                                    <div class="col-xs-3 col-sm-3 quantidadeAtual"></div>
+                                                    <div class="col-xs-3 col-sm-3 unidadeTxt"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Preço Unitario</label>
+                                                    <div class="col-xs-3 col-sm-3 preco_unitario_atual">
+                                                        <h5>R$ 10</h5>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Quantidade a Somar*</label>
+                                                    <div class="inputValorTransformado"></div>
+                                                    <div class="col-xs-3 col-sm-3 inputQtdSoma"></div>
+                                                    <div class="col-sm-2 listaUnidade">
+                                                        <select onchange="calculaPreco()" name="id_unidades_medida" class="form-control" id="UnidadeMedidaSoma" style="width: 100%;"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Preço de Todo Ingrediente</label>
+                                                    <div class="col-xs-3 col-sm-3 inputPreco">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Preço Unitario Atualizado</label>
+                                                    <div class="col-xs-3 col-sm-3 preco_unitario_atualizado">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer ">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                    <button type="button" class="btn btn-success pull-right salvar-soma">Acrescentar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM SOMAR MODAL -->
+                            <!-- SUBTRAIR MODAL -->
+                            <div id="subtrair" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header nomeIngredienteHeader">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul id="mensagens-erro-subtrair"></ul>
+                                            <ul id="mensagens-sucesso-subtrair"></ul>
+                                            <form class="form-horizontal" id="formSubtrair" name="subtrair" method="POST">
+                                                <div class="idIngrediente"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Quantidade Atual</label>
+                                                    <div class="col-xs-3 col-sm-3 quantidadeAtual"></div>
+                                                    <div class="col-xs-3 col-sm-3 unidadeTxt"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Quantidade a Subtrair*</label>
+                                                    <div class="col-xs-3 col-sm-3">
+                                                        <input type="text" name="quantidade_estoque_ingrediente" class="form-control qtdSubtrai" placeholder="Quantidade">
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <select name="id_unidades_medida" class="form-control" id="unidadeMedidaSubtrai" style="width: 100%;"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputMotivo" class="col-sm-1 control-label">Motivo*</label>
+                                                    <div class="col-sm-12">
+                                                        <textarea name="motivo_retirada" type="text" class="form-control motivo" rows="1" placeholder="Motivo"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                    <button type="button" class="btn btn-danger pull-right salvar-subtracao">Subtrair</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM SUBTRAIR MODAL -->
+                            <!-- FIM MODAIS PARA O SEARCH -->
+                            <!-- header da tabela search sera gerada aqui -->
+                            <div class="box-header search_header">
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-bordered table-hover" id="search">
+                                    <thead class="htmlHead">
+                                    </thead>
+                                    <!-- lista da busca sera gerada aqui -->
+                                    <tbody class="htmlIngList">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-        </section>
+        </div>
+        <!-- FIM search -->
     </div>
     <!-- jQuery 2.2.3 -->
     <script src="../js/jquery-2.2.3.min.js"></script>
+    <script src="../js/sweetalert.min.js "></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="../js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../js/app.min.js"></script>
+    <script src="../js/urls.js"></script>
+    <script src="../js/extra/receita-detalhes/detalhes.js"></script>
+    <script src="../js/extra/util.js"></script>
+    <script src="../js/xunxo.js "></script>
+    <!-- js para funcionar o search -->
+    <script src="../js/search.js"></script>
+    <script src="../js/extra/searchIngredientes.js"></script>
+    <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
+    <script src="../js/extra/estoque/somar_subtrair.js"></script>
+    <script src="../js/extra/estoque/unidades.js"></script>
+    <script src="../js/extra/estoque/validacao_somar_subtrair.js"></script>
 </body>
 
 </html>

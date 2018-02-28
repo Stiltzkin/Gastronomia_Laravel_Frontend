@@ -2,7 +2,7 @@
 var form_addIngrediente = $('#form-addIngrediente');
 
 // ==================== MODAL EDITAR INGREDIENTE ==================== //
-$('.lista-ingredientes').on('click', '.editar', function () {
+$('.lista-ingredientes').on('click', '.editar', function() {
     // seleciona a tag 'tr' do ingrediente especifico
     var thisTr = $(this).closest('tr');
 
@@ -15,12 +15,12 @@ $('.lista-ingredientes').on('click', '.editar', function () {
     $('#unidadeMedida').empty();
 
     // roda a lista de ingredientes
-    $.each(jsonIngrediente, function (indexIngrediente, valIngrediente) {
+    $.each(jsonIngrediente, function(indexIngrediente, valIngrediente) {
         // caso id_ingrediente localizado no html seja igual a id_ingrediente do json ingrediente, pega o json desse ingrediente e mostra na tela
         if (id_ingrediente == valIngrediente.id_ingrediente) {
 
             // roda a lista de unidades e joga na classe#unidadeMedida do html (cria o dropdown com json de unidades)
-            $.each(jsonUnidade, function (indexUnidade, valUnidade) {
+            $.each(jsonUnidade, function(indexUnidade, valUnidade) {
                 $('#unidadeMedida').append($('<option>').text(valUnidade.simbolo_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
             })
 
@@ -54,8 +54,7 @@ $('.lista-ingredientes').on('click', '.editar', function () {
 });
 
 // ==================== MODAL ADICIONAR INGREDIENTE ==================== //
-$('#addIngrediente').on('click', function () {
-
+$('#addIngrediente').on('click', function() {
     limpaMensagens();
 
     // reseta a lista de unidades para kg
@@ -65,7 +64,7 @@ $('#addIngrediente').on('click', function () {
     $('#unidadeMedida').empty();
 
     // roda a lista de unidades e joga na classe#unidadeMedida do html (cria o dropdown com json de unidades)
-    $.each(jsonUnidade, function (indexUnidade, valUnidade) {
+    $.each(jsonUnidade, function(indexUnidade, valUnidade) {
         $('#unidadeMedida').append($('<option>').text(valUnidade.simbolo_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
     })
 

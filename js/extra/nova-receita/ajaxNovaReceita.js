@@ -172,12 +172,14 @@ function postReceita() {
 
     // pega valores do nicEditor
     var nicE = new nicEditors.findEditor('area1');
-    var nicText = nicE.getContent();
+    var saveNicE = nicE.saveContent();
+    // var nicText = nicE.getContent();
 
     var ingredientesOrganizado = organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial);
 
-    ingredientesOrganizado.push({ name: 'modo_preparo_receita', value: nicText });
+    ingredientesOrganizado.push({ name: 'modo_preparo_receita', value: saveNicE });
     console.log(ingredientesOrganizado)
+
     $.ajax({
         type: "POST",
         url: url,

@@ -51,14 +51,16 @@ if (typeof jsonReceita === 'undefined' || typeof jsonObjectClassificacao === 'un
 function mostraReceitas() {
 
     for (var i = 0; i < jsonReceita.length; i++) {
+        load_url();
+
         var row = $('<tr class="id-receita" data-id="' + jsonReceita[i].id_receita + '"></tr>');
         var buttonEdit = '<td><button type="button" class="btn btn-xs editReceita"><i class="fa fa-edit"></i></button></td>';
         var buttonDelete = '<td><button type="button" id="buttonDeletar" class="btn btn-danger btn-xs excluir" ><i class="fa fa-trash-o"></i></button></td>';
         var buttonView = '<td><button type="button" class="btn btn-default btn-xs visualizar"><i class="fa fa-eye" aria-hidden="true"></i></span></button></td>';
 
         $("#tableReceitas").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-        row.append($("<td>" + jsonReceita[i].nome_receita + "</td>"));
-
+        row.append($('<td><a href="#" onclick=onclickDetalhes(this)>' + jsonReceita[i].nome_receita + '</a></td>'));
+        //createReceita + jsonReceita[i].id_receita
         for (var j = 0; j < jsonClassificacao.length; j++) {
             if (jsonReceita[i].id_classificacao == jsonClassificacao[j].id_classificacao) {
                 row.append($("<td>" + jsonClassificacao[j].descricao_classificacao + "</td>"));
@@ -139,7 +141,7 @@ $(".lista-receita").on('click', '.visualizar', function() {
                 load_url();
 
                 var tr = $('<tr id="listaIngredientes" data-id=" + id + "></tr>');
-                var nome_ingrediente = "<td><a href=" + thisIngrediente + id + ">" + jsonReceita[i].pivot[j].nome_ingrediente + "</a></td>";
+                var nome_ingrediente = "<td>" + jsonReceita[i].pivot[j].nome_ingrediente + "</td>";
                 var quantidade_ingrediente = "<td>" + jsonReceita[i].pivot[j].pivot.quantidade_bruta_receita_ingrediente + "</td>";
 
                 for (k = 0; k < jsonUnidade.length; k++) {
@@ -157,3 +159,10 @@ $(".lista-receita").on('click', '.visualizar', function() {
     }
     $("#receitaId").modal('show');
 });
+
+function onclickDetalhes(estaReceita) {
+    var id_receita = $(estaReceita).closest('tr').data('id');
+    sessionStorage.setItem('id_receita', id_receita);
+
+    window.location.href = 'http://localhost:80/Gastronomia_Frontend/html/receita-detalhes.html';
+}
