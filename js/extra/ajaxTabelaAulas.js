@@ -40,6 +40,7 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
   var botaoExcluir = '<td><button type="button" class="btn btn-xs btn-danger excluir"><i class="fa fa-trash"></i></button></td>';
   var botaoEditar = '<td><button class="btn btn-xs editar" type="button"><i class="fa fa-edit"></i></button></td>';
   var botaoAgendarAula = '<td><button class="botaoAgendarAula" type="button">Agendar Aula</button></td>';
+  var botaoDesagendarAula = '<td><button class="botaoDesagendarAula" type="button">Desagendar Aula</button></td>';
   var botaoAulaConcluida = '<td><button class="botaoAulaConcluida" type="button">Aula Concluida</button></td>';
   var botaoDetalhes = '<td><button type="button" class="btn btn-xs botaoDetalhes"><i class="fa fa-eye"></i></button></td>';
 
@@ -80,8 +81,10 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
         }
         // se aula_agendada = true, aula ESTA AGENDADA
         if (valAula.aula_agendada == true && valAula.aula_concluida == false) {
-          $('<td><button type="button" class="btn btn-xs btn-danger excluir_concluida"><i class="fa fa-trash"></i></button></td>').appendTo(htmlList);
-
+          //TODO:: Falta calculos no backend caso o usuario queira deletar uma aula agendada.
+          // descomentar a linha abaixo para habilitar o botao excluir aula_agendada. 
+          // $('<td><button type="button" class="btn btn-xs btn-danger excluir_concluida"><i class="fa fa-trash"></i></button></td>').appendTo(htmlList);
+          $(botaoDesagendarAula).appendTo(htmlList);
           $(botaoAulaConcluida).appendTo(htmlList);
           $(htmlList).appendTo('.listaAulasAgendadas');
         }
@@ -167,10 +170,21 @@ function organizaAulaReceita(aulaSerialized, aulaReceitasSerialized) {
 }
 
 // ===================== DELETE ===================== //
+$('.aulas').on('click', '.excluir_concluida', function() {
+  var thisTr = $(this).closest('tr');
+  idData = thisTr.data('id');
+
+  deletarAula(thisTr, idData);
+})
+
 $('.aulas').on('click', '.excluir', function() {
   var thisTr = $(this).closest('tr');
   idData = thisTr.data('id');
 
+  deletarAula(thisTr, idData);
+})
+
+function deletarAula(thisTr, idData) {
   load_url();
 
   swal({
@@ -200,7 +214,8 @@ $('.aulas').on('click', '.excluir', function() {
       })
     }
   );
-});
+}
+
 
 // === === === === === == CLONAR AULA === === === === === === == //
 $('#verAula').on('click', '.clonar', function() {
