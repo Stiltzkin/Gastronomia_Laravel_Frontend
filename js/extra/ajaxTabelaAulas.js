@@ -81,9 +81,7 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
         }
         // se aula_agendada = true, aula ESTA AGENDADA
         if (valAula.aula_agendada == true && valAula.aula_concluida == false) {
-          //TODO:: Falta calculos no backend caso o usuario queira deletar uma aula agendada.
-          // descomentar a linha abaixo para habilitar o botao excluir aula_agendada. 
-          // $('<td><button type="button" class="btn btn-xs btn-danger excluir_concluida"><i class="fa fa-trash"></i></button></td>').appendTo(htmlList);
+          $('<td><button type="button" class="btn btn-xs btn-danger excluir_concluida"><i class="fa fa-trash"></i></button></td>').appendTo(htmlList);
           $(botaoDesagendarAula).appendTo(htmlList);
           $(botaoAulaConcluida).appendTo(htmlList);
           $(htmlList).appendTo('.listaAulasAgendadas');
