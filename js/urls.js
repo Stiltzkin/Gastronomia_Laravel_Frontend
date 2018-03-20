@@ -1,12 +1,12 @@
 // ========== URLs Frontend ========== //
-const url = "http://localhost:80";
-const urlDashboard = url + /Gastronomia_Frontend/;
-const urlReceitas = "http://localhost:80/Gastronomia_Frontend/html/receitas.html"
-const urlIngredientes = "http://localhost:80/Gastronomia_Frontend/html/estoque.html"
-const urlAulasPlanejar = "http://localhost:80/Gastronomia_Frontend/html/planejar-aulas.html"
-const urlAulasConcluir = "http://localhost:80/Gastronomia_Frontend/html/aulas-concluidas.html"
-const urlReceitaCriar = "http://localhost:80/Gastronomia_Frontend/html/nova-receita.html"
-const urlReceitaDetalhe = "http://localhost:80/Gastronomia_Frontend/html/receita-detalhes.html"
+// const url = "http://localhost:80";
+// const urlDashboard = url + /Gastronomia_Frontend/;
+// const urlReceitas = "http://localhost:80/Gastronomia_Frontend/html/receitas.html"
+// const urlIngredientes = "http://localhost:80/Gastronomia_Frontend/html/estoque.html"
+// const urlAulasPlanejar = "http://localhost:80/Gastronomia_Frontend/html/planejar-aulas.html"
+// const urlAulasConcluir = "http://localhost:80/Gastronomia_Frontend/html/aulas-concluidas.html"
+// const urlReceitaCriar = "http://localhost:80/Gastronomia_Frontend/html/nova-receita.html"
+// const urlReceitaDetalhe = "http://localhost:80/Gastronomia_Frontend/html/receita-detalhes.html"
 
 
 // var patt = /urlFront/g;

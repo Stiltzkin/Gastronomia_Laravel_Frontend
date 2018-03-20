@@ -1,0 +1,51 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Login</title>
+
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="welcome text-center">Welcome to <br> Ice Code</h1>
+    <div class="card card-container">
+      <h2 class='login_title text-center'>Login</h2>
+      <hr>
+
+      <form class="form-signin">
+        <span id="reauth-email" class="reauth-email"></span>
+        <p class="input_title">Usuário</p>
+        <input type="text" id="inputUser" class="login_box" placeholder="Insira o usuário" required autofocus>
+        <p class="input_title">Senha</p>
+        <input type="password" id="inputPassword" class="login_box" placeholder="Insira a senha" required>
+        <div id="remember" class="checkbox">
+          <label>
+
+                      </label>
+        </div>
+        <button class="btn btn-lg btn-primary" id="try_login" type="submit">Login</button>
+      </form>
+      <!-- /form -->
+    </div>
+    <!-- /card-container -->
+  </div>
+  <!-- /container -->
+</body>
+
+<script src="js/axios.min.js"></script>
+<script src="https://use.typekit.net/ayg4pcz.js"></script>
+<script>
+  try {
+    Typekit.load({
+      async: true
+    });
+  } catch (e) {}
+</script>
+
+</html>
