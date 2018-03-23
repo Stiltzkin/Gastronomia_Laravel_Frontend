@@ -8,21 +8,25 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../css/AdminLTE.min.css">
-  <link rel="stylesheet" href="../css/_all-skins.min.css">
+  <link rel="stylesheet" href="css/AdminLTE.min.css">
+  <link rel="stylesheet" href="css/_all-skins.min.css">
+  <link rel="stylesheet" href="css/sweetalert.css">
+  <link rel="stylesheet" href="css/util.css">
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
   <!-- ========================================LAYOUT==================================================== -->
   <div class="wrapper">
     <header class="main-header">
-      <a href="http://localhost:80/Gastronomia_Frontend/dashboard.html" class="logo">
-                <span class="logo-mini"><b>G</b>O</span>
-                <span class="logo-lg"><b>Gastronomia</b>Opet</span>
+      <a href="http://localhost:80/Gastronomia_Frontend/" class="logo">
+                <span class="logo-mini">
+                    <b>G</b>O</span>
+                <span class="logo-lg">
+                    <b>Gastronomia</b>Opet</span>
             </a>
       <nav class="navbar navbar-static-top">
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -77,30 +81,40 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
-          <a href="http://localhost:80/Gastronomia_Frontend/dashboard.html">
-                        <i class="fa fa-bar-chart-o"></i> <span>Dashboard</span>
+          <a href="http://localhost:80/Gastronomia_Frontend/">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span>Dashboard</span>
                     </a>
         </li>
         <li class="treeview">
           <a href="http://localhost:80/Gastronomia_Frontend/html/receitas.html">
-                        <i class="fa fa-book"></i> <span>Receitas</span>
+                        <i class="fa fa-book"></i>
+                        <span>Receitas</span>
                     </a>
         </li>
         <li class="treeview">
           <a href="http://localhost:80/Gastronomia_Frontend/html/estoque.html">
-                        <i class="fa fa-cubes"></i> <span>Estoque</span>
+                        <i class="fa fa-cubes"></i>
+                        <span>Estoque</span>
                     </a>
         </li>
         <li class="treeview">
           <a href="#">
-                        <i class="fa fa-calendar"></i> <span>Aula</span>
+                        <i class="fa fa-calendar"></i>
+                        <span>Aula</span>
                         <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
           <ul class="treeview-menu">
-            <li><a href="http://localhost:80/Gastronomia_Frontend/html/planejar-aulas.html"><i class="fa fa-circle-o"></i>Planejar Aulas</a></li>
-            <li><a href="http://localhost:80/Gastronomia_Frontend/html/aulas-concluidas.html"><i class="fa fa-circle-o"></i>Aulas Concluidas</a></li>
+            <li>
+              <a href="http://localhost:80/Gastronomia_Frontend/html/planejar-aulas.html">
+                                <i class="fa fa-circle-o"></i>Planejar Aulas</a>
+            </li>
+            <li>
+              <a href="http://localhost:80/Gastronomia_Frontend/html/aulas-concluidas.html">
+                                <i class="fa fa-circle-o"></i>Aulas Concluidas</a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -112,45 +126,109 @@
   <div class="content-wrapper">
     <!-- id conteudo_principal seleciona todo o conteudo original, some tudo quando estiver buscando -->
     <div id="conteudo_principal">
-      <!-- Content Header (Page header) -->
+      <!-- CABEÇALHO -->
       <section class="content-header">
-        <h1>Abacaxi com Coco</h1>
+        <h1>Dashboard</h1>
       </section>
       <!-- Main content -->
       <section class="content">
-        <section class="col-lg-12">
-          <div class="row">
-            <div class="col-xs-6">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">Ingredientes</h3>
-                  <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>Ingredientes</th>
-                          <th>Quantidade</th>
-                        </tr>
-                      </thead>
-                      <tbody id="listIngredientes">
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+        <!-- TABELA DE AULAS AGENDADAS -->
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box box-success">
+              <div class="box-header">
+                <h3 class="box-title ">Aulas Agendadas</h3>
               </div>
-            </div>
-            <div class="col-xs-6">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title ">Modo de Preparo</h3>
-                  <div class="box-body" style="border: 1px solid lightgrey" id="modo_preparo">
-                  </div>
-                </div>
+              <div class="box-body">
+                <table class="table table-bordered table-hover aulas">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Descricao</th>
+                      <th>Data</th>
+                      <th>Turno</th>
+                      <th>Nº Receitas</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <!-- lista de aulas agendadas será gerada aqui -->
+                  <tbody class="listaAulasAgendadas"></tbody>
+                </table>
               </div>
             </div>
           </div>
-        </section>
-      </section>
+        </div>
+        <!-- FIM TABELA DE AULAS AGENDADAS -->
+        <!-- MODAL DETALHES DA AULA -->
+        <div id="verAula" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- Header da modal gerada em ajaxPlanejarAulas.js -->
+                <div class="headerDaModal"></div>
+              </div>
+              <div class="modal-body">
+                <div class="box-body">
+                  <table id="receitasDaAula" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>Receitas</th>
+                        <th>Quantidade</th>
+                      </tr>
+                    </thead>
+                    <!-- lista de receitas será gerada aqui -->
+                    <tbody class="receitasQuantidade"></tbody>
+                  </table>
+                </div>
+                <div class="modal-footer rodape"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- FIM MODAL DETALHES DA AULA -->
+        <!-- CARTAS -->
+        <div class="col-lg-4 col-xs-4">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner valorEstoque">
+              <p>Valor do Estoque</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info
+                            <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-xs-4">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner numAulasCriadas">
+            </div>
+            <div class="icon">
+              <i class="fa fa-shopping-cart"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info
+                            <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-xs-4">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner numAulasAgendadas">
+            </div>
+            <div class="icon">
+              <i class="fa fa-thumbs-up"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info
+                            <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+          </div>
+        </div>
+        <!-- FIM CARTAS -->
     </div>
     <!-- Search será gerado aqui -->
     <div id="listaSearch" style="display:none;">
@@ -177,8 +255,8 @@
                         <div class="box-body">
                           <div class="form-group">
                             <label for="inputIngrediente" class="col-sm-3 control-label">Ingrediente*</label>
-                            <div class="col-sm-6 idIngrediente"></div>
-                            <div class="col-sm-6 NomeIngrediente"></div>
+                            <div class="col-sm-6 idIngrediente "></div>
+                            <div class="col-sm-6 NomeIngrediente "></div>
                           </div>
                           <div class="form-group">
                             <label for="inputCalorias" class="col-sm-3 control-label">Quantidade Calorica*</label>
@@ -277,7 +355,7 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Quantidade a Subtrair*</label>
                           <div class="col-xs-3 col-sm-3">
-                            <input type="text" name="quantidade_estoque_ingrediente" class="form-control qtdSubtrai" placeholder="Quantidade">
+                            <input type="text " name="quantidade_estoque_ingrediente" class="form-control qtdSubtrai" placeholder="Quantidade">
                           </div>
                           <div class="col-sm-2">
                             <select name="id_unidades_medida" class="form-control" id="unidadeMedidaSubtrai" style="width: 100%;"></select>
@@ -319,26 +397,37 @@
     </div>
     <!-- FIM search -->
   </div>
+  </section>
+  </div>
+  <!-- /.content -->
+  <script src="js/urls.js"></script>
   <!-- jQuery 2.2.3 -->
-  <script src="../js/jquery-2.2.3.min.js"></script>
-  <script src="../js/axios.min.js"></script>
-  <script src="../js/extra/ajax.js"></script>
-  <script src="../js/sweetalert.min.js "></script>
+  <script src="js/jquery-2.2.3.min.js"></script>
+  <script src="js/axios.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script src="../js/bootstrap.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/xunxo.js "></script>
   <!-- AdminLTE App -->
-  <script src="../js/app.min.js"></script>
-  <script src="../js/urls.js"></script>
-  <script src="../js/extra/receita-detalhes/detalhes.js"></script>
-  <script src="../js/extra/util.js"></script>
-  <script src="../js/xunxo.js "></script>
+  <script src="js/app.min.js"></script>
+  <script src="js/sweetalert.min.js "></script>
+  <script src="js/extra/ajax.js"></script>
+  <script src="js/extra/aula/ajaxTabelaAulas.js"></script>
+  <!-- paginate acho que nao precisa -->
+  <script src="js/extra/paginate.js"></script>
+  <script src="js/extra/searchIngredientes.js"></script>
+  <!-- <script src="js/extra/aula/modal_add_editar_detalhes_aulas.js"></script> -->
+  <script src="js/extra/dashboard/cartas.js"></script>
   <!-- js para funcionar o search -->
-  <script src="../js/search.js"></script>
-  <script src="../js/extra/searchIngredientes.js"></script>
-  <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
-  <script src="../js/extra/estoque/somar_subtrair.js"></script>
-  <script src="../js/extra/estoque/unidades.js"></script>
-  <script src="../js/extra/estoque/validacao_somar_subtrair.js"></script>
+  <!-- <script src="js/search.js"></script>
+  <script src="js/extra/receita/ajaxListReceitas.js"></script>
+  <script src="js/extra/receita/ajaxNovaReceita.js"></script>
+  <script src="js/extra/estoque/add_editar_ingredientes.js"></script>
+  <script src="js/extra/estoque/somar_subtrair.js"></script>
+  <script src="js/extra/util.js"></script>
+  <script src="js/extra/estoque/unidades.js"></script>
+  <script src="js/extra/aula/concluir_aula.js"></script>
+  <script src="js/extra/aula/deletar_aula.js"></script>
+  <script src="js/extra/estoque/validacao_somar_subtrair.js"></script> -->
 </body>
 
 </html>

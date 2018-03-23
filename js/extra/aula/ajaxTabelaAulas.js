@@ -4,9 +4,6 @@ for (var i = 0; i < listArray.length; i++) {
   if (listArray[i].key == "listAula") {
     var listAula = listArray[i].value;
   }
-  if (listArray[i].key == "listIngrediente") {
-    var listIngrediente = listArray[i].value;
-  }
   if (listArray[i].key == "listReceita") {
     var listReceita = listArray[i].value;
   }
@@ -15,24 +12,15 @@ for (var i = 0; i < listArray.length; i++) {
   }
 }
 
-// verifica se foi dado get das receitas, aulas e periodo, caso nao tenha dado ele dará get aqui
-if (typeof jsonAula === 'undefined' || typeof jsonReceita === 'undefined' || typeof jsonPeriodo === 'undefined') {
-  $.getJSON(listPeriodo, function(jsonObjectPeriodo) {
-    jsonPeriodo = jsonObjectPeriodo.data;
-    // get da tabela de aulas
-    $.getJSON(listAula, function(jsonObjectAula) {
-      jsonAula = jsonObjectAula.data;
-      // get da tabela de receitas
-      $.getJSON(listReceita, function(jsonObjectReceita) {
-        jsonReceita = jsonObjectReceita.data;
-        getTabela(jsonAula, jsonReceita, jsonPeriodo);
-      })
-    })
-  })
+var jsonAula, jsonPeriodo, jsonReceita;
+var urlNames = ["listAula", "listReceita", "listPeriodo"];
+var urlValues = [listAula, listReceita, listPeriodo];
 
-} else {
-  getTabela(jsonAula, jsonReceita, jsonPeriodo);
-}
+$.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2])).done(function(jsonAula, jsonPeriodo, jsonReceita) {
+    getTabela(jsonAula, jsonReceita, jsonPeriodo);
+  })
+})
 
 function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
 

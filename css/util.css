@@ -1,24 +1,12 @@
 /* Mensagens de Validação */
 
-#mensagens-erro-aula,
-#mensagens-ing-receita-erro,
-#mensagens-erro,
-#mensagens-erro-soma,
-#mensagens-erro-subtrair {
-    color: red;
+.mensagens-erro, color: red;
 }
-
-#mensagens-sucesso-aula,
-#mensagens-sucesso-soma,
-#mensagens-sucesso,
-#mensagens-sucesso-subtrair {
-    color: green;
-}
-
 
 /* Cor dos Hiperlink */
 
-#hipertextColor,
-.hipertextColor {
-    color: black;
+#hipertextColor, .hipertextColor {
+  color: black;
 }
+
+#mensagens-ing-receita-erro, color: red;

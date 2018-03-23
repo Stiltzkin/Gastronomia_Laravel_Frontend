@@ -1,33 +1,43 @@
 // ==================== SOMAR ==================== //
 // botao adiconar mais ingredientes do search
 $('#search').on('click', '.addButton', function() {
-  window.thisIng = this;
-  getThingsSoma();
+  var thisIng = this;
+  getThingsSoma(thisIng);
 });
 
 // botao adiconar mais ingredientes de estoque.html
 $('.lista-ingredientes').on('click', '.addButton', function() {
-  window.thisIng = this;
-  getThingsSoma();
+  var thisIng = this;
+  getThingsSoma(thisIng);
 });
 
-function getThingsSoma() {
-  if (typeof jsonIngrediente === 'undefined' || typeof jsonUnidade === 'undefined') {
-    $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
-      jsonIngrediente = jsonObjectIngrediente;
-
-      // get da tabela de unidades
-      $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
-        jsonUnidade = jsonObjectUnidade;
-        addButton();
+function getThingsSoma(thisIng) {
+  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null || window.gjsonIngrediente == null || typeof(window.gjsonIngrediente) === undefined) {
+    for (var i = 0; i < listArray.length; i++) {
+      if (listArray[i].key == "listUnidadeMedida") {
+        var listUnidadeMedida = listArray[i].value;
+      }
+      if (listArray[i].key == "listIngrediente") {
+        var listIngrediente = listArray[i].value;
+      }
+    }
+    var urlNames = ["unidade", "listIngrediente"];
+    var urlValues = [listUnidadeMedida, listIngrediente];
+    $.when(validaToken()).done(function() {
+      $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
+        window.gjsonUnidade = jsonUnidade;
+        window.gjsonIngrediente = jsonIngrediente;
+        addButton(jsonUnidade, jsonIngrediente, thisIng);
       })
     })
   } else {
-    addButton();
-  };
+    var jsonUnidade = window.gjsonUnidade;
+    var jsonIngrediente = window.gjsonIngrediente;
+    addButton(jsonUnidade, jsonIngrediente, thisIng);
+  }
 }
 
-function addButton() {
+function addButton(jsonUnidade, jsonIngrediente, thisIng) {
   // limpa valor calculado
   $('.preco_unitario_atualizado').empty();
 
@@ -138,60 +148,51 @@ function postAdd() {
   load_url();
 
   var formSomaArray = formSoma.serializeArray();
-  ajax(formSomaArray, somaIngrediente);
-  // $.ajax({
-  //   type: "POST",
-  //   url: somaIngrediente,
-  //   dataType: "json",
-  //   data: formSomaArray,
-  //   success: function() {
-  //     $('#somar').modal("hide");
-  //     swal({
-  //         title: "Sucesso!",
-  //         text: "Ingrediente somado com sucesso!",
-  //         type: "success"
-  //       },
-  //       function() {
-  //         location.reload();
-  //       }
-  //     )
-  //   },
-  //   error: function(xhr, error) {
-  //     $('#mensagens-erro-soma').append('Erro ao acrescentar ingrediente.');
-  //   },
-  // });
+
+  $.when(validaToken()).done(function() {
+    postAjax(formSomaArray, somaIngrediente);
+  })
 }
 
 // ==================== SUBTRAIR ==================== //
 // botao adiconar mais ingredientes do search
 $('#search_ingredientes').on('click', '.subButton', function() {
-  window.thisIng = this;
-  getThingsSubtrai();
+  var thisIng = this;
+  getThingsSubtrai(thisIng);
 });
 
 $('.lista-ingredientes').on('click', '.subButton', function() {
-  window.thisIng = this;
-  getThingsSubtrai();
+  var thisIng = this;
+  getThingsSubtrai(thisIng);
 })
 
-function getThingsSubtrai() {
-  if (typeof jsonIngrediente === 'undefined' || typeof jsonUnidade === 'undefined') {
-    $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
-      jsonIngrediente = jsonObjectIngrediente;
-
-      // get da tabela de unidades
-      $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
-        jsonUnidade = jsonObjectUnidade;
-        subButton();
+function getThingsSubtrai(thisIng) {
+  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null || window.gjsonIngrediente == null || typeof(window.gjsonIngrediente) === undefined) {
+    for (var i = 0; i < listArray.length; i++) {
+      if (listArray[i].key == "listUnidadeMedida") {
+        var listUnidadeMedida = listArray[i].value;
+      }
+      if (listArray[i].key == "listIngrediente") {
+        var listIngrediente = listArray[i].value;
+      }
+    }
+    var urlNames = ["unidade", "listIngrediente"];
+    var urlValues = [listUnidadeMedida, listIngrediente];
+    $.when(validaToken()).done(function() {
+      $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
+        window.gjsonUnidade = jsonUnidade;
+        window.gjsonIngrediente = jsonIngrediente;
+        subButton(jsonUnidade, jsonIngrediente, thisIng);
       })
     })
   } else {
-    subButton();
-  };
-}
+    var jsonUnidade = window.gjsonUnidade;
+    var jsonIngrediente = window.gjsonIngrediente;
+    subButton(jsonUnidade, jsonIngrediente, thisIng);
+  }
+};
 
-
-function subButton() {
+function subButton(jsonUnidade, jsonIngrediente, thisIng) {
   limpaMensagens();
 
   //seleciona a 'tr' do ingrediente especifico
@@ -277,27 +278,8 @@ function postSub() {
   load_url();
 
   var formSubtrairArray = $('#formSubtrair').serializeArray();
-  console.log(formSubtrairArray);
-  ajax(formSubtrairArray, subtraiIngrediente);
-  // $.ajax({
-  //   type: "POST",
-  //   url: subtraiIngrediente,
-  //   dataType: "json",
-  //   data: formSubtrairArray,
-  //   success: function() {
-  //     $('#subtrair').modal("hide");
-  //     swal({
-  //         title: "Sucesso!",
-  //         text: "Ingrediente retirado com sucesso!",
-  //         type: "success"
-  //       },
-  //       function() {
-  //         location.reload();
-  //       }
-  //     )
-  //   },
-  //   error: function(xhr, message) {
-  //     $('#mensagens-erro-subtrair').append(message, xhr);
-  //   },
-  // });
+
+  $.when(validaToken()).done(function() {
+    postAjax(formSubtrairArray, subtraiIngrediente);
+  })
 };

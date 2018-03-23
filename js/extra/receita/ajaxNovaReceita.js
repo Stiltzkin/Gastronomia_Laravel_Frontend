@@ -1,11 +1,8 @@
 for (var i = 0; i < listArray.length; i++) {
-  if (listArray[i].key == "listReceita") {
-    var listReceita = listArray[i].value;
-  }
   if (listArray[i].key == "listIngrediente") {
     var listIngrediente = listArray[i].value;
   }
-  if (listArray[i].key == "listUndiadeMedida") {
+  if (listArray[i].key == "listUnidadeMedida") {
     var listUnidadeMedida = listArray[i].value;
   }
   if (listArray[i].key == "listClassificacao") {
@@ -16,26 +13,25 @@ for (var i = 0; i < listArray.length; i++) {
   }
 }
 
-// get Classificacao e Categoria
-if (typeof jsonObjectClassificacao === 'undefined' || typeof jsonObjectCategoria === 'undefined') {
-  // get da tabela de unidades
-  $.getJSON(listClassificacao, function(jsonObjectClassificacao) {
-    jsonClassificacao = jsonObjectClassificacao.data;
-    $.getJSON(listCategoria, function(jsonObjectCategoria) {
-      jsonCategoria = jsonObjectCategoria.data;
-      mostraClasseCate();
-      dropdownIngredientes();
-    })
-  })
-} else {
-  mostraClasseCate();
-  dropdownIngredientes();
-}
+var paginate, jsonUnidade;
+var urlNames = ["listClassificacao", "listCategoria", "listIngrediente", "unidade"];
+var urlValues = [listClassificacao, listCategoria, listIngrediente, listUnidadeMedida];
 
+$.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2]), getAjax(urlNames[3], urlValues[3])).done(function(jsonClassificacao, jsonCategoria, jsonIngrediente, jsonUnidade) {
+    mostraClasseCate(jsonClassificacao, jsonCategoria);
+    dropdownIngredientes(jsonIngrediente, jsonUnidade);
+
+    window.gjsonClassificacao = jsonClassificacao;
+    window.gjsonCategoria = jsonCategoria;
+    window.gjsonIngrediente = jsonIngrediente;
+    window.gjsonUnidade = jsonUnidade;
+  })
+})
 
 
 // Monta lista de Classificacao e Categoria
-function mostraClasseCate() {
+function mostraClasseCate(jsonClassificacao, jsonCategoria) {
   //$('#select2').find('option').
   for (var i = 0; i < jsonCategoria.length; i++) {
     $('#categoria').append("<option value=" + jsonCategoria[i].id_categoria + ">" + jsonCategoria[i].descricao_categoria + "</option>");
@@ -51,27 +47,9 @@ function postCategoria() {
   var form = $('#form-addCategoria').serialize();
   load_url();
 
-  $.ajax({
-    type: "POST",
-    url: createCategoria,
-    dataType: "json",
-    data: form,
-    success: function() {
-      $('.classCategoriaHeader').modal("hide");
-      swal({
-          title: "Sucesso!",
-          text: "Categoria criado com sucesso!",
-          type: "success"
-        },
-        function() {
-          location.reload();
-        }
-      )
-    },
-    error: function() {
-      $('#mensagens-erro').append('Problemas no cadastro da Categoria');
-    }
-  });
+  $.when(validaToken()).done(function() {
+    postAjax(form, createCategoria);
+  })
 }
 
 
@@ -81,54 +59,19 @@ function postClassificacao() {
   var form = $('#form-addClassificacao').serialize();
   load_url();
 
-  $.ajax({
-    type: "POST",
-    url: createClassificacao,
-    dataType: "json",
-    data: form,
-    success: function() {
-      $('.classClassificacaoHeader').modal("hide");
-      swal({
-          title: "Sucesso!",
-          text: "Classificação criada com sucesso!",
-          type: "success"
-        },
-        function() {
-          location.reload();
-        }
-      )
-    },
-    error: function() {
-      $('#mensagens-erro').append('Problemas no cadastro da Classificação');
-    }
-  });
+  $.when(validaToken()).done(function() {
+    postAjax(form, createClassificacao);
+  })
 }
 
 // Monta a table de ingredientes
-function dropdownIngredientes() {
+function dropdownIngredientes(jsonIngrediente, jsonUnidade) {
+  for (var i = 0; i < jsonIngrediente.length; i++) {
+    $('#nomeIngredientes').append("<option value=" + jsonIngrediente[i].id_ingrediente + ">" + jsonIngrediente[i].nome_ingrediente + "</option>");
 
-  if (typeof jsonObjectIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
-    $.getJSON(listIngrediente, function(jsonObjectIngrediente) {
-      jsonIngrediente = jsonObjectIngrediente.data;
-
-      // get da tabela de unidades
-      $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
-        jsonUnidade = jsonObjectUnidade.data;
-        listIngredientes();
-      })
-    })
-  } else {
-    listIngredientes();
-  };
-
-  function listIngredientes() {
-    for (var i = 0; i < jsonIngrediente.length; i++) {
-      $('#nomeIngredientes').append("<option value=" + jsonIngrediente[i].id_ingrediente + ">" + jsonIngrediente[i].nome_ingrediente + "</option>");
-
-      for (var j = 0; j < jsonUnidade.length; j++) {
-        if (jsonIngrediente[i].id_unidade_medida == jsonUnidade[j].id_unidade_medida) {
-          $('#unidade').append("<option>" + jsonUnidade[j].simbolo_unidade_medida + "</option>");
-        }
+    for (var j = 0; j < jsonUnidade.length; j++) {
+      if (jsonIngrediente[i].id_unidade_medida == jsonUnidade[j].id_unidade_medida) {
+        $('#unidade').append("<option>" + jsonUnidade[j].simbolo_unidade_medida + "</option>");
       }
     }
   }
@@ -143,6 +86,7 @@ $('#tableReceitas').on('click', '.editReceita', function() {
 
   window.location.href = 'http://localhost:80/Gastronomia_Frontend/html/nova-receita.html';
 })
+
 $('#search').on('click', '.editar', function() {
   alert('oi')
   idData = $(this).closest('tr').data('id');
@@ -156,25 +100,23 @@ $('#search').on('click', '.editar', function() {
 // =========== AJAX POST PUT =========== //]
 $('#salvarReceita').on('click', function() {
   load_url();
-  url = createReceita;
+  var url = createReceita;
   postReceita(url);
 })
 
 function updateReceita() {
   // $('.box-center').on('click', '#editarReceita', function() {
   load_url();
-  url = updateReceita
+  var url = updateReceita
   postReceita(url);
   // })
 }
 
-
-function postReceita() {
+function postReceita(url) {
   var receitaSerial = $('#formReceita').serializeArray();
   var receitaIngredienteSerial = $('#formIngredientes').serializeArray();
 
   var ContentFromEditor = CKEDITOR.instances.editor.getData();
-  // var dataString = $("#modo_preparo").serialize();
 
   var ingredientesOrganizado = organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial);
 
@@ -184,30 +126,9 @@ function postReceita() {
   });
   console.log(ingredientesOrganizado)
 
-  $.ajax({
-    type: "POST",
-    url: url,
-    dataType: "json",
-    data: ingredientesOrganizado,
-    success: function() {
-      swal({
-          title: "Receita criada/editada com sucesso.",
-          type: "success"
-        },
-        function() {
-          location.reload();
-        }
-      )
-    },
-    error: function() {
-      swal({
-        title: "Problemas ao criar/editar receita",
-        type: "error",
-        confirmButtonText: "Ok",
-        confirmButtonColor: "#DD6B55",
-      })
-    }
-  });
+  $.when(validaToken()).done(function() {
+    postAjax(ingredientesOrganizado, url);
+  })
 }
 
 function organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial) {

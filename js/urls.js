@@ -17,14 +17,15 @@
 //   matchedPatt.replace(patt, url);
 // }
 
-
+window.auth = "http://localhost:8000/oauth/token"
+window.userlist = "http://localhost:8000/api/userlist"
 // ========== LIST ========== //
 window.listArray = [{
     "key": "listIngrediente",
     "value": "http://localhost:8000/api/ingredientes/listall"
   },
   {
-    "key": "listUndiadeMedida",
+    "key": "listUnidadeMedida",
     "value": "http://localhost:8000/api/unidades/"
   },
   {
@@ -58,7 +59,6 @@ function show(pg, qtd, tipo) {
     var showReceita = "http://localhost:8000/api/receitas?page=" + pg + "&qtd=" + qtd + "";
     return showReceita;
   }
-
 }
 
 // ========== LIST fim ========== //
@@ -100,11 +100,3 @@ function load_url() {
   window.updateClassificacao = 'http://localhost:8000/api/classificacoes/update/' + idData + '';
   window.deleteClassificacao = 'http://localhost:8000/api/classificacoes/delete/' + idData + '';
 }
-
-// JSONs ARMAZENDADOS para serem utilizados em todos os lugares
-window.jsonUnidade;
-window.jsonIngrediente;
-window.jsonAula;
-window.jsonReceita;
-window.jsonPaginateIngrediente;
-window.jsonPaginate;

@@ -11,14 +11,27 @@ function getUrl(tipo) {
   var pg = sessionStorage.getItem('pg');
   var qtd = sessionStorage.getItem('qtd');
 
-  // chamado em urls.js
-  var urlShow;
-  if (sessionStorage.getItem('urlShow') == null) {
-    urlShow = show(pg, qtd, tipo);
-  } else {
-    urlShow = sessionStorage.getItem('urlShow');
+  if (tipo == "ingrediente") {
+    // chamado em urls.js
+    var urlShowIng;
+    if (sessionStorage.getItem('urlShowIng') == null) {
+      urlShowIng = show(pg, qtd, tipo);
+    } else {
+      urlShowIng = sessionStorage.getItem('urlShowIng');
+    }
+    return urlShowIng;
   }
-  return urlShow;
+  if (tipo == "receita") {
+    // chamado em urls.js
+    var urlShowRec;
+    if (sessionStorage.getItem('urlShowRec') == null) {
+      urlShowRec = show(pg, qtd, tipo);
+    } else {
+      urlShowRec = sessionStorage.getItem('urlShowRec');
+    }
+    return urlShowRec;
+  }
+
 }
 
 // chamado em select de estoque.html

@@ -1,5 +1,4 @@
 // ==================== GET ===================== //
-
 for (var i = 0; i < listArray.length; i++) {
   if (listArray[i].key == "listReceita") {
     var listReceita = listArray[i].value;
@@ -7,7 +6,7 @@ for (var i = 0; i < listArray.length; i++) {
   if (listArray[i].key == "listIngrediente") {
     var listIngrediente = listArray[i].value;
   }
-  if (listArray[i].key == "listUndiadeMedida") {
+  if (listArray[i].key == "listUnidadeMedida") {
     var listUnidadeMedida = listArray[i].value;
   }
   if (listArray[i].key == "listClassificacao") {
@@ -22,54 +21,48 @@ var tipo = "receita";
 // chamado em paginate.js
 var urlShowReceitas = getUrl(tipo);
 
-// get da tabela de ingredientes
-var paginate;
-if (typeof jsonReceita === 'undefined' || typeof jsonObjectClassificacao === 'undefined' || typeof jsonObjectCategoria === 'undefined') {
-  $.getJSON(urlShowReceitas, function(jsonObjectReceita) {
-    jsonReceita = jsonObjectReceita.data.data;
-    paginate = jsonObjectReceita.data;
+var paginate, jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria;
+var urlNames = ["receita_paginate", "listIngrediente", "unidade", "listClassificacao", "listCategoria"];
+var urlValues = [urlShowReceitas, listIngrediente, listUnidadeMedida, listClassificacao, listCategoria];
 
-    // get da tabela de unidades
-    $.getJSON(listClassificacao, function(jsonObjectClassificacao) {
-      jsonClassificacao = jsonObjectClassificacao.data;
+$.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2]), getAjax(urlNames[3], urlValues[3]), getAjax(urlNames[4], urlValues[4])).done(function(paginate, jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria) {
+    var jsonPaginateReceita = paginate.data;
+    mostraReceitas(jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria, jsonPaginateReceita);
 
-      $.getJSON(listCategoria, function(jsonObjectCategoria) {
-        jsonCategoria = jsonObjectCategoria.data;
-        mostraReceitas();
-        salvaUrlPaginas(paginate);
-        botoesPaginacao(paginate);
-      })
-    })
+    //chamado em paginate.js
+    salvaUrlPaginas(paginate);
+    botoesPaginacao(paginate);
+
+    window.gjsonPaginateReceita = jsonPaginateReceita;
+    window.gjsonUnidade = jsonUnidade;
+    window.gjsonCategoria = jsonCategoria;
+    window.gjsonClassificacao = jsonClassificacao;
   })
-} else {
-  mostraReceitas();
-  salvaUrlPaginas(paginate);
-  botoesPaginacao(paginate);
-};
-
+})
 
 // ================== LISTAR RECEITAS =================== // Ok
-function mostraReceitas() {
+function mostraReceitas(jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria, jsonPaginateReceita) {
 
-  for (var i = 0; i < jsonReceita.length; i++) {
+  for (var i = 0; i < jsonPaginateReceita.length; i++) {
     load_url();
 
-    var row = $('<tr class="id-receita" data-id="' + jsonReceita[i].id_receita + '"></tr>');
+    var row = $('<tr class="id-receita" data-id="' + jsonPaginateReceita[i].id_receita + '"></tr>');
     var buttonEdit = '<td><button type="button" class="btn btn-xs editReceita"><i class="fa fa-edit"></i></button></td>';
     var buttonDelete = '<td><button type="button" id="buttonDeletar" class="btn btn-danger btn-xs excluir" ><i class="fa fa-trash-o"></i></button></td>';
     var buttonView = '<td><button type="button" class="btn btn-default btn-xs visualizar"><i class="fa fa-eye" aria-hidden="true"></i></span></button></td>';
 
     $("#tableReceitas").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-    row.append($('<td><a href="#" onclick=onclickDetalhes(this)>' + jsonReceita[i].nome_receita + '</a></td>'));
+    row.append($('<td><a href="#" onclick=onclickDetalhes(this)>' + jsonPaginateReceita[i].nome_receita + '</a></td>'));
     //createReceita + jsonReceita[i].id_receita
     for (var j = 0; j < jsonClassificacao.length; j++) {
-      if (jsonReceita[i].id_classificacao == jsonClassificacao[j].id_classificacao) {
+      if (jsonPaginateReceita[i].id_classificacao == jsonClassificacao[j].id_classificacao) {
         row.append($("<td>" + jsonClassificacao[j].descricao_classificacao + "</td>"));
       }
     }
 
     for (var k = 0; k < jsonCategoria.length; k++) {
-      if (jsonReceita[i].id_categoria == jsonCategoria[k].id_categoria) {
+      if (jsonPaginateReceita[i].id_categoria == jsonCategoria[k].id_categoria) {
         row.append($("<td>" + jsonCategoria[k].descricao_categoria + "</td>"));
       }
     }
@@ -107,22 +100,8 @@ function excluir_receita(idData, thisTr) {
       closeOnConfirm: false,
     },
     function() {
-      $.ajax(deleteReceita, {
-        type: 'POST',
-        success: function() {
-          swal({
-              title: "Receita removida com sucesso!",
-              type: "success",
-            }),
-            // remove o ingrediente da lista no html
-            $(thisTr).remove();
-        },
-        error: function() {
-          swal({
-            title: "Problemas ao remover a Receita",
-            type: "error",
-          })
-        },
+      $.when(validaToken()).done(function() {
+        postAjax(null, deleteReceita);
       })
     }
   )
@@ -131,34 +110,54 @@ function excluir_receita(idData, thisTr) {
 // ============== VISUALIZAR RECEITA DETALHES =================== //
 $(".lista-receita").on('click', '.visualizar', function() {
   $("#ingredientesList").empty();
+  var thisTr = $(this);
 
-  var id_receita = $(this).closest('tr').data('id');
-  // sessionStorage.setItem('this_receita', id_receita);
-  for (var i = 0; i < jsonReceita.length; i++) {
-    if (id_receita == jsonReceita[i].id_receita) {
-      var pivot = jsonReceita[i].pivot;
-      for (var j = 0; j < pivot.length; j++) {
-        var id = jsonReceita[i].pivot[j].pivot.id_ingrediente;
-        load_url();
+  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null || typeof(window.gjsonPaginateReceita) === undefined || window.gjsonPaginateReceita == null) {
+    var paginate, jsonUnidade;
+    var urlNames = ["receita_paginate", "unidade"];
+    var urlValues = [urlShowReceitas, listUnidadeMedida];
 
-        var tr = $('<tr id="listaIngredientes" data-id=" + id + "></tr>');
-        var nome_ingrediente = "<td>" + jsonReceita[i].pivot[j].nome_ingrediente + "</td>";
-        var quantidade_ingrediente = "<td>" + jsonReceita[i].pivot[j].pivot.quantidade_bruta_receita_ingrediente + "</td>";
+    $.when(validaToken()).done(function() {
+      $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(paginate, jsonUnidade) {
+        var jsonPaginateReceita = paginate.data;
+        mostraDetalhesReceita(jsonPaginateReceita, jsonUnidade, thisTr);
+      })
+    })
+  } else {
+    var jsonPaginateReceita = window.gjsonPaginateReceita;
+    var jsonUnidade = window.gjsonUnidade;
+    mostraDetalhesReceita(jsonPaginateReceita, jsonUnidade, thisTr);
+  }
 
-        for (k = 0; k < jsonUnidade.length; k++) {
-          if (jsonUnidade[k].id_unidade_medida == jsonReceita[i].pivot[j].id_unidade_medida) {
-            var unidade = "<td>" + jsonUnidade[k].simbolo_unidade_medida + "</td>";
+  function mostraDetalhesReceita(jsonPaginateReceita, jsonUnidade, thisTr) {
+    var id_receita = thisTr.closest('tr').data('id');
+    // sessionStorage.setItem('this_receita', id_receita);
+    for (var i = 0; i < jsonPaginateReceita.length; i++) {
+      if (id_receita == jsonPaginateReceita[i].id_receita) {
+        var pivot = jsonPaginateReceita[i].pivot;
+        for (var j = 0; j < pivot.length; j++) {
+          var id = jsonPaginateReceita[i].pivot[j].pivot.id_ingrediente;
+          load_url();
+
+          var tr = $('<tr id="listaIngredientes" data-id=" + id + "></tr>');
+          var nome_ingrediente = "<td>" + jsonPaginateReceita[i].pivot[j].nome_ingrediente + "</td>";
+          var quantidade_ingrediente = "<td>" + jsonPaginateReceita[i].pivot[j].pivot.quantidade_bruta_receita_ingrediente + "</td>";
+
+          for (k = 0; k < jsonUnidade.length; k++) {
+            if (jsonUnidade[k].id_unidade_medida == jsonPaginateReceita[i].pivot[j].id_unidade_medida) {
+              var unidade = "<td>" + jsonUnidade[k].simbolo_unidade_medida + "</td>";
+            }
           }
-        }
 
-        $(nome_ingrediente).appendTo(tr);
-        $(quantidade_ingrediente).appendTo(tr);
-        $(unidade).appendTo(tr);
-        $('#ingredientesList').append(tr);
+          $(nome_ingrediente).appendTo(tr);
+          $(quantidade_ingrediente).appendTo(tr);
+          $(unidade).appendTo(tr);
+          $('#ingredientesList').append(tr);
+        }
       }
     }
+    $("#receitaId").modal('show');
   }
-  $("#receitaId").modal('show');
 });
 
 function onclickDetalhes(estaReceita) {

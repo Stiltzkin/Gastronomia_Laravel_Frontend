@@ -1,12 +1,12 @@
 // ==================== GET ===================== //
-
 $(document).ready(function() {
   for (var i = 0; i < listArray.length; i++) {
-    if (listArray[i].key == "listUndiadeMedida") {
+    if (listArray[i].key == "listUnidadeMedida") {
       var listUnidadeMedida = listArray[i].value;
     }
   }
 
+  // chamado em paginate.js
   if (typeof(getUrl(tipo)) === undefined) {
     searchIngrediente();
     return;
@@ -14,38 +14,23 @@ $(document).ready(function() {
   var tipo = "ingrediente";
   var urlShowIngrediente = getUrl(tipo);
 
-  var paginate;
-  if (typeof jsonPaginateIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
+  var paginate, jsonUnidade, jsonPaginateIngrediente;
+  var urlNames = ["ingrediente_paginate", "unidade"];
+  var urlValues = [urlShowIngrediente, listUnidadeMedida];
 
-    var objectsType = ["ingrediente_paginate", "unidade"];
-    paginate = getThings(urlShowIngrediente, listUnidadeMedida, null, objectsType, paginate);
+  $.when(validaToken()).done(function() {
+    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(paginate, jsonUnidade) {
+      jsonPaginateIngrediente = paginate.data;
+      mostraIngredientes(jsonPaginateIngrediente, jsonUnidade);
 
-    salvaUrlPaginas(paginate);
-    botoesPaginacao(paginate);
-    //   $.getJSON(urlShowIngrediente, function(jsonObjectIngrediente) {
-    //     jsonPaginateIngrediente = jsonObjectIngrediente.data.data;
-    //     paginate = jsonObjectIngrediente.data;
-    //
-    //     $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
-    //       jsonUnidade = jsonObjectUnidade.data;
-    //       mostraIngredientes();
-    //       salvaUrlPaginas(paginate);
-    //       botoesPaginacao(paginate);
-    //     })
-    //   })
-    // } else {
-    //   mostraIngredientes();
-    //   salvaUrlPaginas(paginate);
-    //   botoesPaginacao(paginate);
-    // };
-  } else {
-    salvaUrlPaginas(paginate);
-    botoesPaginacao(paginate);
-  }
+      salvaUrlPaginas(paginate);
+      botoesPaginacao(paginate);
+    })
+  })
 })
 
 
-function mostraIngredientes() {
+function mostraIngredientes(jsonPaginateIngrediente, jsonUnidade) {
   // cria os botoes dos ingredientes
   var botaoAdd = '<td><button type="button" class="btn btn-xs addButton"><i class="fa fa-plus"></i></button></td>';
   var botaoSubtract = '<td><button type="button" class="btn btn-danger btn-xs subButton"><i class="fa fa-minus"></i></button></td>';
@@ -99,29 +84,9 @@ function postJson() {
     var urlData = updateIngrediente;
   }
 
-  ajax(formArray, urlData);
-
-  // $.ajax({
-  //   type: "POST",
-  //   url: urlData,
-  //   dataType: "json",
-  //   data: formArray,
-  //   success: function() {
-  //     $('.aulas').modal("hide");
-  //     swal({
-  //         title: "Sucesso!",
-  //         text: "Ingrediente " + text + " com sucesso!",
-  //         type: "success"
-  //       },
-  //       function() {
-  //         location.reload();
-  //       }
-  //     )
-  //   },
-  //   error: function() {
-  //     $('#mensagens-erro').append('Problemas no cadastro do ingrediente');
-  //   }
-  // });
+  $.when(validaToken()).done(function() {
+    postAjax(formArray, urlData);
+  })
 };
 
 // ===================== DELETE ===================== //
@@ -152,24 +117,9 @@ function excluir_ingrediente(thisTr) {
       closeOnConfirm: false,
     },
     function() {
-      ajax(null, deleteIngrediente);
-      // $.ajax(deleteIngrediente, {
-      //   type: 'POST',
-      //   success: function() {
-      //     swal({
-      //         title: "Ingrediente removido com sucesso!",
-      //         type: "success",
-      //       }),
-      //       // remove o ingrediente da lista no html
-      //       $(thisTr).remove();
-      //   },
-      //   error: function() {
-      //     swal({
-      //       title: "Problemas ao remover o ingrediente",
-      //       type: "error",
-      //     })
-      //   },
-      // })
+      $.when(validaToken()).done(function() {
+        postAjax(null, deleteIngrediente);
+      })
     }
   )
 }
