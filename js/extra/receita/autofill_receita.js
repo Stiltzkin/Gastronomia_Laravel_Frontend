@@ -31,13 +31,13 @@ if (sessionStorage.getItem("url") !== null) {
   var urlNames = ["unidade", "receita_especifica"];
   var urlValues = [listUnidadeMedida, url];
 
-  $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, receitaSelecionada) {
-      idData = receitaSelecionada.id_receita;
-      main(jsonUnidade, receitaSelecionada);
-      sessionStorage.clear();
-    })
+  // $.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, receitaSelecionada) {
+    idData = receitaSelecionada.id_receita;
+    main(jsonUnidade, receitaSelecionada);
+    sessionStorage.clear();
   })
+  // })
 
 }
 

@@ -17,17 +17,17 @@ var paginate, jsonUnidade;
 var urlNames = ["listClassificacao", "listCategoria", "listIngrediente", "unidade"];
 var urlValues = [listClassificacao, listCategoria, listIngrediente, listUnidadeMedida];
 
-$.when(validaToken()).done(function() {
-  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2]), getAjax(urlNames[3], urlValues[3])).done(function(jsonClassificacao, jsonCategoria, jsonIngrediente, jsonUnidade) {
-    mostraClasseCate(jsonClassificacao, jsonCategoria);
-    dropdownIngredientes(jsonIngrediente, jsonUnidade);
+// $.when(validaToken()).done(function() {
+$.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2]), getAjax(urlNames[3], urlValues[3])).done(function(jsonClassificacao, jsonCategoria, jsonIngrediente, jsonUnidade) {
+  mostraClasseCate(jsonClassificacao, jsonCategoria);
+  dropdownIngredientes(jsonIngrediente, jsonUnidade);
 
-    window.gjsonClassificacao = jsonClassificacao;
-    window.gjsonCategoria = jsonCategoria;
-    window.gjsonIngrediente = jsonIngrediente;
-    window.gjsonUnidade = jsonUnidade;
-  })
+  window.gjsonClassificacao = jsonClassificacao;
+  window.gjsonCategoria = jsonCategoria;
+  window.gjsonIngrediente = jsonIngrediente;
+  window.gjsonUnidade = jsonUnidade;
 })
+// })
 
 
 // Monta lista de Classificacao e Categoria
@@ -47,9 +47,9 @@ function postCategoria() {
   var form = $('#form-addCategoria').serialize();
   load_url();
 
-  $.when(validaToken()).done(function() {
-    postAjax(form, createCategoria);
-  })
+  // $.when(validaToken()).done(function() {
+  postAjax(form, createCategoria);
+  // })
 }
 
 
@@ -59,9 +59,9 @@ function postClassificacao() {
   var form = $('#form-addClassificacao').serialize();
   load_url();
 
-  $.when(validaToken()).done(function() {
-    postAjax(form, createClassificacao);
-  })
+  // $.when(validaToken()).done(function() {
+  postAjax(form, createClassificacao);
+  // })
 }
 
 // Monta a table de ingredientes
@@ -126,9 +126,9 @@ function postReceita(url) {
   });
   console.log(ingredientesOrganizado)
 
-  $.when(validaToken()).done(function() {
-    postAjax(ingredientesOrganizado, url);
-  })
+  // $.when(validaToken()).done(function() {
+  postAjax(ingredientesOrganizado, url);
+  // })
 }
 
 function organizaReceitaIngrediente(receitaSerial, receitaIngredienteSerial) {

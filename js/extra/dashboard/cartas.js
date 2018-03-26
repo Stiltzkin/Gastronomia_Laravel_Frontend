@@ -13,32 +13,12 @@ $(document).ready(function() {
   var urlNames = ["listAula", "listIngrediente"];
   var urlValues = [listAula, listIngrediente];
 
-  var jsonAula = getAjax(urlNames[0], urlValues[0]);
-  var jsonIngredientes = getAjax(urlNames[1], urlValues[1]);
+  // $.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonAula, jsonIngredientes) {
+    calculaValores(jsonAula, jsonIngredientes);
 
-  $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonAula, jsonIngredientes) {
-      calculaValores(jsonAula, jsonIngredientes);
-    })
   })
-
-
-
-  // garante que a tabela de aulas e ingredientes foi carregada
-  // if (typeof jsonAula === 'undefined' || typeof jsonIngredientes === 'undefined') {
-  //     $.getJSON(listAula, function(jsonObjectAula) {
-  //         var jsonAula = jsonObjectAula.data;
-  //         $.getJSON(listIngrediente, function(jsonObjectIngredientes) {
-  //             var jsonIngredientes = jsonObjectIngredientes.data.data;
-  //             calculaValores(jsonAula, jsonIngredientes);
-  //         })
-  //
-  //     })
-  // } else {
-  //     calculaValores(jsonAula, jsonIngredientes);
-  // }
-
-
+  // })
 })
 
 function calculaValores(jsonAula, jsonIngredientes) {

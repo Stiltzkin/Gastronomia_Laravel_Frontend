@@ -16,11 +16,24 @@ var jsonAula, jsonPeriodo, jsonReceita;
 var urlNames = ["listAula", "listReceita", "listPeriodo"];
 var urlValues = [listAula, listReceita, listPeriodo];
 
-$.when(validaToken()).done(function() {
-  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2])).done(function(jsonAula, jsonPeriodo, jsonReceita) {
-    getTabela(jsonAula, jsonReceita, jsonPeriodo);
-  })
+// if (typeof(sessionStorage.getItem("jsonAula")) === undefined || sessionStorage.getItem("jsonAula") == null || typeof(sessionStorage.getItem("jsonReceita")) == undefined || sessionStorage.getItem("jsonReceita") == null || typeof(sessionStorage.getItem("jsonAula")) == undefined || sessionStorage.getItem("jsonPeriodo") == null) {
+// $.when(validaToken()).done(function() {
+$.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2])).done(function(jsonAula, jsonReceita, jsonPeriodo) {
+  getTabela(jsonAula, jsonReceita, jsonPeriodo);
+
+  // sessionStorage.setItem("jsonReceita", jsonReceita);
+  // sessionStorage.setItem("jsonAula", jsonAula);
+  // sessionStorage.setItem("jsonPeriodo", jsonPeriodo);
 })
+// })
+// } else {
+//   jsonAula = sessionStorage.getItem("jsonAula");
+//   jsonReceita = sessionStorage.getItem("jsonReceita");
+//   jsonPeriodo = sessionStorage.getItem("jsonPeriodo");
+//   getTabela(jsonAula, jsonReceita, jsonPeriodo);
+// }
+
+
 
 function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
 
@@ -36,7 +49,6 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
   var jsonAulaReceita = pivotAula(jsonAula, jsonPeriodo);
 
   $.each(jsonAula, function(indexAula, valAula) {
-
     for (var i = 0; i < jsonAulaReceita.length; i++) {
       // conta o numero de receitas na aula
 
@@ -95,9 +107,6 @@ $('#addAula').on('click', '#saveButton', function() {
   var aulaSerialized = $('#form_addAula').serializeArray();
   var aulaReceitasSerialized = $('#form_aula_receitas').serializeArray();
 
-  console.log(aulaSerialized);
-  console.log(aulaReceitasSerialized);
-
   var receitasOrganizadas = organizaAulaReceita(aulaSerialized, aulaReceitasSerialized);
 
   if (idData == 0 || typeof(idData) === 'undefined') {
@@ -106,34 +115,9 @@ $('#addAula').on('click', '#saveButton', function() {
     var urlData = updateAula;
   }
 
-  $.ajax({
-    type: "POST",
-    url: urlData,
-    dataType: "json",
-    data: receitasOrganizadas,
-    success: function() {
-      swal({
-          title: "Aula criada/editada com sucesso.",
-          type: "success",
-        },
-        function() {
-          location.reload(true);
-        }
-      )
-    },
-    error: function() {
-      swal({
-          title: "Problemas para criar aula",
-          type: "error",
-          confirmButtonText: "Ok",
-          confirmButtonColor: "#DD6B55",
-        },
-        function() {
-          location.reload(true);
-        }
-      )
-    }
-  });
+  // $.when(validaToken()).done(function() {
+  postAjax(receitasOrganizadas, urlData);
+  // })
 });
 
 function organizaAulaReceita(aulaSerialized, aulaReceitasSerialized) {
@@ -182,22 +166,9 @@ function deletarAula(thisTr, idData) {
       closeOnConfirm: false,
     },
     function() {
-      $.ajax(deleteAula, {
-        type: 'POST',
-        success: function() {
-          swal({
-              title: "Aula removido com sucesso!",
-              type: "success",
-            }),
-            $(thisTr).remove();
-        },
-        error: function() {
-          swal({
-            title: "Problemas ao remover a aula",
-            type: 'error',
-          })
-        },
-      })
+      // $.when(validaToken()).done(function() {
+      postAjax(null, deleteAula);
+      // })
     }
   );
 }
@@ -208,20 +179,7 @@ $('#verAula').on('click', '.clonar', function() {
   idData = $(this).closest('.modal-body').find('.receitasQuantidade').find('tr').data('id');
   load_url();
 
-  $.ajax(clonarAula, {
-    type: 'POST',
-    success: function() {
-      swal({
-          title: "Aula clonado com sucesso!",
-          type: "success",
-        }),
-        location.reload(true);
-    },
-    error: function() {
-      swal({
-        title: "Problemas ao clonar a aula",
-        type: 'error',
-      })
-    },
-  })
+  // $.when(validaToken()).done(function() {
+  postAjax(null, clonarAula);
+  // })
 })

@@ -19,13 +19,13 @@ $('.lista-ingredientes').on('click', '.editar', function() {
     }
     var urlNames = ["unidade", "listIngrediente"];
     var urlValues = [listUnidadeMedida, listIngrediente];
-    $.when(validaToken()).done(function() {
-      $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
-        window.gjsonUnidade = jsonUnidade;
-        window.gjsonIngrediente = jsonIngrediente;
-        modalEditIngrediente(jsonUnidade, jsonIngrediente);
-      })
+    // $.when(validaToken()).done(function() {
+    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
+      window.gjsonUnidade = jsonUnidade;
+      window.gjsonIngrediente = jsonIngrediente;
+      modalEditIngrediente(jsonUnidade, jsonIngrediente);
     })
+    // })
   } else {
     var jsonUnidade = window.gjsonUnidade;
     var jsonIngrediente = window.gjsonIngrediente;
@@ -93,12 +93,12 @@ $('#addIngrediente').on('click', function() {
     var urlNames = ["unidade"];
     var urlValues = [listUnidadeMedida];
 
-    $.when(validaToken()).done(function() {
-      $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonUnidade) {
-        window.gjsonUnidade = jsonUnidade;
-        modalAddIngrediente(jsonUnidade);
-      })
+    // $.when(validaToken()).done(function() {
+    $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonUnidade) {
+      window.gjsonUnidade = jsonUnidade;
+      modalAddIngrediente(jsonUnidade);
     })
+    // })
   } else {
     var jsonUnidade = window.gjsonUnidade;
     modalAddIngrediente(jsonUnidade);

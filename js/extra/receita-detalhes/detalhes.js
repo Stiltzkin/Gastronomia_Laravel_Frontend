@@ -17,16 +17,16 @@ $(document).ready(function() {
   var urlNames = ["unidade", "listReceita"];
   var urlValues = [listUnidadeMedida, listReceita];
 
-  $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonReceita) {
-      // mostraClasseCate(jsonClassificacao, jsonCategoria);
-      // dropdownIngredientes(jsonIngrediente, jsonUnidade);
-      ingredientes_receita_list(jsonReceita, id_receita, jsonUnidade);
-      ingredientes_modo_preparo(jsonReceita, id_receita);
-      window.gjsonReceita = jsonReceita;
-      window.gjsonUnidade = jsonUnidade;
-    })
+  // $.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonReceita) {
+    // mostraClasseCate(jsonClassificacao, jsonCategoria);
+    // dropdownIngredientes(jsonIngrediente, jsonUnidade);
+    ingredientes_receita_list(jsonReceita, id_receita, jsonUnidade);
+    ingredientes_modo_preparo(jsonReceita, id_receita);
+    window.gjsonReceita = jsonReceita;
+    window.gjsonUnidade = jsonUnidade;
   })
+  // })
 
   // $.getJSON(createReceita, function(jsonObjectReceita) {
   //     jsonReceita = jsonObjectReceita.data;

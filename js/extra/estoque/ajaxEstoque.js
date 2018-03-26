@@ -18,15 +18,15 @@ $(document).ready(function() {
   var urlNames = ["ingrediente_paginate", "unidade"];
   var urlValues = [urlShowIngrediente, listUnidadeMedida];
 
-  $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(paginate, jsonUnidade) {
-      jsonPaginateIngrediente = paginate.data;
-      mostraIngredientes(jsonPaginateIngrediente, jsonUnidade);
+  // $.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(paginate, jsonUnidade) {
+    jsonPaginateIngrediente = paginate.data;
+    mostraIngredientes(jsonPaginateIngrediente, jsonUnidade);
 
-      salvaUrlPaginas(paginate);
-      botoesPaginacao(paginate);
-    })
+    salvaUrlPaginas(paginate);
+    botoesPaginacao(paginate);
   })
+  // })
 })
 
 
@@ -84,9 +84,9 @@ function postJson() {
     var urlData = updateIngrediente;
   }
 
-  $.when(validaToken()).done(function() {
-    postAjax(formArray, urlData);
-  })
+  // $.when(validaToken()).done(function() {
+  postAjax(formArray, urlData);
+  // })
 };
 
 // ===================== DELETE ===================== //
@@ -117,9 +117,9 @@ function excluir_ingrediente(thisTr) {
       closeOnConfirm: false,
     },
     function() {
-      $.when(validaToken()).done(function() {
-        postAjax(null, deleteIngrediente);
-      })
+      // $.when(validaToken()).done(function() {
+      postAjax(null, deleteIngrediente);
+      // })
     }
   )
 }
