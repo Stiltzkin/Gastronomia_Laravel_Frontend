@@ -24,7 +24,7 @@
   <!-- ========================================LAYOUT==================================================== -->
   <div class="wrapper">
     <header class="main-header">
-      <a href="http://localhost:80/Gastronomia_Frontend/" class="logo">
+      <a href="http://localhost:80/Gastronomia_Frontend/dashboard.html" class="logo">
                 <span class="logo-mini">
                     <b>G</b>O</span>
                 <span class="logo-lg">
@@ -42,7 +42,7 @@
                 <ul class="nav navbar-nav">
                   <li class="dropdown user user-menu">
                     <a href="#">
-                                            <span class="hidden-xs">Sair</span>
+                                            <span class="hidden-xs" onclick="logoff()">Sair</span>
                                         </a>
                   </li>
                 </ul>
@@ -83,7 +83,7 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
-          <a href="http://localhost:80/Gastronomia_Frontend/">
+          <a href="http://localhost:80/Gastronomia_Frontend/dashboard.html">
                         <i class="fa fa-bar-chart-o"></i>
                         <span>Dashboard</span>
                     </a>
@@ -385,11 +385,13 @@
   <!-- /.row -->
   <!-- jQuery 2.2.3 -->
   <script src="../js/jquery-2.2.3.min.js"></script>
+  <script src="../js/axios.min.js"></script>
+  <script src="../js/extra/ajax.js"></script>
   <script src="../js/urls.js"></script>
   <!-- <script src="../js/extra/nova-receita/ajaxListReceitas.js"></script> -->
-  <script src="../js/extra/nova-receita/ajaxNovaReceita.js"></script>
+  <script src="../js/extra/receita/ajaxNovaReceita.js"></script>
   <!-- <script src="../js/extra/estoque/ajaxEstoque.js"></script> -->
-  <script src="../js/extra/nova-receita/categoriaClassificacao.js"></script>
+  <script src="../js/extra/receita/categoriaClassificacao.js"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="../js/bootstrap.min.js"></script>
   <!-- AdminLTE App -->
@@ -397,25 +399,25 @@
   <script src="../js/sweetalert.min.js"></script>
   <!-- Select2 -->
   <script src="../js/search.js "></script>
-  <script src="../js/extra/nova-receita/adicionar_ingrediente.js"></script>
+  <script src="../js/extra/receita/adicionar_ingrediente.js"></script>
   <script src="../js/extra/estoque/validacao_ingrediente.js"></script>
   <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
   <script src="../js/extra/util.js"></script>
   <script src="../js/extra/estoque/unidades.js"></script>
 
 
-  <script src="../js/extra/nova-receita/ckeditor/ckeditor.js"></script>
+  <script src="../js/extra/receita/ckeditor/ckeditor.js"></script>
   <script>
     var editor = CKEDITOR.replace('editor', {
       customConfig: 'config.js'
     });
 
-    editor.on('change', function(evt) {
-      // getData() returns CKEditor's HTML content.
-      console.log('Total bytes: ' + evt.editor.getData().length);
-    });
+    // editor.on('change', function(evt) {
+    // getData() returns CKEditor's HTML content.
+    // console.log('Total bytes: ' + evt.editor.getData().length);
+    // });
   </script>
-  <script src="../js/extra/nova-receita/autofill_receita.js"></script>
+  <script src="../js/extra/receita/autofill_receita.js"></script>
 </body>
 
 </html>

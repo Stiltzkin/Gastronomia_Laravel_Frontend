@@ -22,7 +22,7 @@
   <!-- ========================================LAYOUT==================================================== -->
   <div class="wrapper">
     <header class="main-header">
-      <a href="http://localhost:80/Gastronomia_Frontend/" class="logo">
+      <a href="http://localhost:80/Gastronomia_Frontend/dashboard.html" class="logo">
                 <span class="logo-mini">
                     <b>G</b>O</span>
                 <span class="logo-lg">
@@ -40,7 +40,7 @@
                 <ul class="nav navbar-nav">
                   <li class="dropdown user user-menu">
                     <a href="#">
-                                            <span class="hidden-xs">Sair</span>
+                                            <span class="hidden-xs" onclick="logoff()">Sair</span>
                                         </a>
                   </li>
                 </ul>
@@ -81,7 +81,7 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
-          <a href="http://localhost:80/Gastronomia_Frontend/">
+          <a href="http://localhost:80/Gastronomia_Frontend/dashboard.html">
                         <i class="fa fa-bar-chart-o"></i>
                         <span>Dashboard</span>
                     </a>
@@ -253,10 +253,12 @@
   <!-- ./wrapper -->
   <!-- jQuery 2.2.3 -->
   <script src="../js/jquery-2.2.3.min.js"></script>
+  <script src="../js/axios.min.js"></script>
+  <script src="../js/extra/ajax.js"></script>
   <script src="../js/urls.js"></script>
   <script src="../js/extra/paginate.js"></script>
-  <script src="../js/extra/nova-receita/ajaxListReceitas.js"></script>
-  <script src="../js/extra/nova-receita/ajaxNovaReceita.js"></script>
+  <script src="../js/extra/receita/ajaxListReceitas.js"></script>
+  <script src="../js/extra/receita/ajaxNovaReceita.js"></script>
   <!-- search -->
   <script src="../js/search.js "></script>
   <script src="../js/extra/util.js"></script>

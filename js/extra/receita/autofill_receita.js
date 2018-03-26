@@ -1,28 +1,43 @@
 if (sessionStorage.getItem("url") !== null) {
   for (var i = 0; i < listArray.length; i++) {
-    if (listArray[i].key == "listUndiadeMedida") {
+    if (listArray[i].key == "listUnidadeMedida") {
       var listUnidadeMedida = listArray[i].value;
     }
   }
-  var jsonUnidade;
-  $.getJSON(listUnidadeMedida, function(unidadeObject) {
-    jsonUnidade = unidadeObject.data;
-  })
 
-  // Editar receita
   var url = sessionStorage.getItem("url");
 
-  var receitaSpecifica;
-  $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
-    jsonUnidade = jsonObjectUnidade.data;
-    $.getJSON(url, function(showReceita) {
-      receitaSpecifica = showReceita.data;
+  // var jsonUnidade;
+  // $.getJSON(listUnidadeMedida, function(unidadeObject) {
+  //   jsonUnidade = unidadeObject.data;
+  // })
 
-      idData = receitaSpecifica.id_receita;
-      main(jsonUnidade, receitaSpecifica);
-      sessionStorage.clear();
-    })
+  // Editar receita
+
+
+  // var receitaSpecifica;
+  // $.getJSON(listUnidadeMedida, function(jsonObjectUnidade) {
+  //   jsonUnidade = jsonObjectUnidade.data;
+  //   $.getJSON(url, function(showReceita) {
+  //     receitaSpecifica = showReceita.data;
+  //
+  //     idData = receitaSpecifica.id_receita;
+  //     main(jsonUnidade, receitaSpecifica);
+  //     sessionStorage.clear();
+  //   })
+  // })
+
+  var jsonUnidade, receitaSelecionada;
+  var urlNames = ["unidade", "receita_especifica"];
+  var urlValues = [listUnidadeMedida, url];
+
+  // $.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, receitaSelecionada) {
+    idData = receitaSelecionada.id_receita;
+    main(jsonUnidade, receitaSelecionada);
+    sessionStorage.clear();
   })
+  // })
 
 }
 

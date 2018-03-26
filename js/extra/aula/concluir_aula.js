@@ -12,32 +12,9 @@ $('.aulas').on('click', '.botaoAulaConcluida', function() {
       closeOnConfirm: false,
     },
     function() {
-      $.ajax({
-        type: "POST",
-        url: urlData,
-        success: function() {
-          swal({
-              title: "Aula concluida com sucesso.",
-              type: "success",
-            },
-            function() {
-              location.reload(true);
-            }
-          )
-        },
-        error: function(response) {
-          swal({
-              title: "Erro",
-              type: "error",
-              confirmButtonText: "Ok",
-              confirmButtonColor: "#DD6B55",
-            },
-            function() {
-              location.reload(true);
-            }
-          )
-        }
-      })
+      // $.when(validaToken()).done(function() {
+      postAjax(null, urlData);
+      // })
     }
   )
 });
