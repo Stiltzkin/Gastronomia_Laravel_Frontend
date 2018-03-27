@@ -8,7 +8,7 @@ $('.lista-ingredientes').on('click', '.editar', function() {
 
   limpaMensagens();
 
-  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null || window.gjsonIngrediente == null || typeof(window.gjsonIngrediente) === undefined) {
+  if (sessionStorage.getItem("jsonUnidade") == null || sessionStorage.getItem("jsonIngrediente") == null) {
     for (var i = 0; i < listArray.length; i++) {
       if (listArray[i].key == "listUnidadeMedida") {
         var listUnidadeMedida = listArray[i].value;
@@ -21,14 +21,14 @@ $('.lista-ingredientes').on('click', '.editar', function() {
     var urlValues = [listUnidadeMedida, listIngrediente];
     // $.when(validaToken()).done(function() {
     $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
-      window.gjsonUnidade = jsonUnidade;
-      window.gjsonIngrediente = jsonIngrediente;
+      sessionStorage.setItem("jsonUnidade", JSON.stringify(jsonUnidade));
+      sessionStorage.setItem("jsonIngrediente", JSON.stringify(jsonIngrediente));
       modalEditIngrediente(jsonUnidade, jsonIngrediente);
     })
     // })
   } else {
-    var jsonUnidade = window.gjsonUnidade;
-    var jsonIngrediente = window.gjsonIngrediente;
+    var jsonUnidade = JSON.parse(sessionStorage.getItem("jsonUnidade"));
+    var jsonIngrediente = JSON.parse(sessionStorage.getItem("jsonIngrediente"));
     modalEditIngrediente(jsonUnidade, jsonIngrediente);
   }
 
@@ -84,23 +84,25 @@ $('.lista-ingredientes').on('click', '.editar', function() {
 $('#addIngrediente').on('click', function() {
   limpaMensagens();
 
-  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null) {
+  if (sessionStorage.getItem("jsonUnidade") == null || sessionStorage.getItem("jsonIngrediente") == null) {
     for (var i = 0; i < listArray.length; i++) {
       if (listArray[i].key == "listUnidadeMedida") {
         var listUnidadeMedida = listArray[i].value;
       }
     }
+    var jsonUnidade;
     var urlNames = ["unidade"];
     var urlValues = [listUnidadeMedida];
 
     // $.when(validaToken()).done(function() {
     $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonUnidade) {
-      window.gjsonUnidade = jsonUnidade;
+      sessionStorage.setItem("jsonUnidade", JSON.stringify(jsonUnidade));
+      sessionStorage.setItem("jsonIngrediente", JSON.stringify(jsonIngrediente));
       modalAddIngrediente(jsonUnidade);
     })
     // })
   } else {
-    var jsonUnidade = window.gjsonUnidade;
+    var jsonUnidade = JSON.parse(sessionStorage.getItem("jsonUnidade"));
     modalAddIngrediente(jsonUnidade);
   }
 

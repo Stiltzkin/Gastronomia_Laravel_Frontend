@@ -11,6 +11,8 @@ $(document).ready(function() {
     searchIngrediente();
     return;
   }
+
+  // url da paginacao
   var tipo = "ingrediente";
   var urlShowIngrediente = getUrl(tipo);
 

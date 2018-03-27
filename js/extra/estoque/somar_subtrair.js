@@ -12,7 +12,7 @@ $('.lista-ingredientes').on('click', '.addButton', function() {
 });
 
 function getThingsSoma(thisIng) {
-  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null || window.gjsonIngrediente == null || typeof(window.gjsonIngrediente) === undefined) {
+  if (sessionStorage.getItem("jsonUnidade") == null || sessionStorage.getItem("jsonIngrediente") == null) {
     for (var i = 0; i < listArray.length; i++) {
       if (listArray[i].key == "listUnidadeMedida") {
         var listUnidadeMedida = listArray[i].value;
@@ -25,14 +25,14 @@ function getThingsSoma(thisIng) {
     var urlValues = [listUnidadeMedida, listIngrediente];
     // $.when(validaToken()).done(function() {
     $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
-      window.gjsonUnidade = jsonUnidade;
-      window.gjsonIngrediente = jsonIngrediente;
+      sessionStorage.setItem("jsonUnidade", JSON.stringify(jsonUnidade));
+      sessionStorage.setItem("jsonIngrediente", JSON.stringify(jsonIngrediente));
       addButton(jsonUnidade, jsonIngrediente, thisIng);
     })
     // })
   } else {
-    var jsonUnidade = window.gjsonUnidade;
-    var jsonIngrediente = window.gjsonIngrediente;
+    var jsonUnidade = JSON.parse(sessionStorage.getItem("jsonUnidade"));
+    var jsonIngrediente = JSON.parse(sessionStorage.getItem("jsonIngrediente"));
     addButton(jsonUnidade, jsonIngrediente, thisIng);
   }
 }
@@ -167,7 +167,7 @@ $('.lista-ingredientes').on('click', '.subButton', function() {
 })
 
 function getThingsSubtrai(thisIng) {
-  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null || window.gjsonIngrediente == null || typeof(window.gjsonIngrediente) === undefined) {
+  if (sessionStorage.getItem("jsonUnidade") == null || sessionStorage.getItem("jsonIngrediente") == null) {
     for (var i = 0; i < listArray.length; i++) {
       if (listArray[i].key == "listUnidadeMedida") {
         var listUnidadeMedida = listArray[i].value;
@@ -180,14 +180,14 @@ function getThingsSubtrai(thisIng) {
     var urlValues = [listUnidadeMedida, listIngrediente];
     // $.when(validaToken()).done(function() {
     $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
-      window.gjsonUnidade = jsonUnidade;
-      window.gjsonIngrediente = jsonIngrediente;
+      sessionStorage.setItem("jsonUnidade", JSON.stringify(jsonUnidade));
+      sessionStorage.setItem("jsonIngrediente", JSON.stringify(jsonIngrediente));
       subButton(jsonUnidade, jsonIngrediente, thisIng);
     })
     // })
   } else {
-    var jsonUnidade = window.gjsonUnidade;
-    var jsonIngrediente = window.gjsonIngrediente;
+    var jsonUnidade = JSON.parse(sessionStorage.getItem("jsonUnidade"));
+    var jsonIngrediente = JSON.parse(sessionStorage.getItem("jsonIngrediente"));
     subButton(jsonUnidade, jsonIngrediente, thisIng);
   }
 };

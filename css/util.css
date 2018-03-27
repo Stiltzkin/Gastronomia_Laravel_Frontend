@@ -1,6 +1,7 @@
 /* Mensagens de Validação */
 
-.mensagens-erro, color: red;
+.mensagens-erro {
+  color: red;
 }
 
 /* Cor dos Hiperlink */

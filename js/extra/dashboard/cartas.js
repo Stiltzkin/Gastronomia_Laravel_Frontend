@@ -1,25 +1,33 @@
 $(document).ready(function() {
   // var listArray = listArray();
 
-  for (var i = 0; i < listArray.length; i++) {
-    if (listArray[i].key == "listAula") {
-      var listAula = listArray[i].value;
+  if (sessionStorage.getItem("jsonAula") == null || sessionStorage.getItem("jsonIngrediente") == null) {
+    for (var i = 0; i < listArray.length; i++) {
+      if (listArray[i].key == "listAula") {
+        var listAula = listArray[i].value;
+      }
+      if (listArray[i].key == "listIngrediente") {
+        var listIngrediente = listArray[i].value;
+      }
     }
-    if (listArray[i].key == "listIngrediente") {
-      var listIngrediente = listArray[i].value;
-    }
+    var jsonAula, jsonIngrediente;
+    var urlNames = ["listAula", "listIngrediente"];
+    var urlValues = [listAula, listIngrediente];
+
+    // $.when(validaToken()).done(function() {
+    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonAula, jsonIngrediente) {
+      sessionStorage.setItem("jsonAula", JSON.stringify(jsonAula));
+      sessionStorage.setItem("jsonIngrediente", JSON.stringify(jsonIngrediente));
+      calculaValores(jsonAula, jsonIngrediente);
+    })
+    // })
+  } else {
+    var jsonAula = JSON.parse(sessionStorage.getItem("jsonAula"));
+    var jsonIngrediente = JSON.parse(sessionStorage.getItem("jsonIngrediente"));
+    calculaValores(jsonAula, jsonIngrediente);
   }
-  var jsonAula, jsonIngrediente;
-  var urlNames = ["listAula", "listIngrediente"];
-  var urlValues = [listAula, listIngrediente];
-
-  // $.when(validaToken()).done(function() {
-  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonAula, jsonIngredientes) {
-    calculaValores(jsonAula, jsonIngredientes);
-
-  })
-  // })
 })
+
 
 function calculaValores(jsonAula, jsonIngredientes) {
   // ========== Cartas Aulas ==========

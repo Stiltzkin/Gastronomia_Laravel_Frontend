@@ -7,6 +7,11 @@ $('#addAula').on('click', '#agendarButton', function() {
   var aulaReceitasSerialized = $('#form_aula_receitas').serializeArray();
   var receitasOrganizadas = organizaAulaReceita(aulaSerialized, aulaReceitasSerialized);
 
+  receitasOrganizadas.push({
+    key: "aula_agendada",
+    value: true
+  })
+
   var urlData = agendarAula;
 
   // $.when(validaToken()).done(function() {

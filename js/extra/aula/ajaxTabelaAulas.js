@@ -1,37 +1,36 @@
 // ==================== GET ===================== //
-
-for (var i = 0; i < listArray.length; i++) {
-  if (listArray[i].key == "listAula") {
-    var listAula = listArray[i].value;
+if (sessionStorage.getItem("jsonAula") == null || sessionStorage.getItem("jsonReceita") == null || sessionStorage.getItem("jsonPeriodo") == null) {
+  for (var i = 0; i < listArray.length; i++) {
+    if (listArray[i].key == "listAula") {
+      var listAula = listArray[i].value;
+    }
+    if (listArray[i].key == "listReceita") {
+      var listReceita = listArray[i].value;
+    }
+    if (listArray[i].key == "listPeriodo") {
+      var listPeriodo = listArray[i].value;
+    }
   }
-  if (listArray[i].key == "listReceita") {
-    var listReceita = listArray[i].value;
-  }
-  if (listArray[i].key == "listPeriodo") {
-    var listPeriodo = listArray[i].value;
-  }
-}
 
-var jsonAula, jsonPeriodo, jsonReceita;
-var urlNames = ["listAula", "listReceita", "listPeriodo"];
-var urlValues = [listAula, listReceita, listPeriodo];
+  var jsonAula, jsonPeriodo, jsonReceita;
+  var urlNames = ["listAula", "listReceita", "listPeriodo"];
+  var urlValues = [listAula, listReceita, listPeriodo];
 
-// if (typeof(sessionStorage.getItem("jsonAula")) === undefined || sessionStorage.getItem("jsonAula") == null || typeof(sessionStorage.getItem("jsonReceita")) == undefined || sessionStorage.getItem("jsonReceita") == null || typeof(sessionStorage.getItem("jsonAula")) == undefined || sessionStorage.getItem("jsonPeriodo") == null) {
-// $.when(validaToken()).done(function() {
-$.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2])).done(function(jsonAula, jsonReceita, jsonPeriodo) {
+  // $.when(validaToken()).done(function() {
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2])).done(function(jsonAula, jsonReceita, jsonPeriodo) {
+    getTabela(jsonAula, jsonReceita, jsonPeriodo);
+
+    sessionStorage.setItem("jsonReceita", JSON.stringify(jsonReceita));
+    sessionStorage.setItem("jsonAula", JSON.stringify(jsonAula));
+    sessionStorage.setItem("jsonPeriodo", JSON.stringify(jsonPeriodo));
+  })
+  // })
+} else {
+  var jsonAula = JSON.parse(sessionStorage.getItem("jsonAula"));
+  var jsonReceita = JSON.parse(sessionStorage.getItem("jsonReceita"));
+  var jsonPeriodo = JSON.parse(sessionStorage.getItem("jsonPeriodo"));
   getTabela(jsonAula, jsonReceita, jsonPeriodo);
-
-  // sessionStorage.setItem("jsonReceita", jsonReceita);
-  // sessionStorage.setItem("jsonAula", jsonAula);
-  // sessionStorage.setItem("jsonPeriodo", jsonPeriodo);
-})
-// })
-// } else {
-//   jsonAula = sessionStorage.getItem("jsonAula");
-//   jsonReceita = sessionStorage.getItem("jsonReceita");
-//   jsonPeriodo = sessionStorage.getItem("jsonPeriodo");
-//   getTabela(jsonAula, jsonReceita, jsonPeriodo);
-// }
+}
 
 
 

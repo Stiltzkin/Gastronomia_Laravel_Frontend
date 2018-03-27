@@ -16,7 +16,7 @@
 // };
 function logoff() {
   localStorage.clear();
-  window.location.replace("index.html");
+  window.location.replace("http://localhost/Gastronomia_Frontend/");
 }
 
 // function renovaToken() {
@@ -54,6 +54,7 @@ function postAjax(params, url) {
           type: "success"
         },
         function() {
+          sessionStorage.clear();
           location.reload();
         }
       )
@@ -64,17 +65,17 @@ function postAjax(params, url) {
       for (var j = 0; j < classErro.length; j++) {
         for (var i = 0; i < messages.length; i++) {
           var li = document.createElement("li");
-          li.appendChild(messages[i]);
+          li.innerHTML = messages[i];
           classErro[j].append(li);
         }
       }
 
       var messages_2 = response.responseJSON.message_2;
-      if (typeof(messages_2) === undefined || messages_2 == null) {
+      if (typeof(messages_2) !== undefined || messages_2 != null) {
         for (var k = 0; k < classErro.length; k++) {
-          for (var l = 0; l < messages.length; l++) {
+          for (var l = 0; l < messages_2.length; l++) {
             var li = document.createElement("li");
-            li.appendChild(messages[l]);
+            li.innerHTML = messages_2[l];
             classErro[k].append(li);
           }
         }

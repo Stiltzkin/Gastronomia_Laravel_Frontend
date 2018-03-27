@@ -1,105 +1,130 @@
 // ========== MODAL EDITAR AULA ========== //
 $('.aulas').on('click', '.editar', function() {
-  var form_addAula = $('#form_addAula');
-
-  // corrige o botao para "Salvar" da modal editar aula
-  window.btnAgendar = false;
-
-  // abre modal
-  $('#addAula').modal('show');
-  limpaMensagens();
-
-  // limpa a lista de receitas (nao acumular apertando editar varias vezes)
-  $('.tabela_receita tr').remove();
-
   // seleciona a 'tr' da aula especifica
   var thisTr = $(this).closest('tr');
 
-  // pega a id da aula especifica
-  var idAula = thisTr.data('id');
-
-  // cria os botoes add e del
-
-  var htmlAddRecButton = '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addReceita"><i class="fa fa-plus"></i></button>';
-  form_addAula.find('.addIngButton').html(htmlAddRecButton);
-
-  var htmlTurno = '<select class="form-control periodo_aula" name="id_periodo_aula" style="width: 100%;"><option value=1>Manhã</option><option value=2>Noite</option></select>';
-
-  // roda a lista de aulas e verifica com a id pego na 'tr'
-  $.each(jsonAula, function(indexAula, valAula) {
-    if (valAula.id_aula == idAula) {
-      // header da modal (mostrar o dia da aula)
-      var htmlHeader = '<h4 class="modal-title">Editar aula do dia ' + valAula.data_aula + '</h4>'
-      $('.cabecalho').html(htmlHeader);
-
-      var htmlIdAula = '<li class="id_aula" hidden value="' + valAula.id_aula + '"></li>';
-      var htmlDiaDaAula = '<input type="text" name="data_aula" class="form-control" id="datepicker" value="' + valAula.data_aula + '"></input>';
-      var htmlNomeAula = '<input name="nome_aula" class="form-control" placeholder="Nome da Aula" value="' + valAula.nome_aula + '"></input>'
-      var htmlDescricaoAula = '<input name="descricao_aula" class="form-control" placeholder="Nome da Aula" value="' + valAula.descricao_aula + '"></input>'
-      var htmlTurno = '<select class="form-control periodo_aula" name="periodo_aula" style="width: 100%;"><option value="1">Manhã</option><option value="2">Noite</option></select>';
-
-      form_addAula.find('.idAula').html(htmlIdAula);
-      form_addAula.find('.data').html(htmlDiaDaAula);
-      form_addAula.find('.nome_aula').html(htmlNomeAula);
-      form_addAula.find('.descricao_aula').html(htmlDescricaoAula);
-      form_addAula.find('.turno').html(htmlTurno);
-
-      chamaDatePicker();
-
-      // esvazia a array para validação da receita (não repetir receita)
-      receitaArray.length = 0;
-
-      // deixa selecionado o periodo da aula
-      $('.turno').val(valAula.periodo_aula).change();
-
-      // garante que a tabela de receitas foi carregada
-      if (typeof jsonObjectReceita === 'undefined') {
-        $.getJSON(listReceita, function(jsonObjectReceita) {
-          jsonReceita = jsonObjectReceita;
-          mostraAulaReceitas(idAula);
-        });
-      } else {
-        mostraAulaReceitas(idAula);
+  if (sessionStorage.getItem("jsonAula") == null || sessionStorage.getItem("jsonReceita") == null || sessionStorage.getItem("jsonPeriodo") == null) {
+    for (var i = 0; i < listArray.length; i++) {
+      if (listArray[i].key == "listAula") {
+        var listAula = listArray[i].value;
+      }
+      if (listArray[i].key == "listReceita") {
+        var listReceita = listArray[i].value;
+      }
+      if (listArray[i].key == "listPeriodo") {
+        var listPeriodo = listArray[i].value;
       }
     }
-  })
+
+    var jsonAula, jsonReceita, jsonPeriodo;
+    var urlNames = ["listAula", "listReceita", "listPeriodo"];
+    var urlValues = [listAula, listReceita, listPeriodo];
+
+    // $.when(validaToken()).done(function() {
+    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonAula, jsonReceita, jsonPeriodo) {
+      sessionStorage.setItem("jsonReceita", JSON.stringify(jsonReceita));
+      sessionStorage.setItem("jsonAula", JSON.stringify(jsonAula));
+      sessionStorage.setItem("jsonPeriodo", JSON.stringify(jsonPeriodo));
+      modalEditarAula(jsonAula, jsonReceita, jsonPeriodo, thisTr);
+    })
+    // })
+  } else {
+    var jsonAula = JSON.parse(sessionStorage.getItem("jsonAula"));
+    var jsonReceita = JSON.parse(sessionStorage.getItem("jsonReceita"));
+    var jsonPeriodo = JSON.parse(sessionStorage.getItem("jsonPeriodo"));
+    modalEditarAula(jsonAula, jsonReceita, jsonPeriodo, thisTr);
+  }
+
+  function modalEditarAula(jsonAula, jsonReceita, jsonPeriodo, thisTr) {
+    var form_addAula = $('#form_addAula');
+
+    // corrige o botao para "Salvar" da modal editar aula
+    window.btnAgendar = false;
+
+    // abre modal
+    $('#addAula').modal('show');
+    limpaMensagens();
+
+    // limpa a lista de receitas (nao acumular apertando editar varias vezes)
+    $('.tabela_receita tr').remove();
+
+    // pega a id da aula especifica
+    var idAula = thisTr.data('id');
+
+    // cria os botoes add e del
+
+    var htmlAddRecButton = '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addReceita"><i class="fa fa-plus"></i></button>';
+    form_addAula.find('.addIngButton').html(htmlAddRecButton);
+
+    var htmlTurno = '<select class="form-control periodo_aula" name="id_periodo_aula" style="width: 100%;"><option value=1>Manhã</option><option value=2>Noite</option></select>';
+
+    // roda a lista de aulas e verifica com a id pego na 'tr'
+    $.each(jsonAula, function(indexAula, valAula) {
+      if (valAula.id_aula == idAula) {
+        // header da modal (mostrar o dia da aula)
+        var htmlHeader = '<h4 class="modal-title">Editar aula do dia ' + valAula.data_aula + '</h4>'
+        $('.cabecalho').html(htmlHeader);
+
+        var htmlIdAula = '<li class="id_aula" hidden value="' + valAula.id_aula + '"></li>';
+        var htmlDiaDaAula = '<input type="text" name="data_aula" class="form-control" id="datepicker" value="' + valAula.data_aula + '"></input>';
+        var htmlNomeAula = '<input name="nome_aula" class="form-control" placeholder="Nome da Aula" value="' + valAula.nome_aula + '"></input>'
+        var htmlDescricaoAula = '<input name="descricao_aula" class="form-control" placeholder="Nome da Aula" value="' + valAula.descricao_aula + '"></input>'
+        var htmlTurno = '<select class="form-control periodo_aula" name="periodo_aula" style="width: 100%;"><option value="1">Manhã</option><option value="2">Noite</option></select>';
+
+        form_addAula.find('.idAula').html(htmlIdAula);
+        form_addAula.find('.data').html(htmlDiaDaAula);
+        form_addAula.find('.nome_aula').html(htmlNomeAula);
+        form_addAula.find('.descricao_aula').html(htmlDescricaoAula);
+        form_addAula.find('.turno').html(htmlTurno);
+
+        chamaDatePicker();
+
+        // esvazia a array para validação da receita (não repetir receita)
+        receitaArray.length = 0;
+
+        // deixa selecionado o periodo da aula
+        $('.turno').val(valAula.periodo_aula).change();
+
+        mostraAulaReceitas(idAula, jsonAula, jsonPeriodo)
+      }
+    })
+  }
+
 });
 
 // =========== MODAL MARCAR COMO AULA AGENDADA =========== //
 $('.aulas').on('click', '.botaoAgendarAula', function() {
   var thisTr = $(this).closest('tr');
 
-  // if (typeof(sessionStorage.getItem("jsonAula")) === undefined || sessionStorage.getItem("jsonAula") == null || typeof(sessionStorage.getItem("jsonReceita")) === undefined || sessionStorage.getItem("jsonReceita") == null || typeof(sessionStorage.getItem("jsonPeriodo")) === undefined || sessionStorage.getItem("jsonPeriodo") == null) {
-  for (var i = 0; i < listArray.length; i++) {
-    if (listArray[i].key == "listAula") {
-      var listAula = listArray[i].value;
+  if (sessionStorage.getItem("jsonAula") == null || sessionStorage.getItem("jsonReceita") == null || sessionStorage.getItem("jsonPeriodo") == null) {
+    for (var i = 0; i < listArray.length; i++) {
+      if (listArray[i].key == "listAula") {
+        var listAula = listArray[i].value;
+      }
+      if (listArray[i].key == "listReceita") {
+        var listReceita = listArray[i].value;
+      }
+      if (listArray[i].key == "listPeriodo") {
+        var listPeriodo = listArray[i].value;
+      }
+      var jsonAula, jsonReceita, jsonPeriodo;
+      var urlNames = ["listAula", "listReceita", "listPeriodo"];
+      var urlValues = [listAula, listReceita, listPeriodo];
+      // $.when(validaToken()).done(function() {
+      $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2])).done(function(jsonAula, jsonReceita, jsonPeriodo) {
+        sessionStorage.setItem("jsonReceita", JSON.stringify(jsonReceita));
+        sessionStorage.setItem("jsonAula", JSON.stringify(jsonAula));
+        sessionStorage.setItem("jsonPeriodo", JSON.stringify(jsonPeriodo));
+        chamaModalAulaAgendada(jsonAula, jsonReceita, jsonPeriodo, thisTr);
+      })
+      // })
     }
-    if (listArray[i].key == "listReceita") {
-      var listReceita = listArray[i].value;
-    }
-    if (listArray[i].key == "listPeriodo") {
-      var listPeriodo = listArray[i].value;
-    }
-    var jsonAula, jsonReceita, jsonPeriodo;
-    var urlNames = ["listAula", "listReceita", "listPeriodo"];
-    var urlValues = [listAula, listReceita, listPeriodo];
-    // $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2])).done(function(jsonAula, jsonReceita, jsonPeriodo) {
-      chamaModalAulaAgendada(jsonAula, jsonReceita, jsonPeriodo, thisTr);
-
-      // sessionStorage.getItem("jsonAula") == jsonAula;
-      // sessionStorage.getItem("jsonReceita") == jsonReceita;
-      // sessionStorage.getItem("jsonPeriodo") == jsonPeriodo;
-    })
-    // })
+  } else {
+    var jsonAula = JSON.parse(sessionStorage.getItem("jsonAula"));
+    var jsonReceita = JSON.parse(sessionStorage.getItem("jsonReceita"));
+    var jsonPeriodo = JSON.parse(sessionStorage.getItem("jsonPeriodo"));
+    chamaModalAulaAgendada(jsonAula, jsonReceita, jsonPeriodo, thisTr);
   }
-  // } else {
-  //   jsonAula = sessionStorage.getItem("jsonAula");
-  //   jsonReceita = sessionStorage.getItem("jsonReceita");
-  //   jsonPeriodo = sessionStorage.getItem("jsonPeriodo");
-  //   chamaModalAulaAgendada(jsonAula, jsonReceita, jsonPeriodo, thisTr);
-  // }
-
 
   function chamaModalAulaAgendada(jsonAula, jsonReceita, jsonPeriodo, thisTr) {
     var form_addAula = $('#form_addAula');
@@ -249,22 +274,30 @@ $('.aulas').on('click', '.botaoDetalhes', function() {
   var nomeReceita;
   var idAula = $(this).closest('tr').data('id');
 
-  for (var i = 0; i < listArray.length; i++) {
-    if (listArray[i].key == "listAula") {
-      var listAula = listArray[i].value;
+  if (sessionStorage.getItem("jsonAula") == null || sessionStorage.getItem("jsonPeriodo") == null) {
+    for (var i = 0; i < listArray.length; i++) {
+      if (listArray[i].key == "listAula") {
+        var listAula = listArray[i].value;
+      }
+      if (listArray[i].key == "listPeriodo") {
+        var listPeriodo = listArray[i].value;
+      }
     }
-    if (listArray[i].key == "listPeriodo") {
-      var listPeriodo = listArray[i].value;
-    }
-  }
 
-  var jsonAula, jsonPeriodo;
-  var urlNames = ["listAula", "listPeriodo"];
-  var urlValues = [listAula, listPeriodo];
+    var jsonAula, jsonPeriodo;
+    var urlNames = ["listAula", "listPeriodo"];
+    var urlValues = [listAula, listPeriodo];
 
-  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonAula, jsonPeriodo) {
+    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(jsonAula, jsonPeriodo) {
+      sessionStorage.setItem("jsonAula", JSON.stringify(jsonAula));
+      sessionStorage.setItem("jsonPeriodo", JSON.stringify(jsonPeriodo));
+      modalDetalhesAula(jsonAula, jsonPeriodo, idAula);
+    })
+  } else {
+    var jsonAula = JSON.parse(sessionStorage.getItem("jsonAula"));
+    var jsonPeriodo = JSON.parse(sessionStorage.getItem("jsonPeriodo"));
     modalDetalhesAula(jsonAula, jsonPeriodo, idAula);
-  })
+  }
 
   function modalDetalhesAula(jsonAula, jsonPeriodo, idAula) {
     // mostra a modal
@@ -292,17 +325,26 @@ $('.aulas').on('click', '.botaoDetalhes', function() {
       }
     })
 
-    var jsonReceita;
-    var urlNames = ["listReceita"];
-    var urlValues = [listReceita];
+    if (sessionStorage.getItem("jsonReceita") == null) {
+      for (var i = 0; i < listArray.length; i++) {
+        if (listArray[i].key == "listReceita") {
+          var listReceita = listArray[i].value;
+        }
+      }
 
-    // $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonReceita) {
-      // getTabela(jsonAula, jsonReceita, jsonPeriodo);
+      var jsonReceita;
+      var urlNames = ["listReceita"];
+      var urlValues = [listReceita];
+
+      // $.when(validaToken()).done(function() {
+      $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonReceita) {
+        sessionStorage.setItem("jsonReceita", JSON.stringify(jsonReceita));
+        aulaDetalhe(jsonReceita, jsonAulaReceita);
+      })
+    } else {
+      var jsonReceita = JSON.parse(sessionStorage.getItem("jsonReceita"));
       aulaDetalhe(jsonReceita, jsonAulaReceita);
-    })
-    // })
-
+    }
   }
   // Lista as receitas da aula (ao clicar ver detalhes da aula)
   function aulaDetalhe(jsonReceita, jsonAulaReceita) {
@@ -326,13 +368,27 @@ $('.aulas').on('click', '.botaoDetalhes', function() {
 })
 
 // =========== GET RECEITAS para selecionar ===========
+if (sessionStorage.getItem("jsonReceita") == null) {
+  for (var i = 0; i < listArray.length; i++) {
+    if (listArray[i].key == "listReceita") {
+      var listReceita = listArray[i].value;
+    }
+  }
 
-var jsonReceita;
-var urlNames = ["listReceita"];
-var urlValues = [listReceita];
+  var jsonReceita;
+  var urlNames = ["listReceita"];
+  var urlValues = [listReceita];
 
-// $.when(validaToken()).done(function() {
-$.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonReceita) {
+  $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonReceita) {
+    sessionStorage.setItem("jsonReceita", JSON.stringify(jsonReceita));
+    populaDropDownReceitas(jsonReceita);
+  })
+} else {
+  var jsonReceita = JSON.parse(sessionStorage.getItem("jsonReceita"));
+  populaDropDownReceitas(jsonReceita);
+}
+
+function populaDropDownReceitas() {
   for (var i = 0; i < jsonReceita.length; i++) {
 
     $('#receitas').append($('<option>', {
@@ -340,5 +396,4 @@ $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonReceita) {
       text: jsonReceita[i].nome_receita
     }));
   }
-})
-// })
+}
