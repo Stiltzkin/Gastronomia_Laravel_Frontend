@@ -95,7 +95,7 @@ $('#addIngrediente').on('click', function() {
     var urlValues = [listUnidadeMedida];
 
     // $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0])).done(function(jsonUnidade) {
+    $.when(getAjax(urlNames[0], urlValues[0], urlNames[1], urlValues[1])).done(function(jsonUnidade, jsonIngrediente) {
       sessionStorage.setItem("jsonUnidade", JSON.stringify(jsonUnidade));
       sessionStorage.setItem("jsonIngrediente", JSON.stringify(jsonIngrediente));
       modalAddIngrediente(jsonUnidade);

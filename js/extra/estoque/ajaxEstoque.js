@@ -37,7 +37,7 @@ function mostraIngredientes(jsonPaginateIngrediente, jsonUnidade) {
   var botaoAdd = '<td><button type="button" class="btn btn-xs addButton"><i class="fa fa-plus"></i></button></td>';
   var botaoSubtract = '<td><button type="button" class="btn btn-danger btn-xs subButton"><i class="fa fa-minus"></i></button></td>';
   var botaoExcluir = '<td><button type="button" class="btn btn-xs btn-danger excluir_ing"><i class="fa fa-trash"></i></button></td>';
-  var botaoEditar = '<td><button class="editar" type="button">Editar</button></td>';
+  var botaoEditar = '<td><button class="btn btn-xs editar" type="button"><i class="fa fa-edit"></i></button></td>';
 
   // roda a lista de ingredientes
   $.each(jsonPaginateIngrediente, function(indexIngrediente, valIngrediente) {
