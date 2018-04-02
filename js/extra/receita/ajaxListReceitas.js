@@ -25,21 +25,19 @@ var paginate, jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria;
 var urlNames = ["receita_paginate", "listIngrediente", "unidade", "listClassificacao", "listCategoria"];
 var urlValues = [urlShowReceitas, listIngrediente, listUnidadeMedida, listClassificacao, listCategoria];
 
-// $.when(validaToken()).done(function() {
 $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1]), getAjax(urlNames[2], urlValues[2]), getAjax(urlNames[3], urlValues[3]), getAjax(urlNames[4], urlValues[4])).done(function(paginate, jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria) {
   var jsonPaginateReceita = paginate.data;
+
+  sessionStorage.setItem("jsonUnidade", JSON.stringify(jsonUnidade));
+  sessionStorage.setItem("jsonIngrediente", JSON.stringify(jsonIngrediente));
+  sessionStorage.setItem("jsonClassificacao", JSON.stringify(jsonClassificacao));
+  sessionStorage.setItem("jsonCategoria", JSON.stringify(jsonCategoria));
   mostraReceitas(jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria, jsonPaginateReceita);
 
   //chamado em paginate.js
   salvaUrlPaginas(paginate);
   botoesPaginacao(paginate);
-
-  window.gjsonPaginateReceita = jsonPaginateReceita;
-  window.gjsonUnidade = jsonUnidade;
-  window.gjsonCategoria = jsonCategoria;
-  window.gjsonClassificacao = jsonClassificacao;
 })
-// })
 
 // ================== LISTAR RECEITAS =================== // Ok
 function mostraReceitas(jsonIngrediente, jsonUnidade, jsonClassificacao, jsonCategoria, jsonPaginateReceita) {
@@ -112,26 +110,18 @@ $(".lista-receita").on('click', '.visualizar', function() {
   $("#ingredientesList").empty();
   var thisTr = $(this);
 
-  if (typeof(window.gjsonUnidade) === undefined || window.gjsonUnidade == null || typeof(window.gjsonPaginateReceita) === undefined || window.gjsonPaginateReceita == null) {
-    var paginate, jsonUnidade;
-    var urlNames = ["receita_paginate", "unidade"];
-    var urlValues = [urlShowReceitas, listUnidadeMedida];
+  var paginate, jsonUnidade;
+  var urlNames = ["receita_paginate", "unidade"];
+  var urlValues = [urlShowReceitas, listUnidadeMedida];
 
-    // $.when(validaToken()).done(function() {
-    $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(paginate, jsonUnidade) {
-      var jsonPaginateReceita = paginate.data;
-      mostraDetalhesReceita(jsonPaginateReceita, jsonUnidade, thisTr);
-    })
-    // })
-  } else {
-    var jsonPaginateReceita = window.gjsonPaginateReceita;
-    var jsonUnidade = window.gjsonUnidade;
+  $.when(getAjax(urlNames[0], urlValues[0]), getAjax(urlNames[1], urlValues[1])).done(function(paginate, jsonUnidade) {
+    var jsonPaginateReceita = paginate.data;
     mostraDetalhesReceita(jsonPaginateReceita, jsonUnidade, thisTr);
-  }
+  })
 
   function mostraDetalhesReceita(jsonPaginateReceita, jsonUnidade, thisTr) {
     var id_receita = thisTr.closest('tr').data('id');
-    // sessionStorage.setItem('this_receita', id_receita);
+
     for (var i = 0; i < jsonPaginateReceita.length; i++) {
       if (id_receita == jsonPaginateReceita[i].id_receita) {
         var pivot = jsonPaginateReceita[i].pivot;
@@ -146,6 +136,9 @@ $(".lista-receita").on('click', '.visualizar', function() {
           for (k = 0; k < jsonUnidade.length; k++) {
             if (jsonUnidade[k].id_unidade_medida == jsonPaginateReceita[i].pivot[j].id_unidade_medida) {
               var unidade = "<td>" + jsonUnidade[k].simbolo_unidade_medida + "</td>";
+
+              var header = document.getElementById("modelTitleId");
+              header.innerHTML = jsonPaginateReceita[i].nome_receita;
             }
           }
 
@@ -156,6 +149,7 @@ $(".lista-receita").on('click', '.visualizar', function() {
         }
       }
     }
+
     $("#receitaId").modal('show');
   }
 });
