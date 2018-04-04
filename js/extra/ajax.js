@@ -44,9 +44,9 @@ function postAjax(params, url) {
     url: url,
     dataType: "json",
     data: params,
-    beforeSend: function(xhr, settings) {
-      xhr.setRequestHeader('Authorization', localStorage.getItem("bearer"));
-    },
+    // beforeSend: function(xhr, settings) {
+    //   xhr.setRequestHeader('Authorization', localStorage.getItem("bearer"));
+    // },
     success: function(response) {
       swal({
           title: "Sucesso!",
