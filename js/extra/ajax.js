@@ -90,11 +90,10 @@ function getAjax(urlName, urlValue) {
   $.ajax({
     type: "GET",
     url: urlValue,
-    // async: false,
     dataType: "json",
-    beforeSend: function(xhr, settings) {
-      xhr.setRequestHeader('Authorization', localStorage.getItem("bearer"));
-    },
+    // beforeSend: function(xhr, settings) {
+    //   xhr.setRequestHeader('Authorization', localStorage.getItem("bearer"));
+    // },
     success: function(response) {
       if (urlName == "ingrediente_paginate") {
         jsonAns.resolve(response.data);
